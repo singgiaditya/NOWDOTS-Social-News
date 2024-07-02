@@ -1,4 +1,4 @@
-# myapp
+# NOWDOTS Social News
 
 A new Flutter project.
 
