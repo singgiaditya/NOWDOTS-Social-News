@@ -21,6 +21,7 @@ class _InitPageState extends State<InitPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text("kontol"),),
       body: widget.navigationShell,
       bottomNavigationBar: _buildBottomNavBar(),
     );
@@ -38,22 +39,22 @@ class _InitPageState extends State<InitPage> {
       type: BottomNavigationBarType.fixed,
       items: [
       BottomNavigationBarItem(
-          icon: SvgPicture.asset(home_outline),
-          activeIcon: SvgPicture.asset(home_filled),
+          icon: SvgPicture.asset(homeOutline),
+          activeIcon: SvgPicture.asset(homeFilled),
           label: "Home",
           ),
       BottomNavigationBarItem(
-          icon: SvgPicture.asset(news_outline),
-          activeIcon: SvgPicture.asset(news_filled),
+          icon: SvgPicture.asset(newsOutline),
+          activeIcon: SvgPicture.asset(newsFilled),
           label: "News",),
       BottomNavigationBarItem(
-          icon: SvgPicture.asset(notification_outline),
-          activeIcon: SvgPicture.asset(notification_filled),
+          icon: SvgPicture.asset(notificationOutline),
+          activeIcon: SvgPicture.asset(notificationFilled),
           label: "Notification",
           ),
       BottomNavigationBarItem(
-          icon: SvgPicture.asset(setting_outline),
-          activeIcon: SvgPicture.asset(setting_filled),
+          icon: SvgPicture.asset(settingOutline),
+          activeIcon: SvgPicture.asset(settingFilled),
           label: "Setting",
           ),
     ]);

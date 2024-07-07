@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
 
-ThemeData theme() {
+ThemeData appTheme() {
   return ThemeData(
     useMaterial3: true,
     brightness: Brightness.light,
@@ -11,7 +11,7 @@ ThemeData theme() {
     appBarTheme: appBarTheme(),
     tabBarTheme: const TabBarTheme(),
     iconButtonTheme: iconButtonThemeData(),
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData()
+    bottomNavigationBarTheme: bottomNavigationBarTheme(),
   );
 }
 
@@ -44,10 +44,8 @@ IconButtonThemeData iconButtonThemeData() {
 
 BottomNavigationBarThemeData bottomNavigationBarTheme() {
   return BottomNavigationBarThemeData(
-    backgroundColor: Colors.white,
     selectedItemColor: primaryColor,
-    unselectedItemColor: thirdColor,
-    selectedLabelStyle: regularSegoeUITextStyle,
-    unselectedLabelStyle: regularSegoeUITextStyle,
+    selectedLabelStyle: regularSegoeUITextStyle.copyWith(color: primaryColor),
+    unselectedLabelStyle: regularSegoeUITextStyle.copyWith(color: primaryColor),
   );
 }
