@@ -14,7 +14,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Nowdots Social News',
-      theme: theme(),
+      theme: appTheme(),
+      themeMode: ThemeMode.light,
       routerConfig: AppRoute.router,
     );
   }
