@@ -13,15 +13,13 @@ class InitPage extends StatefulWidget {
 
 class _InitPageState extends State<InitPage> {
   int selectedIndex = 0;
-  void _goToBranch(int index){
+  void _goToBranch(int index) {
     widget.navigationShell.goBranch(index);
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("kontol"),),
       body: widget.navigationShell,
       bottomNavigationBar: _buildBottomNavBar(),
     );
@@ -29,34 +27,35 @@ class _InitPageState extends State<InitPage> {
 
   BottomNavigationBar _buildBottomNavBar() {
     return BottomNavigationBar(
-      onTap: (value) {
-        setState(() {
-          selectedIndex = value;
-          _goToBranch(selectedIndex);
-        });
-      },
-      currentIndex: selectedIndex,
-      type: BottomNavigationBarType.fixed,
-      items: [
-      BottomNavigationBarItem(
-          icon: SvgPicture.asset(homeOutline),
-          activeIcon: SvgPicture.asset(homeFilled),
-          label: "Home",
+        onTap: (value) {
+          setState(() {
+            selectedIndex = value;
+            _goToBranch(selectedIndex);
+          });
+        },
+        currentIndex: selectedIndex,
+        type: BottomNavigationBarType.fixed,
+        items: [
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(homeOutline),
+            activeIcon: SvgPicture.asset(homeFilled),
+            label: "Home",
           ),
-      BottomNavigationBarItem(
-          icon: SvgPicture.asset(newsOutline),
-          activeIcon: SvgPicture.asset(newsFilled),
-          label: "News",),
-      BottomNavigationBarItem(
-          icon: SvgPicture.asset(notificationOutline),
-          activeIcon: SvgPicture.asset(notificationFilled),
-          label: "Notification",
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(newsOutline),
+            activeIcon: SvgPicture.asset(newsFilled),
+            label: "News",
           ),
-      BottomNavigationBarItem(
-          icon: SvgPicture.asset(settingOutline),
-          activeIcon: SvgPicture.asset(settingFilled),
-          label: "Setting",
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(notificationOutline),
+            activeIcon: SvgPicture.asset(notificationFilled),
+            label: "Notification",
           ),
-    ]);
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(settingOutline),
+            activeIcon: SvgPicture.asset(settingFilled),
+            label: "Setting",
+          ),
+        ]);
   }
 }
