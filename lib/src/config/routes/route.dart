@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nowdots_social_news/src/presentation/auth/pages/boarding/boarding_view.dart';
+import 'package:nowdots_social_news/src/presentation/auth/pages/sign_in/sign_in_email_username_view.dart';
+import 'package:nowdots_social_news/src/presentation/auth/pages/sign_in/sign_in_view.dart';
 import 'package:nowdots_social_news/src/presentation/init_page.dart';
 
 class AppRoute {
-
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
   // Home
@@ -26,46 +28,69 @@ class AppRoute {
     debugLabel: 'Settings',
   );
 
-  static GoRouter router =
-      GoRouter(
-        navigatorKey: _rootNavigatorKey, initialLocation: "/home", routes: [
-    StatefulShellRoute.indexedStack(
-        builder: (context, state, navigationShell) {
-          return InitPage(navigationShell: navigationShell);
-        },
-        branches: [
-          StatefulShellBranch(navigatorKey: _shellNavigatorHome, routes: [
-            GoRoute(
-              parentNavigatorKey: _shellNavigatorHome,
-              path: "/home",
-              name: "home",
-              builder: (context, state) => const Text("Home"),
-            ),
-          ]),
-          StatefulShellBranch(navigatorKey: _shellNavigatorNews, routes: [
-            GoRoute(
-              parentNavigatorKey: _shellNavigatorNews,
-              path: "/news",
-              name: "news",
-              builder: (context, state) => const Text("News"),
-            ),
-          ]),
-          StatefulShellBranch(navigatorKey: _shellNavigatorNotifications, routes: [
-            GoRoute(
-              parentNavigatorKey: _shellNavigatorNotifications,
-              path: "/notifications",
-              name: "notifications",
-              builder: (context, state) => const Text("Notifications"),
-            ),
-          ]),
-          StatefulShellBranch(navigatorKey: _shellNavigatorSettings, routes: [
-            GoRoute(
-              parentNavigatorKey: _shellNavigatorSettings,
-              path: "/settings",
-              name: "settings",
-              builder: (context, state) => const Text("Settings"),
-            ),
-          ]),
-        ])
-  ]);
+  static GoRouter router = GoRouter(
+      navigatorKey: _rootNavigatorKey,
+      initialLocation: "/boarding",
+      routes: [
+        StatefulShellRoute.indexedStack(
+            builder: (context, state, navigationShell) {
+              return InitPage(navigationShell: navigationShell);
+            },
+            branches: [
+              StatefulShellBranch(navigatorKey: _shellNavigatorHome, routes: [
+                GoRoute(
+                  parentNavigatorKey: _shellNavigatorHome,
+                  path: "/home",
+                  name: "home",
+                  builder: (context, state) => const Text("Home"),
+                ),
+              ]),
+              StatefulShellBranch(navigatorKey: _shellNavigatorNews, routes: [
+                GoRoute(
+                  parentNavigatorKey: _shellNavigatorNews,
+                  path: "/news",
+                  name: "news",
+                  builder: (context, state) => const Text("News"),
+                ),
+              ]),
+              StatefulShellBranch(
+                  navigatorKey: _shellNavigatorNotifications,
+                  routes: [
+                    GoRoute(
+                      parentNavigatorKey: _shellNavigatorNotifications,
+                      path: "/notifications",
+                      name: "notifications",
+                      builder: (context, state) => const Text("Notifications"),
+                    ),
+                  ]),
+              StatefulShellBranch(
+                  navigatorKey: _shellNavigatorSettings,
+                  routes: [
+                    GoRoute(
+                      parentNavigatorKey: _shellNavigatorSettings,
+                      path: "/settings",
+                      name: "settings",
+                      builder: (context, state) => const Text("Settings"),
+                    ),
+                  ]),
+            ]),
+        GoRoute(
+          parentNavigatorKey: _rootNavigatorKey,
+          path: "/boarding",
+          name: "boarding",
+          builder: (context, state) => const BoardingView(),
+        ),
+        GoRoute(
+          parentNavigatorKey: _rootNavigatorKey,
+          path: "/sign-in",
+          name: "sign-in",
+          builder: (context, state) => const SignInView(),
+        ),
+        GoRoute(
+          parentNavigatorKey: _rootNavigatorKey,
+          path: "/sign-in-email",
+          name: "sign-in-email",
+          builder: (context, state) => const SignInEmailUsernameView(),
+        )
+      ]);
 }
