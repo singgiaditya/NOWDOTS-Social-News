@@ -4,15 +4,16 @@ import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
 
 ThemeData appTheme() {
   return ThemeData(
-    useMaterial3: true,
-    brightness: Brightness.light,
-    fontFamily: "Segoe UI",
-    scaffoldBackgroundColor: Colors.white,
-    appBarTheme: appBarTheme(),
-    tabBarTheme: const TabBarTheme(),
-    iconButtonTheme: iconButtonThemeData(),
-    bottomNavigationBarTheme: bottomNavigationBarTheme(),
-  );
+      useMaterial3: true,
+      brightness: Brightness.light,
+      fontFamily: "Segoe UI",
+      scaffoldBackgroundColor: Colors.white,
+      appBarTheme: appBarTheme(),
+      tabBarTheme: const TabBarTheme(),
+      iconButtonTheme: iconButtonThemeData(),
+      bottomNavigationBarTheme: bottomNavigationBarTheme(),
+      elevatedButtonTheme: elevatedButtonTheme(),
+      inputDecorationTheme: inputDecorationTheme());
 }
 
 AppBarTheme appBarTheme() {
@@ -47,5 +48,35 @@ BottomNavigationBarThemeData bottomNavigationBarTheme() {
     selectedItemColor: primaryColor,
     selectedLabelStyle: regularSegoeUITextStyle.copyWith(color: primaryColor),
     unselectedLabelStyle: regularSegoeUITextStyle.copyWith(color: primaryColor),
+  );
+}
+
+ElevatedButtonThemeData elevatedButtonTheme() {
+  return ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+        backgroundColor: buttonColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(80),
+        ),
+        textStyle: subtitleProximaNovaTextStyle.copyWith(
+          fontSize: 15,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+        )),
+  );
+}
+
+InputDecorationTheme inputDecorationTheme() {
+  return InputDecorationTheme(
+    border: UnderlineInputBorder(
+      borderSide: BorderSide(color: boxColor),
+    ),
+    focusedBorder: UnderlineInputBorder(
+      borderSide: BorderSide(color: primaryColor),
+    ),
+    hintStyle:
+        regularProximaNovaTextStyle.copyWith(color: subColor, fontSize: 15),
+    labelStyle:
+        regularProximaNovaTextStyle.copyWith(color: primaryColor, fontSize: 15),
   );
 }

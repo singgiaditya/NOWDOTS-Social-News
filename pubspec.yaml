@@ -47,6 +47,7 @@ flutter:
     #images
     - assets/images/forgot_password_image.png
     - assets/images/signup_images.png
+    - assets/images/signin_images.png
 
     #icons
     - assets/icons/home_outline.svg
@@ -57,6 +58,8 @@ flutter:
     - assets/icons/news_filled.svg
     - assets/icons/setting_outline.svg
     - assets/icons/setting_filled.svg
+    - assets/icons/google_icon.svg
+    - assets/icons/apple_icon.svg
 
   fonts:
     - family: Proxima Nova
