@@ -10,3 +10,6 @@ const notificationOutline = "assets/icons/notification_outline.svg";
 //setting
 const settingFilled = "assets/icons/setting_filled.svg";
 const settingOutline = "assets/icons/setting_outline.svg";
+
+const googleIcon = "assets/icons/google_icon.svg";
+const appleIcon = "assets/icons/apple_icon.svg";

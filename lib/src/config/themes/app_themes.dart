@@ -12,6 +12,8 @@ ThemeData appTheme() {
     tabBarTheme: const TabBarTheme(),
     iconButtonTheme: iconButtonThemeData(),
     bottomNavigationBarTheme: bottomNavigationBarTheme(),
+    elevatedButtonTheme: elevatedButtonTheme(),
+    inputDecorationTheme: inputDecorationTheme(),
   );
 }
 
@@ -47,5 +49,35 @@ BottomNavigationBarThemeData bottomNavigationBarTheme() {
     selectedItemColor: primaryColor,
     selectedLabelStyle: regularSegoeUITextStyle.copyWith(color: primaryColor),
     unselectedLabelStyle: regularSegoeUITextStyle.copyWith(color: primaryColor),
+  );
+}
+
+ElevatedButtonThemeData elevatedButtonTheme() {
+  return ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+        backgroundColor: buttonColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(80),
+        ),
+        textStyle: subtitleProximaNovaTextStyle.copyWith(
+          fontSize: 15,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+        )),
+  );
+}
+
+InputDecorationTheme inputDecorationTheme() {
+  return InputDecorationTheme(
+    border: UnderlineInputBorder(
+      borderSide: BorderSide(color: boxColor),
+    ),
+    focusedBorder: UnderlineInputBorder(
+      borderSide: BorderSide(color: primaryColor),
+    ),
+    hintStyle:
+        regularProximaNovaTextStyle.copyWith(color: thirdColor, fontSize: 15),
+    labelStyle:
+        regularProximaNovaTextStyle.copyWith(color: primaryColor, fontSize: 15),
   );
 }
