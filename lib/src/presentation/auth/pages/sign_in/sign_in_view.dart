@@ -4,6 +4,7 @@ import 'package:nowdots_social_news/src/core/constant/icons.dart';
 import 'package:nowdots_social_news/src/core/constant/images.dart';
 import 'package:nowdots_social_news/src/presentation/auth/widgets/custom_divider.dart';
 import 'package:nowdots_social_news/src/presentation/auth/widgets/dark_button.dart';
+import 'package:nowdots_social_news/src/presentation/auth/widgets/header_banner.dart';
 import 'package:nowdots_social_news/src/presentation/auth/widgets/logo_list.dart';
 import 'package:nowdots_social_news/src/presentation/auth/widgets/sign_button.dart';
 
@@ -21,29 +22,27 @@ class SignInView extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          Container(
-            height: 250,
-            width: double.infinity,
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage(signinImage), fit: BoxFit.fill)),
+          HeaderBanner(
+            imgUrl: signinImage,
           ),
           const SizedBox(
             height: 24,
           ),
           Container(
-            margin: const EdgeInsetsDirectional.symmetric(horizontal: 35),
+            margin: const EdgeInsetsDirectional.symmetric(horizontal: 37),
             child: Column(
               children: [
                 const LogoList(),
                 const SizedBox(
                   height: 39,
                 ),
-                const IconSignButton(svg: googleIcon, label: "Sign in with Google"),
+                const IconSignButton(
+                    svg: googleIcon, label: "Sign in with Google"),
                 const SizedBox(
                   height: 18,
                 ),
-                const IconSignButton(svg: appleIcon, label: "Sign in with Apple"),
+                const IconSignButton(
+                    svg: appleIcon, label: "Sign in with Apple"),
                 const SizedBox(
                   height: 18,
                 ),
