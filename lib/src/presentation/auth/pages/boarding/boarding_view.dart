@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
@@ -20,14 +21,14 @@ class BoardingView extends StatelessWidget {
         constraints: BoxConstraints(
           minHeight: MediaQuery.of(context).size.height,
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 35),
+        padding: const EdgeInsets.symmetric(horizontal: 37),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const LogoList(),
             _buildTitle(),
-            _buildSignUpButton(),
+            _buildSignUpButton(context),
             _buildSignInTextButton(context)
           ],
         ),
@@ -59,7 +60,7 @@ class BoardingView extends StatelessWidget {
     );
   }
 
-  Column _buildSignUpButton() {
+  Column _buildSignUpButton(BuildContext context) {
     return Column(
       children: [
         const IconSignButton(label: "Sign up with google", svg: googleIcon),
@@ -76,7 +77,7 @@ class BoardingView extends StatelessWidget {
         ),
         DarkButton(
           label: "Create account",
-          onTap: (){},
+          onTap: () => context.goNamed("sign-up"),
         ),
         const SizedBox(
           height: 14,
@@ -129,44 +130,29 @@ class _BuildTermsOfService extends StatelessWidget {
             style:
                 regularSegoeUITextStyle.copyWith(fontSize: 11, color: subColor),
             children: [
-          WidgetSpan(
-              alignment: PlaceholderAlignment.baseline,
-              baseline: TextBaseline.alphabetic,
-              child: InkWell(
-                  onTap: () {},
-                  child: Text(
-                    "Terms of Service",
-                    style: regularSegoeUITextStyle.copyWith(
-                        fontSize: 11, color: buttonColor),
-                  ))),
+          TextSpan(
+              recognizer: TapGestureRecognizer()..onTap = () {},
+              text: "Terms of Service",
+              style: regularSegoeUITextStyle.copyWith(
+                  fontSize: 11, color: buttonColor)),
           TextSpan(
               text: " and ",
               style: regularSegoeUITextStyle.copyWith(
                   fontSize: 11, color: subColor)),
-          WidgetSpan(
-              alignment: PlaceholderAlignment.baseline,
-              baseline: TextBaseline.alphabetic,
-              child: InkWell(
-                  onTap: () {},
-                  child: Text(
-                    "Privacy Policy",
-                    style: regularSegoeUITextStyle.copyWith(
-                        fontSize: 11, color: buttonColor),
-                  ))),
+          TextSpan(
+              recognizer: TapGestureRecognizer()..onTap = () {},
+              text: "Privacy Policy",
+              style: regularSegoeUITextStyle.copyWith(
+                  fontSize: 11, color: buttonColor)),
           TextSpan(
               text: " including ",
               style: regularSegoeUITextStyle.copyWith(
                   fontSize: 11, color: subColor)),
-          WidgetSpan(
-              alignment: PlaceholderAlignment.baseline,
-              baseline: TextBaseline.alphabetic,
-              child: InkWell(
-                  onTap: () {},
-                  child: Text(
-                    "Cookie Use.",
-                    style: regularSegoeUITextStyle.copyWith(
-                        fontSize: 11, color: buttonColor),
-                  ))),
+          TextSpan(
+              recognizer: TapGestureRecognizer()..onTap = () {},
+              text: "Cookie Policy",
+              style: regularSegoeUITextStyle.copyWith(
+                  fontSize: 11, color: buttonColor)),
         ]));
   }
 }

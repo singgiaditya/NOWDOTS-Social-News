@@ -4,16 +4,17 @@ import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
 
 ThemeData appTheme() {
   return ThemeData(
-      useMaterial3: true,
-      brightness: Brightness.light,
-      fontFamily: "Segoe UI",
-      scaffoldBackgroundColor: Colors.white,
-      appBarTheme: appBarTheme(),
-      tabBarTheme: const TabBarTheme(),
-      iconButtonTheme: iconButtonThemeData(),
-      bottomNavigationBarTheme: bottomNavigationBarTheme(),
-      elevatedButtonTheme: elevatedButtonTheme(),
-      inputDecorationTheme: inputDecorationTheme());
+    useMaterial3: true,
+    brightness: Brightness.light,
+    fontFamily: "Segoe UI",
+    scaffoldBackgroundColor: Colors.white,
+    appBarTheme: appBarTheme(),
+    tabBarTheme: const TabBarTheme(),
+    iconButtonTheme: iconButtonThemeData(),
+    bottomNavigationBarTheme: bottomNavigationBarTheme(),
+    elevatedButtonTheme: elevatedButtonTheme(),
+    inputDecorationTheme: inputDecorationTheme(),
+  );
 }
 
 AppBarTheme appBarTheme() {
@@ -75,7 +76,7 @@ InputDecorationTheme inputDecorationTheme() {
       borderSide: BorderSide(color: primaryColor),
     ),
     hintStyle:
-        regularProximaNovaTextStyle.copyWith(color: subColor, fontSize: 15),
+        regularProximaNovaTextStyle.copyWith(color: thirdColor, fontSize: 15),
     labelStyle:
         regularProximaNovaTextStyle.copyWith(color: primaryColor, fontSize: 15),
   );
