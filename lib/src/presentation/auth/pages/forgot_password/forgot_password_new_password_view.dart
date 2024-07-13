@@ -89,8 +89,8 @@ class _ForgotPasswordNewPasswordViewState
                             },
                             icon: Icon(
                               isObscure
-                                  ? Icons.remove_red_eye_outlined
-                                  : Icons.visibility_off_outlined,
+                                  ? Icons.visibility_off_outlined
+                                  : Icons.remove_red_eye_outlined,
                               color: thirdColor,
                             )),
                       ),
@@ -115,9 +115,9 @@ class _ForgotPasswordNewPasswordViewState
                               });
                             },
                             icon: Icon(
-                              isObscure
-                                  ? Icons.remove_red_eye_outlined
-                                  : Icons.visibility_off_outlined,
+                              isObscure2
+                                  ? Icons.visibility_off_outlined
+                                  : Icons.remove_red_eye_outlined,
                               color: thirdColor,
                             )),
                       ),

@@ -20,6 +20,7 @@ class _SignInEmailUsernameViewState extends State<SignInEmailUsernameView> {
 
   bool isNotEmpty = false;
   bool isValid = false;
+  bool isObscure = true;
 
   void checkInput() {
     isNotEmpty = _inputEmailUsernameController.text.isNotEmpty &&
@@ -124,10 +125,21 @@ class _SignInEmailUsernameViewState extends State<SignInEmailUsernameView> {
               onChanged: (value) => onChangeTextField(value),
               controller: _passwordController,
               keyboardType: TextInputType.text,
-              obscureText: true,
-              decoration: const InputDecoration(
-                hintText: "Password",
-              )),
+              obscureText: isObscure,
+              decoration: InputDecoration(
+                  hintText: "Password",
+                  suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          isObscure = !isObscure;
+                        });
+                      },
+                      icon: Icon(
+                        isObscure
+                            ? Icons.visibility_off_outlined
+                            : Icons.remove_red_eye_outlined,
+                        color: thirdColor,
+                      )))),
           const SizedBox(
             height: 30,
           ),
