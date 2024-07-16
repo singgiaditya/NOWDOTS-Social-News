@@ -9,7 +9,7 @@ ThemeData appTheme() {
     fontFamily: "Segoe UI",
     scaffoldBackgroundColor: Colors.white,
     appBarTheme: appBarTheme(),
-    tabBarTheme: const TabBarTheme(),
+    tabBarTheme: tabBarTheme(),
     iconButtonTheme: iconButtonThemeData(),
     bottomNavigationBarTheme: bottomNavigationBarTheme(),
     elevatedButtonTheme: elevatedButtonTheme(),
@@ -23,19 +23,23 @@ AppBarTheme appBarTheme() {
     elevation: 0,
     iconTheme: IconThemeData(color: primaryColor),
     centerTitle: true,
-    titleTextStyle: titleSegoeUITextStyle.copyWith(color: primaryColor),
+    titleTextStyle:
+        titleSegoeUITextStyle.copyWith(color: primaryColor, fontSize: 18),
     actionsIconTheme: IconThemeData(color: primaryColor),
   );
 }
 
 TabBarTheme tabBarTheme() {
   return TabBarTheme(
-    indicatorColor: primaryColor,
-    labelStyle: subtitleSegoeUITextStyle,
-    unselectedLabelStyle: subtitleSegoeUITextStyle,
-    labelColor: primaryColor,
-    unselectedLabelColor: thirdColor,
-  );
+      labelStyle: subtitleSegoeUITextStyle,
+      unselectedLabelStyle: subtitleSegoeUITextStyle,
+      labelColor: primaryColor,
+      unselectedLabelColor: thirdColor,
+      dividerColor: boxColor,
+      indicator: UnderlineTabIndicator(
+          borderSide: BorderSide(
+              color: primaryColor, width: 3, style: BorderStyle.solid),
+          borderRadius: BorderRadius.circular(80)));
 }
 
 IconButtonThemeData iconButtonThemeData() {

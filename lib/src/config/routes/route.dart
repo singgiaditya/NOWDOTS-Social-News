@@ -13,6 +13,7 @@ import 'package:nowdots_social_news/src/presentation/auth/pages/sign_up/sign_up_
 import 'package:nowdots_social_news/src/presentation/auth/pages/sign_up/sign_up_pick_picture_view.dart';
 import 'package:nowdots_social_news/src/presentation/auth/pages/sign_up/sign_up_pick_username.dart';
 import 'package:nowdots_social_news/src/presentation/auth/pages/sign_up/sign_up_view.dart';
+import 'package:nowdots_social_news/src/presentation/feed/pages/feed_view.dart';
 import 'package:nowdots_social_news/src/presentation/init_page.dart';
 
 class AppRoute {
@@ -52,7 +53,7 @@ class AppRoute {
                   parentNavigatorKey: _shellNavigatorHome,
                   path: "/home",
                   name: "home",
-                  builder: (context, state) => const Text("Home"),
+                  builder: (context, state) => FeedView(),
                 ),
               ]),
               StatefulShellBranch(navigatorKey: _shellNavigatorNews, routes: [
@@ -107,8 +108,7 @@ class AppRoute {
                       parentNavigatorKey: _rootNavigatorKey,
                       path: "forgot-password",
                       name: "forgot-password",
-                      builder: (context, state) =>
-                          const ForgotPasswordView(),
+                      builder: (context, state) => const ForgotPasswordView(),
                     ),
                     GoRoute(
                       parentNavigatorKey: _rootNavigatorKey,
@@ -173,6 +173,5 @@ class AppRoute {
                     )
                   ]),
             ]),
-          
       ]);
 }
