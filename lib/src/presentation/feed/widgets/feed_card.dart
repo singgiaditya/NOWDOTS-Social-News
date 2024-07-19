@@ -1,12 +1,17 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
-import 'package:nowdots_social_news/src/core/constant/icons.dart';
-import 'package:nowdots_social_news/src/data/models/feed_model.dart';
+import 'package:nowdots_social_news/src/data/models/feeds_response_model.dart';
+import 'package:nowdots_social_news/src/presentation/feed/widgets/hashtag_text.dart';
+import 'package:nowdots_social_news/src/presentation/feed/widgets/row_button_container.dart';
+import 'package:nowdots_social_news/src/presentation/feed/widgets/score_widget.dart';
+import 'package:shimmer/shimmer.dart';
 
 class FeedCard extends StatelessWidget {
-  final FeedModel data;
+  final Feed data;
 
   const FeedCard({super.key, required this.data});
 
@@ -14,16 +19,26 @@ class FeedCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 21, vertical: 21),
+      padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 21),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CircleAvatar(
-              backgroundImage: NetworkImage(data.user.picture),
-              radius: 25,
+            CachedNetworkImage(
+              imageUrl: data.user!.picture!,
+              imageBuilder: (context, imageProvider) => CircleAvatar(
+                backgroundImage: imageProvider,
+                radius: 25,
+              ),
+              placeholder: (context, url) => Shimmer(
+                  gradient: shimmerGradient,
+                  child: CircleAvatar(
+                    radius: 25,
+                    backgroundColor: boxColor,
+                  )),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
-            SizedBox(
+            const SizedBox(
               width: 9,
             ),
             Column(
@@ -32,10 +47,10 @@ class FeedCard extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      data.user.name,
+                      data.user!.name!,
                       style: titleProximaNovaTextStyle.copyWith(fontSize: 15),
                     ),
-                    data.user.isVerified
+                    data.user!.isVerified!
                         ? Padding(
                             padding: const EdgeInsets.only(left: 4),
                             child: Icon(
@@ -45,31 +60,28 @@ class FeedCard extends StatelessWidget {
                             ),
                           )
                         : Container(),
-                    SizedBox(
+                    const SizedBox(
                       width: 4,
                     ),
-                    ScoreWidget(),
+                    ScoreWidget(
+                      scoreString: data.user!.score!,
+                    ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 4,
                 ),
                 RichText(
                   text: TextSpan(
-                      text: "${data.user.username} ",
+                      text: "${data.user!.username!} ",
                       style: regularProximaNovaTextStyle.copyWith(
                         color: subColor,
                       ),
-                      children: [
-                        spanDivider(),
-                        TextSpan(text: " ${data.published_at} "),
-                        spanDivider(),
-                        TextSpan(text: " ${data.type} "),
-                      ]),
+                      children: isAds(data.isAds!)),
                 ),
               ],
             ),
-            Spacer(),
+            const Spacer(),
             GestureDetector(
                 onTap: () {},
                 child: Icon(
@@ -79,152 +91,86 @@ class FeedCard extends StatelessWidget {
                 ))
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 12,
         ),
-        Text(
-          data.content,
-          style: regularProximaNovaTextStyle.copyWith(fontSize: 14),
+        HashtagText(
+          text: data.content!,
+          decoratedTextStyle: regularProximaNovaTextStyle.copyWith(
+              fontSize: 14, color: buttonColor),
+          regularTextStyle: regularProximaNovaTextStyle.copyWith(
+              fontSize: 14, color: primaryColor, height: 1.25),
         ),
-        SizedBox(
-          height: 12,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            like_dislike_button(),
-            CommentButton(),
-            ForwardButton(),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-              decoration: BoxDecoration(
-                  color: boxColor, borderRadius: BorderRadius.circular(80)),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SvgPicture.asset(upVoteOutline),
-                  SizedBox(
-                    width: 4,
-                  ),
-                  Text(
-                    data.upVoteCount,
-                    style: regularProximaNovaTextStyle.copyWith(
-                      fontSize: 16,
+        data.image!.isNotEmpty
+            ? GestureDetector(
+                onTap: () {
+                  context.pushNamed("image", extra: data.image!);
+                },
+                child: Hero(
+                  tag: data.image!,
+                  child: CachedNetworkImage(
+                    imageUrl: data.image!,
+                    imageBuilder: (context, imageProvider) {
+                      return Container(
+                        margin: const EdgeInsets.only(top: 12),
+                        width: double.infinity,
+                        height: 200,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            image: DecorationImage(
+                                image: imageProvider, fit: BoxFit.cover)),
+                      );
+                    },
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                    placeholder: (context, url) => Shimmer(
+                      gradient: shimmerGradient,
+                      child: Container(
+                        margin: const EdgeInsets.only(top: 12),
+                        width: double.infinity,
+                        height: 200,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: boxColor),
+                      ),
                     ),
                   ),
-                  SizedBox(
-                    width: 4,
-                  ),
-                  SvgPicture.asset(downVoteOutline),
-                ],
-              ),
-            )
-          ],
-        )
+                ),
+              )
+            : Container(),
+        const SizedBox(
+          height: 12,
+        ),
+        RowButtonContainer(
+          color: primaryColor,
+          backgroundColor: boxColor,
+          commentCount: data.commentCount!,
+          forwardCount: data.forwardCount!,
+          likeCount: data.likeCount!,
+          upVoteCount: data.upVoteCount ?? "0",
+        ),
       ]),
     );
   }
 
-  Row ForwardButton() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SvgPicture.asset(forward),
-        SizedBox(
-          width: 1,
-        ),
-        Text(
-          data.forwardCount,
-          style: regularProximaNovaTextStyle.copyWith(fontSize: 16),
-        )
-      ],
-    );
-  }
+  List<InlineSpan> isAds(bool isAds) {
+    var isTrue = [
+      spanDivider(),
+      const TextSpan(text: " Ads"),
+    ];
 
-  Row CommentButton() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SvgPicture.asset(commentOutline),
-        SizedBox(
-          width: 1,
-        ),
-        Text(
-          data.commentCount,
-          style: regularProximaNovaTextStyle.copyWith(fontSize: 16),
-        )
-      ],
-    );
-  }
+    var isFalse = [
+      spanDivider(),
+      TextSpan(text: " ${data.publishedAt} "),
+      spanDivider(),
+      TextSpan(text: " ${data.type?.name.capitalize()}"),
+    ];
 
-  Row like_dislike_button() {
-    return Row(
-      children: [
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-          decoration: BoxDecoration(
-              color: boxColor,
-              borderRadius: BorderRadiusDirectional.horizontal(
-                  start: Radius.circular(80))),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SvgPicture.asset(thumbUpOutline),
-              Text(
-                data.likeCount,
-                style: regularProximaNovaTextStyle.copyWith(fontSize: 16),
-              )
-            ],
-          ),
-        ),
-        SizedBox(
-          width: 1.5,
-        ),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-          decoration: BoxDecoration(
-              color: boxColor,
-              borderRadius:
-                  BorderRadiusDirectional.horizontal(end: Radius.circular(80))),
-          child: SvgPicture.asset(thumbDownOutline),
-        )
-      ],
-    );
-  }
-
-  Container ScoreWidget() {
-    Color color = primaryColor;
-    final score = int.tryParse(data.user.score);
-    if (score != null) {
-      if (score <= 0) {
-        color = score2Color;
-      }
-      if (score > 0) {
-        color = score3Color;
-      }
-      if (score > 100) {
-        color = score4Color;
-      }
-      if (score > 200) {
-        color = score5Color;
-      }
-      if (score > 500) {
-        color = score6Color;
-      }
-      if (score > 900) {
-        color = score7Color;
-      }
+    if (isAds == true) {
+      return isTrue;
     }
 
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 5),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: color, width: 2)),
-      child: Text("${data.user.score}",
-          style: subtitleProximaNovaTextStyle.copyWith(
-              fontSize: 15, color: color, fontWeight: FontWeight.w600)),
-    );
+    return isFalse;
   }
 
   WidgetSpan spanDivider() {
@@ -235,5 +181,11 @@ class FeedCard extends StatelessWidget {
           backgroundColor: subColor,
           radius: 1,
         ));
+  }
+}
+
+extension StringExtensions on String {
+  String capitalize() {
+    return "${this[0].toUpperCase()}${this.substring(1).toLowerCase()}";
   }
 }

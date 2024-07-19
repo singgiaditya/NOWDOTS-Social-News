@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/presentation/auth/pages/boarding/boarding_view.dart';
 import 'package:nowdots_social_news/src/presentation/auth/pages/forgot_password/forgot_password_code_verification_view.dart';
@@ -14,9 +15,12 @@ import 'package:nowdots_social_news/src/presentation/auth/pages/sign_up/sign_up_
 import 'package:nowdots_social_news/src/presentation/auth/pages/sign_up/sign_up_pick_username.dart';
 import 'package:nowdots_social_news/src/presentation/auth/pages/sign_up/sign_up_view.dart';
 import 'package:nowdots_social_news/src/presentation/feed/pages/feed_view.dart';
+import 'package:nowdots_social_news/src/presentation/feed/pages/fullscreen_image.dart';
 import 'package:nowdots_social_news/src/presentation/init_page.dart';
 
 class AppRoute {
+  static final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
   // Home
@@ -45,7 +49,10 @@ class AppRoute {
       routes: [
         StatefulShellRoute.indexedStack(
             builder: (context, state, navigationShell) {
-              return InitPage(navigationShell: navigationShell);
+              return InitPage(
+                navigationShell: navigationShell,
+                scaffoldKey: _scaffoldKey,
+              );
             },
             branches: [
               StatefulShellBranch(navigatorKey: _shellNavigatorHome, routes: [
@@ -53,7 +60,9 @@ class AppRoute {
                   parentNavigatorKey: _shellNavigatorHome,
                   path: "/home",
                   name: "home",
-                  builder: (context, state) => FeedView(),
+                  builder: (context, state) => FeedView(
+                    parentKey: _scaffoldKey,
+                  ),
                 ),
               ]),
               StatefulShellBranch(navigatorKey: _shellNavigatorNews, routes: [
@@ -173,5 +182,11 @@ class AppRoute {
                     )
                   ]),
             ]),
+        GoRoute(
+          parentNavigatorKey: _rootNavigatorKey,
+          path: "/image",
+          name: "image",
+          builder: (context, state) => const FullscreenImage(),
+        )
       ]);
 }
