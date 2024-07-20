@@ -85,7 +85,7 @@ class _FeedViewState extends State<FeedView> {
     return RefreshIndicator(
       onRefresh: () async {
         BlocProvider.of<GetAllFeedsBloc>(context)
-            .add(GetAllFeedsEvent.GetAllFeeds());
+            .add(GetAllFeedsEvent.getAllFeeds());
       },
       child: SingleChildScrollView(
         physics: AlwaysScrollableScrollPhysics(),

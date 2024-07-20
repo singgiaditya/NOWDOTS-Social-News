@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => GetAllFeedsBloc(FeedLocalDatasources())
-            ..add(GetAllFeedsEvent.GetAllFeeds()),
+            ..add(GetAllFeedsEvent.getAllFeeds()),
         ),
         BlocProvider(create: (context) => DrawerBloc(),)
       ],

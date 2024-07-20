@@ -19,38 +19,38 @@ mixin _$GetAllFeedsEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function() GetAllFeeds,
+    required TResult Function() getAllFeeds,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function()? GetAllFeeds,
+    TResult? Function()? getAllFeeds,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function()? GetAllFeeds,
+    TResult Function()? getAllFeeds,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
-    required TResult Function(_GetAllFeeds value) GetAllFeeds,
+    required TResult Function(_GetAllFeeds value) getAllFeeds,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
-    TResult? Function(_GetAllFeeds value)? GetAllFeeds,
+    TResult? Function(_GetAllFeeds value)? getAllFeeds,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
-    TResult Function(_GetAllFeeds value)? GetAllFeeds,
+    TResult Function(_GetAllFeeds value)? getAllFeeds,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -113,7 +113,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function() GetAllFeeds,
+    required TResult Function() getAllFeeds,
   }) {
     return started();
   }
@@ -122,7 +122,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function()? GetAllFeeds,
+    TResult? Function()? getAllFeeds,
   }) {
     return started?.call();
   }
@@ -131,7 +131,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function()? GetAllFeeds,
+    TResult Function()? getAllFeeds,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -144,7 +144,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
-    required TResult Function(_GetAllFeeds value) GetAllFeeds,
+    required TResult Function(_GetAllFeeds value) getAllFeeds,
   }) {
     return started(this);
   }
@@ -153,7 +153,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
-    TResult? Function(_GetAllFeeds value)? GetAllFeeds,
+    TResult? Function(_GetAllFeeds value)? getAllFeeds,
   }) {
     return started?.call(this);
   }
@@ -162,7 +162,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
-    TResult Function(_GetAllFeeds value)? GetAllFeeds,
+    TResult Function(_GetAllFeeds value)? getAllFeeds,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -199,7 +199,7 @@ class _$GetAllFeedsImpl implements _GetAllFeeds {
 
   @override
   String toString() {
-    return 'GetAllFeedsEvent.GetAllFeeds()';
+    return 'GetAllFeedsEvent.getAllFeeds()';
   }
 
   @override
@@ -215,29 +215,29 @@ class _$GetAllFeedsImpl implements _GetAllFeeds {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function() GetAllFeeds,
+    required TResult Function() getAllFeeds,
   }) {
-    return GetAllFeeds();
+    return getAllFeeds();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function()? GetAllFeeds,
+    TResult? Function()? getAllFeeds,
   }) {
-    return GetAllFeeds?.call();
+    return getAllFeeds?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function()? GetAllFeeds,
+    TResult Function()? getAllFeeds,
     required TResult orElse(),
   }) {
-    if (GetAllFeeds != null) {
-      return GetAllFeeds();
+    if (getAllFeeds != null) {
+      return getAllFeeds();
     }
     return orElse();
   }
@@ -246,29 +246,29 @@ class _$GetAllFeedsImpl implements _GetAllFeeds {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
-    required TResult Function(_GetAllFeeds value) GetAllFeeds,
+    required TResult Function(_GetAllFeeds value) getAllFeeds,
   }) {
-    return GetAllFeeds(this);
+    return getAllFeeds(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
-    TResult? Function(_GetAllFeeds value)? GetAllFeeds,
+    TResult? Function(_GetAllFeeds value)? getAllFeeds,
   }) {
-    return GetAllFeeds?.call(this);
+    return getAllFeeds?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
-    TResult Function(_GetAllFeeds value)? GetAllFeeds,
+    TResult Function(_GetAllFeeds value)? getAllFeeds,
     required TResult orElse(),
   }) {
-    if (GetAllFeeds != null) {
-      return GetAllFeeds(this);
+    if (getAllFeeds != null) {
+      return getAllFeeds(this);
     }
     return orElse();
   }
