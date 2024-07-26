@@ -20,3 +20,4 @@ const thumbUpOutline = "assets/icons/thumb_up_outline.svg";
 const thumbDownOutline = "assets/icons/thumb_down_outline.svg";
 const forward = "assets/icons/forward.svg";
 const commentOutline = "assets/icons/comment_outline.svg";
+const bookmarkOutline = "assets/icons/bookmark_outline.svg";

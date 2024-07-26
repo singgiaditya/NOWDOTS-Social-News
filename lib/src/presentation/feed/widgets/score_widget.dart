@@ -33,8 +33,8 @@ class ScoreWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: color, width: 2)),
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(color: color, width: 1)),
       child: Text(scoreString,
           style: subtitleProximaNovaTextStyle.copyWith(
               fontSize: 15, color: color, fontWeight: FontWeight.w600)),

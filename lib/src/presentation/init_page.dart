@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -6,9 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
 import 'package:nowdots_social_news/src/core/constant/icons.dart';
+import 'package:nowdots_social_news/src/core/widgets/avatar_cache_image.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/drawer/drawer_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/score_widget.dart';
-import 'package:shimmer/shimmer.dart';
 
 class InitPage extends StatefulWidget {
   final StatefulNavigationShell navigationShell;
@@ -46,22 +45,9 @@ class _InitPageState extends State<InitPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CachedNetworkImage(
-                  imageUrl: "https://picsum.photos/200/300",
-                  imageBuilder: (context, imageProvider) {
-                    return CircleAvatar(
-                      backgroundImage: imageProvider,
-                      radius: 25,
-                    );
-                  },
-                  errorWidget: (context, url, error) => Icon(Icons.error),
-                  placeholder: (context, url) => Shimmer(
-                    gradient: shimmerGradient,
-                    child: CircleAvatar(
-                      radius: 25,
-                      backgroundColor: boxColor,
-                    ),
-                  ),
+                AvatarCacheImage(
+                  image: "https://picsum.photos/200/300",
+                  radius: 25,
                 ),
                 SizedBox(
                   height: 10,

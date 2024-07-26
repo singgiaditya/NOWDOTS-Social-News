@@ -9,7 +9,7 @@
                 "isVerified": true
             },
             "content": "What is your best solution to overcome traffic jams in Jakarta? Write your suggestions and criticisms for the government so that traffic jams will soon disappear in Jakarta!",
-            "image": "https://fastly.picsum.photos/id/826/1500/3000.jpg?hmac=reeplfwmG_BhjJ-bn4ISb7JRacV57wVrHsesBTtEjDk",
+            "image": ["https://fastly.picsum.photos/id/826/1500/3000.jpg?hmac=reeplfwmG_BhjJ-bn4ISb7JRacV57wVrHsesBTtEjDk"],
             "likeCount": "3.2k",
             "commentCount": "16",
             "forwardCount": "3",
@@ -27,7 +27,7 @@
                 "isVerified": true
             },
             "content": "The solution for you and your family who want to go anywhere quickly, cheaply and safely. #WeGotYou really is all about it ❤️",
-            "image" : "https://fastly.picsum.photos/id/203/4032/3024.jpg?hmac=yeLnHOEAWUYBtMnanR0-0Q7gSvYbyxPG3PLJYvm170Q",
+            "image" : ["https://fastly.picsum.photos/id/203/4032/3024.jpg?hmac=yeLnHOEAWUYBtMnanR0-0Q7gSvYbyxPG3PLJYvm170Q"],
             "likeCount": "3.2k",
             "commentCount": "16",
             "forwardCount": "3",
@@ -43,7 +43,7 @@
                 "isVerified": false
             },
             "content": "How can we improve public transportation in Jakarta? Share your ideas to make commuting easier for everyone.",
-            "image" : "https://fastly.picsum.photos/id/111/4400/2656.jpg?hmac=leq8lj40D6cqFq5M_NLXkMYtV-30TtOOnzklhjPaAAQ",
+            "image" :[ "https://fastly.picsum.photos/id/111/4400/2656.jpg?hmac=leq8lj40D6cqFq5M_NLXkMYtV-30TtOOnzklhjPaAAQ"],
             "likeCount": "2.1k",
             "commentCount": "8",
             "forwardCount": "5",
@@ -61,6 +61,7 @@
                 "isVerified": false
             },
             "content": "What steps are you taking to reduce your carbon footprint?",
+            "image" : ["https://picsum.photos/id/56/200/300", "https://picsum.photos/id/10/200/300"],
             "likeCount": "3.0k",
             "commentCount": "28",
             "forwardCount": "750",
@@ -77,6 +78,7 @@
                 "isVerified": false
             },
             "content": "What can be done to reduce air pollution in Jakarta? Provide your insights and suggestions.",
+            "image" : ["https://picsum.photos/id/80/200/300", "https://picsum.photos/id/81/200/300", "https://picsum.photos/id/82/200/300"],
             "likeCount": "4.5k",
             "commentCount": "24",
             "forwardCount": "7",
@@ -94,6 +96,7 @@
                 "isVerified": false
             },
             "content": "What are your thoughts on the current state of education in Jakarta? Share your views and suggestions.",
+            "image" : ["https://picsum.photos/id/90/200/300", "https://picsum.photos/id/91/200/300", "https://picsum.photos/id/92/200/300", "https://picsum.photos/id/93/200/300"],
             "likeCount": "3.0k",
             "commentCount": "12",
             "forwardCount": "4",
@@ -111,7 +114,7 @@
                 "isVerified": true
             },
             "content": "I dont care about all of this issues, please stop bothering me.",
-            "image": "https://fastly.picsum.photos/id/85/1280/774.jpg?hmac=h_HHpvfhMmLP6uOSrHS7HSlXVRuMKfBbc8HFKd1Acv4",
+            "image": ["https://fastly.picsum.photos/id/85/1280/774.jpg?hmac=h_HHpvfhMmLP6uOSrHS7HSlXVRuMKfBbc8HFKd1Acv4"],
             "likeCount": "3.8k",
             "commentCount": "18",
             "forwardCount": "6",
@@ -146,6 +149,7 @@
                 "isVerified": true
             },
             "content": "What are the best ways to promote tourism in Jakarta? Share your ideas and suggestions.",
+            "image" : ["https://picsum.photos/id/101/200/300", "https://picsum.photos/id/102/200/300", "https://picsum.photos/id/103/200/300", "https://picsum.photos/id/104/200/300", "https://picsum.photos/id/88/200/300"],
             "likeCount": "3.4k",
             "commentCount": "14",
             "forwardCount": "5",

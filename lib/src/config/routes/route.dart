@@ -14,8 +14,10 @@ import 'package:nowdots_social_news/src/presentation/auth/pages/sign_up/sign_up_
 import 'package:nowdots_social_news/src/presentation/auth/pages/sign_up/sign_up_pick_picture_view.dart';
 import 'package:nowdots_social_news/src/presentation/auth/pages/sign_up/sign_up_pick_username.dart';
 import 'package:nowdots_social_news/src/presentation/auth/pages/sign_up/sign_up_view.dart';
+import 'package:nowdots_social_news/src/presentation/feed/pages/detail_feed_view.dart';
 import 'package:nowdots_social_news/src/presentation/feed/pages/feed_view.dart';
 import 'package:nowdots_social_news/src/presentation/feed/pages/fullscreen_image.dart';
+import 'package:nowdots_social_news/src/presentation/feed/pages/multple_image.dart';
 import 'package:nowdots_social_news/src/presentation/init_page.dart';
 
 class AppRoute {
@@ -184,9 +186,21 @@ class AppRoute {
             ]),
         GoRoute(
           parentNavigatorKey: _rootNavigatorKey,
-          path: "/image",
+          path: "/image/:index",
           name: "image",
           builder: (context, state) => const FullscreenImage(),
+        ),
+        GoRoute(
+          parentNavigatorKey: _rootNavigatorKey,
+          path: "/multiple-image",
+          name: "multiple-image",
+          builder: (context, state) => const MultipleImage(),
+        ),
+        GoRoute(
+          parentNavigatorKey: _rootNavigatorKey,
+          path: "/detail-feed",
+          name: "detail-feed",
+          builder: (context, state) => const DetailFeedView(),
         )
       ]);
 }

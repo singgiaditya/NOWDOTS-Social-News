@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
+import 'package:nowdots_social_news/src/data/models/feeds_response_model.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/row_button_container.dart';
 
 class FullscreenImage extends StatelessWidget {
@@ -9,15 +10,17 @@ class FullscreenImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String imageUrl = GoRouterState.of(context).extra! as String;
+    final Feed data = GoRouterState.of(context).extra! as Feed;
+    final int index =
+        int.parse(GoRouterState.of(context).pathParameters["index"]!);
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
         child: Stack(children: [
           Hero(
-            tag: imageUrl,
+            tag: data.image![index],
             child: CachedNetworkImage(
-              imageUrl: imageUrl,
+              imageUrl: data.image![index],
               placeholder: (context, url) => CircularProgressIndicator(
                 color: Colors.white,
               ),
@@ -88,10 +91,10 @@ class FullscreenImage extends StatelessWidget {
                   RowButtonContainer(
                       color: Colors.white,
                       backgroundColor: Colors.transparent,
-                      likeCount: "123",
-                      commentCount: "123",
-                      forwardCount: "123",
-                      upVoteCount: "123"),
+                      likeCount: data.likeCount!,
+                      commentCount: data.commentCount!,
+                      forwardCount: data.forwardCount!,
+                      upVoteCount: data.upVoteCount!),
                   SizedBox(
                     height: 20,
                   ),

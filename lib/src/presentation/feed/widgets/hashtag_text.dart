@@ -14,7 +14,7 @@ class HashtagText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final regex = RegExp(r'#\w+'); // Regular expression for hashtags
+    final regex = RegExp(r'[#@]\w+'); // Regular expression for hashtags
     final spans = text.split(" ").map(
       (match) {
         if (regex.hasMatch(match)) {
@@ -28,8 +28,7 @@ class HashtagText extends StatelessWidget {
     ).toList();
 
     return RichText(
-      text: TextSpan(
-        style: regularTextStyle, children: spans),
+      text: TextSpan(style: regularTextStyle, children: spans),
     );
   }
 }

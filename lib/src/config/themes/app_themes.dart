@@ -20,8 +20,8 @@ ThemeData appTheme() {
 AppBarTheme appBarTheme() {
   return AppBarTheme(
     backgroundColor: Colors.white,
-    elevation: 0,
     iconTheme: IconThemeData(color: primaryColor),
+    scrolledUnderElevation: 0,
     centerTitle: true,
     titleTextStyle:
         titleSegoeUITextStyle.copyWith(color: primaryColor, fontSize: 18),

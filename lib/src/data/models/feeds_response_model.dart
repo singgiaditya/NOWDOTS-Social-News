@@ -29,6 +29,7 @@ class FeedsResponseModel {
 class Feed {
   final User? user;
   final String? content;
+  final List<String>? image;
   final String? likeCount;
   final String? commentCount;
   final String? forwardCount;
@@ -36,11 +37,11 @@ class Feed {
   final String? publishedAt;
   final Type? type;
   final bool? isAds;
-  final String? image;
 
   Feed({
     this.user,
     this.content,
+    this.image,
     this.likeCount,
     this.commentCount,
     this.forwardCount,
@@ -48,7 +49,6 @@ class Feed {
     this.publishedAt,
     this.type,
     this.isAds,
-    this.image,
   });
 
   factory Feed.fromRawJson(String str) => Feed.fromJson(json.decode(str));
@@ -58,19 +58,22 @@ class Feed {
   factory Feed.fromJson(Map<String, dynamic> json) => Feed(
         user: json["user"] == null ? null : User.fromJson(json["user"]),
         content: json["content"],
+        image: json["image"] == null
+            ? []
+            : List<String>.from(json["image"]!.map((x) => x)),
         likeCount: json["likeCount"],
         commentCount: json["commentCount"],
         forwardCount: json["forwardCount"],
         upVoteCount: json["upVoteCount"],
         publishedAt: json["published_at"],
-        type: typeValues.map[json["type"]],
+        type: typeValues.map[json["type"]] ?? Type.PUBLIC,
         isAds: json["isAds"],
-        image: json["image"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
         "user": user?.toJson(),
         "content": content,
+        "image": image == null ? [] : List<dynamic>.from(image!.map((x) => x)),
         "likeCount": likeCount,
         "commentCount": commentCount,
         "forwardCount": forwardCount,
@@ -78,7 +81,6 @@ class Feed {
         "published_at": publishedAt,
         "type": typeValues.reverse[type],
         "isAds": isAds,
-        "image": image,
       };
 }
 

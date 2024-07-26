@@ -1,117 +1,201 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
+import 'package:nowdots_social_news/src/core/constant/icons.dart';
 import 'package:nowdots_social_news/src/core/utils/string_extension.dart';
 import 'package:nowdots_social_news/src/core/widgets/avatar_cache_image.dart';
 import 'package:nowdots_social_news/src/data/models/feeds_response_model.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/hashtag_text.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/image_hero.dart';
-import 'package:nowdots_social_news/src/presentation/feed/widgets/row_button_container.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/score_widget.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/span_divider.dart';
 import 'package:shimmer/shimmer.dart';
 
-class FeedCard extends StatelessWidget {
+class DetailFeedCard extends StatelessWidget {
   final Feed data;
 
-  const FeedCard({super.key, required this.data});
+  const DetailFeedCard({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 21),
+      padding: const EdgeInsets.only(top: 21),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            AvatarCacheImage(
-              image: data.user!.picture!,
-              radius: 25,
-            ),
-            const SizedBox(
-              width: 9,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      data.user!.name!,
-                      style: titleProximaNovaTextStyle.copyWith(fontSize: 15),
-                    ),
-                    data.user!.isVerified!
-                        ? Padding(
-                            padding: const EdgeInsets.only(left: 4),
-                            child: Icon(
-                              Icons.verified,
-                              color: buttonColor,
-                              size: 15,
-                            ),
-                          )
-                        : Container(),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    ScoreWidget(
-                      scoreString: data.user!.score!,
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                RichText(
-                  text: TextSpan(
-                      text: "${data.user!.username!} ",
-                      style: regularProximaNovaTextStyle.copyWith(
-                        color: subColor,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 21),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AvatarCacheImage(
+                image: data.user!.picture!,
+                radius: 25,
+              ),
+              const SizedBox(
+                width: 9,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        data.user!.name!,
+                        style: titleProximaNovaTextStyle.copyWith(fontSize: 15),
                       ),
-                      children: isAds(data.isAds!)),
-                ),
-              ],
-            ),
-            const Spacer(),
-            GestureDetector(
-                onTap: () {},
-                child: Icon(
-                  Icons.more_horiz,
-                  color: subColor,
-                  size: 20,
-                ))
-          ],
+                      data.user!.isVerified!
+                          ? Padding(
+                              padding: const EdgeInsets.only(left: 4),
+                              child: Icon(
+                                Icons.verified,
+                                color: buttonColor,
+                                size: 15,
+                              ),
+                            )
+                          : Container(),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      ScoreWidget(
+                        scoreString: data.user!.score!,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  RichText(
+                    text: TextSpan(
+                        text: "${data.user!.username!} ",
+                        style: regularProximaNovaTextStyle.copyWith(
+                          color: subColor,
+                        ),
+                        children: isAds(data.isAds!)),
+                  ),
+                ],
+              ),
+              const Spacer(),
+              GestureDetector(
+                  onTap: () {},
+                  child: Icon(
+                    Icons.more_horiz,
+                    color: subColor,
+                    size: 20,
+                  ))
+            ],
+          ),
         ),
         const SizedBox(
           height: 12,
         ),
-        HashtagText(
-          text: data.content!,
-          decoratedTextStyle: regularProximaNovaTextStyle.copyWith(
-              fontSize: 14, color: buttonColor),
-          regularTextStyle: regularProximaNovaTextStyle.copyWith(
-              fontSize: 14, color: primaryColor, height: 1.25),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 21),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(
+                children: [
+                  SvgPicture.asset(upVoteOutline),
+                  Text(data.forwardCount!),
+                  SvgPicture.asset(downVoteOutline),
+                ],
+              ),
+              SizedBox(
+                width: 16,
+              ),
+              Flexible(
+                child: HashtagText(
+                  text: data.content!,
+                  decoratedTextStyle: regularProximaNovaTextStyle.copyWith(
+                      fontSize: 14, color: buttonColor),
+                  regularTextStyle: regularProximaNovaTextStyle.copyWith(
+                      fontSize: 14, color: primaryColor, height: 1.25),
+                ),
+              ),
+            ],
+          ),
         ),
         data.image!.isNotEmpty
             ? Padding(
-                padding: const EdgeInsets.only(top: 12),
+                padding: const EdgeInsets.only(top: 12, left: 21, right: 21),
                 child: buildImages(context),
               )
             : Container(),
         const SizedBox(
-          height: 12,
+          height: 19,
         ),
-        RowButtonContainer(
-          color: primaryColor,
-          backgroundColor: boxColor,
-          commentCount: data.commentCount!,
-          forwardCount: data.forwardCount!,
-          likeCount: data.likeCount!,
-          upVoteCount: data.upVoteCount ?? "0",
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 21),
+          child: RichText(
+              text: TextSpan(
+                  text: "10:13 AM ",
+                  style: regularSegoeUITextStyle.copyWith(
+                      color: subColor, fontSize: 14),
+                  children: [
+                spanDivider(),
+                TextSpan(text: " Oct 26, 2023 "),
+                spanDivider(),
+                TextSpan(
+                    text: " 6.2M ",
+                    style: subtitleSegoeUITextStyle.copyWith(fontSize: 14)),
+                TextSpan(text: "Views")
+              ])),
         ),
+        SizedBox(
+          height: 22,
+        ),
+        Divider(
+          color: boxColor,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 7),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CountText(count: data.likeCount!, label: "Likes"),
+              CountText(
+                count: data.commentCount!,
+                label: "Comments",
+              ),
+              CountText(
+                count: "3",
+                label: "Shares",
+              ),
+              CountText(
+                count: data.upVoteCount ?? "0",
+                label: "Votes",
+              ),
+            ],
+          ),
+        ),
+        Divider(
+          color: boxColor,
+        ),
+        SizedBox(
+          height: 7,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            SvgPicture.asset(thumbUpOutline),
+            SvgPicture.asset(thumbDownOutline),
+            SvgPicture.asset(commentOutline),
+            SvgPicture.asset(forward),
+            SvgPicture.asset(bookmarkOutline),
+          ],
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Divider(
+          color: boxColor,
+          height: 0,
+        )
       ]),
     );
   }
@@ -374,5 +458,32 @@ class FeedCard extends StatelessWidget {
     }
 
     return isFalse;
+  }
+}
+
+
+
+class CountText extends StatelessWidget {
+  final String count;
+  final String label;
+  const CountText({
+    super.key,
+    required this.count,
+    required this.label,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return RichText(
+        text: TextSpan(
+            text: count,
+            style: subtitleSegoeUITextStyle.copyWith(
+                fontSize: 14, color: primaryColor),
+            children: [
+          TextSpan(
+              text: " $label",
+              style: regularSegoeUITextStyle.copyWith(
+                  fontSize: 14, color: subColor)),
+        ]));
   }
 }

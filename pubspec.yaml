@@ -74,6 +74,7 @@ flutter:
     - assets/icons/forward.svg
     - assets/icons/thumb_down_outline.svg
     - assets/icons/thumb_up_outline.svg
+    - assets/icons/bookmark_outline.svg
 
     #data dummy
     - assets/data_dummy/dummy_feed.json
