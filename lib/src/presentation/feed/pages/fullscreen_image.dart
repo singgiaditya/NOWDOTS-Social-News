@@ -21,8 +21,10 @@ class FullscreenImage extends StatelessWidget {
             tag: data.image![index],
             child: CachedNetworkImage(
               imageUrl: data.image![index],
-              placeholder: (context, url) => CircularProgressIndicator(
-                color: Colors.white,
+              placeholder: (context, url) => Center(
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ),
               ),
               errorWidget: (context, url, error) => const Icon(Icons.error),
               imageBuilder: (context, imageProvider) {
@@ -94,7 +96,7 @@ class FullscreenImage extends StatelessWidget {
                       likeCount: data.likeCount!,
                       commentCount: data.commentCount!,
                       forwardCount: data.forwardCount!,
-                      upVoteCount: data.upVoteCount!),
+                      upVoteCount: data.upVoteCount ?? "0"),
                   SizedBox(
                     height: 20,
                   ),
