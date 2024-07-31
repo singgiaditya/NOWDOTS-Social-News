@@ -1,9 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
+import 'package:nowdots_social_news/src/data/models/auth/register/verification_code/register_verification_code_request_model.dart';
+import 'package:nowdots_social_news/src/presentation/auth/bloc/register/register_code_verification/register_code_verification_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/widgets/logo_list.dart';
 
 class SignUpCodeVerificationView extends StatefulWidget {
@@ -27,6 +30,7 @@ class _SignUpCodeVerificationViewState
   }
 
   SingleChildScrollView _buildBody(BuildContext context) {
+    final String email = GoRouterState.of(context).extra! as String;
     return SingleChildScrollView(
       child: SafeArea(
         child: Container(
@@ -52,7 +56,7 @@ class _SignUpCodeVerificationViewState
                         fontSize: 26, fontWeight: FontWeight.w600),
                   ),
                   Text(
-                    "Enter it below to verify dumbo@gmail.com",
+                    "Enter it below to verify $email",
                     style: regularSegoeUITextStyle.copyWith(
                         fontSize: 13, color: subColor),
                   ),
@@ -99,20 +103,32 @@ class _SignUpCodeVerificationViewState
                               color: buttonColor, fontSize: 11),
                         )
                       ])),
-                  ElevatedButton(
-                      onPressed: isValid
-                          ? () {
-                              context.goNamed("sign-up-create-password");
-                            }
-                          : null,
-                      child: Text(
-                        "Next",
-                        style: subtitleProximaNovaTextStyle.copyWith(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white,
-                        ),
-                      ))
+                  BlocConsumer<RegisterCodeVerificationBloc,
+                      RegisterCodeVerificationState>(
+                    listener: (context, state) {
+                      state.maybeWhen(
+                        orElse: () {},
+                        error: (message) {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(SnackBar(content: Text(message)));
+                        },
+                        loaded: (data) {
+                          context.goNamed("sign-up-create-password",
+                              extra: email);
+                        },
+                      );
+                    },
+                    builder: (context, state) {
+                      return state.maybeWhen(
+                        orElse: () => _buildNextButton(context, email),
+                        error: (message) => _buildNextButton(context, email),
+                        loading: () => _buildLoadingButton(),
+                        loaded: (data) {
+                          return _buildNextButton(context, email);
+                        },
+                      );
+                    },
+                  )
                 ],
               ),
             ],
@@ -120,5 +136,36 @@ class _SignUpCodeVerificationViewState
         ),
       ),
     );
+  }
+
+  ElevatedButton _buildLoadingButton() {
+    return ElevatedButton(
+        onPressed: null,
+        child: SizedBox(
+          height: 20,
+          width: 20,
+          child: CircularProgressIndicator(),
+        ));
+  }
+
+  ElevatedButton _buildNextButton(BuildContext context, String email) {
+    return ElevatedButton(
+        onPressed: isValid
+            ? () {
+                var requestData = RegisterVerificationCodeRequestModel(
+                    email: email, code: code);
+                context.read<RegisterCodeVerificationBloc>()
+                  ..add(RegisterCodeVerificationEvent.codeVerification(
+                      requestData));
+              }
+            : null,
+        child: Text(
+          "Next",
+          style: subtitleProximaNovaTextStyle.copyWith(
+            fontSize: 15,
+            fontWeight: FontWeight.w700,
+            color: Colors.white,
+          ),
+        ));
   }
 }

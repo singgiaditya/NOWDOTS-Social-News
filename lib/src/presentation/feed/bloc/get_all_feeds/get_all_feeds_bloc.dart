@@ -13,7 +13,6 @@ class GetAllFeedsBloc extends Bloc<GetAllFeedsEvent, GetAllFeedsState> {
     on<GetAllFeedsEvent>((event, emit) async {
       emit(_Loading());
       final response = await feedlocalDataSource.getLocalFeeds();
-      await Duration(seconds: 3);
       response.fold(
           (message) => emit(_Error(message)), (feeds) => emit(_Loaded(feeds)));
     });

@@ -14,7 +14,7 @@ class HashtagText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final regex = RegExp(r'[#@]\w+'); // Regular expression for hashtags
+    final regex = RegExp(r'[#@]\w+');
     final spans = text.split(" ").map(
       (match) {
         if (regex.hasMatch(match)) {
