@@ -86,6 +86,7 @@ class _SignUpViewState extends State<SignUpView> {
                       TextFormField(
                         onChanged: (value) => onChangeTextField(value),
                         controller: _nameController,
+                        validator: InputValidator.validateInputIsNotEmpty,
                         keyboardType: TextInputType.name,
                         decoration: const InputDecoration(hintText: "Name"),
                       ),

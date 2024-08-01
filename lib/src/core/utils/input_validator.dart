@@ -1,6 +1,13 @@
 import 'package:nowdots_social_news/src/core/utils/regex_patterns.dart';
 
 class InputValidator {
+  static String? validateInputIsNotEmpty(String? value) {
+    if (value == null || value.isEmpty || value.trim().isEmpty) {
+      return 'Please enter some text';
+    }
+    return null;
+  }
+
   static String? validateInputEmailOrUsername(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please enter some text';

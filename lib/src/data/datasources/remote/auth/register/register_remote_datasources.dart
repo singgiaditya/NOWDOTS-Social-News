@@ -25,14 +25,20 @@ class RegisterRemoteDataSources {
       var uri = Uri.parse(createAccountApi);
       var response =
           await http.post(uri, body: requestData.toRawJson(), headers: headers);
-      CreateAccountResponseModel data =
-          CreateAccountResponseModel.fromRawJson(response.body);
 
-      if (data.data == null) {
-        return Left(data.message!);
+      if (response.statusCode == 200) {
+        CreateAccountResponseModel data =
+            CreateAccountResponseModel.fromRawJson(response.body);
+        await prefs.setString("token", data.token!);
+        return Right(data);
       }
-      await prefs.setString("token", data.token!);
-      return Right(data);
+      if (response.statusCode == 401) {
+        return Left("Email already exist");
+      }
+      if (response.statusCode == 422) {
+        return Left("Make sure you fill in all the required fields");
+      }
+      return Left("Something went wrong");
     } catch (e) {
       return Left("Please check your internet connection");
     }
@@ -51,13 +57,15 @@ class RegisterRemoteDataSources {
       var uri = Uri.parse(registerVerificationCodeApi);
       var response =
           await http.post(uri, body: requestData.toRawJson(), headers: headers);
-      RegisterVerificationCodeResponseModel data =
-          RegisterVerificationCodeResponseModel.fromRawJson(response.body);
-
-      if (data.data == null) {
-        return Left(data.message!);
+      if (response.statusCode == 200) {
+        RegisterVerificationCodeResponseModel data =
+            RegisterVerificationCodeResponseModel.fromRawJson(response.body);
+        return Right(data);
       }
-      return Right(data);
+      if (response.statusCode == 401) {
+        return Left("Invalid verification code");
+      }
+      return Left("Something went wrong");
     } catch (e) {
       return Left("Please check your internet connection");
     }
@@ -76,13 +84,15 @@ class RegisterRemoteDataSources {
       var uri = Uri.parse(registerSetPasswordApi);
       var response =
           await http.post(uri, body: requestData.toRawJson(), headers: headers);
-      RegisterSetPasswordResponseModel data =
-          RegisterSetPasswordResponseModel.fromRawJson(response.body);
-
-      if (data.data == null) {
-        return Left(data.message!);
+      if (response.statusCode == 200) {
+        RegisterSetPasswordResponseModel data =
+            RegisterSetPasswordResponseModel.fromRawJson(response.body);
+        return Right(data);
       }
-      return Right(data);
+      if (response.statusCode == 422) {
+        Left("Make sure you fill in all the required fields");
+      }
+      return Left("Something went wrong");
     } catch (e) {
       return Left("Please check your internet connection");
     }
@@ -107,14 +117,18 @@ class RegisterRemoteDataSources {
       request.headers.addAll(headers);
       var response = await request.send();
       var result = await response.stream.bytesToString();
-      RegisterSetProfilePictureResponseModel data =
-          RegisterSetProfilePictureResponseModel.fromRawJson(result);
 
-      if (data.data == null) {
-        print(result);
-        return Left(data.message!);
+      if (response.statusCode == 200) {
+        RegisterSetProfilePictureResponseModel data =
+            RegisterSetProfilePictureResponseModel.fromRawJson(result);
+        return Right(data);
       }
-      return Right(data);
+
+      if (response.statusCode == 422) {
+        return Left("Make sure you fill in all the required fields");
+      }
+
+      return Left("Something went wrong");
     } catch (e) {
       return Left("Please check your internet connection");
     }
@@ -132,14 +146,18 @@ class RegisterRemoteDataSources {
       var uri = Uri.parse(registerSetProfilePictureApi);
       var response =
           await http.post(uri, body: {"email": email}, headers: headers);
-      RegisterSetProfilePictureResponseModel data =
-          RegisterSetProfilePictureResponseModel.fromRawJson(response.body);
 
-      if (data.data == null) {
-        print(response);
-        return Left(data.message!);
+      if (response.statusCode == 200) {
+        RegisterSetProfilePictureResponseModel data =
+            RegisterSetProfilePictureResponseModel.fromRawJson(response.body);
+        return Right(data);
       }
-      return Right(data);
+
+      if (response.statusCode == 422) {
+        return Left("Make sure you fill in all the required fields");
+      }
+
+      return Left("Something went wrong");
     } catch (e) {
       return Left(e.toString());
     }
@@ -159,13 +177,17 @@ class RegisterRemoteDataSources {
       var uri = Uri.parse(registerSetUsernameApi);
       var response =
           await http.post(uri, body: requestData.toRawJson(), headers: headers);
-      RegisterSetUsernameUserResponseModel data =
-          RegisterSetUsernameUserResponseModel.fromRawJson(response.body);
-
-      if (data.data == null) {
-        return Left(data.message!);
+      if (response.statusCode == 200) {
+        RegisterSetUsernameUserResponseModel data =
+            RegisterSetUsernameUserResponseModel.fromRawJson(response.body);
+        return Right(data);
       }
-      return Right(data);
+
+      if (response.statusCode == 422) {
+        return Left("Make sure you fill in all the required fields");
+      }
+
+      return Left("Something went wrong");
     } catch (e) {
       return Left("Please check your internet connection");
     }
