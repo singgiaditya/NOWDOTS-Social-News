@@ -19,5 +19,11 @@ class RegisterSetProfilePictureBloc extends Bloc<RegisterSetProfilePictureEvent,
       response.fold(
           (message) => emit(_Error(message)), (data) => emit(_Loaded(data)));
     });
+    on<_SkipProfilePicture>((event, emit) async {
+      emit(_Loading());
+      final response = await _remoteDataSource.skipProfilePicture(event.email);
+      response.fold(
+          (message) => emit(_Error(message)), (data) => emit(_Loaded(data)));
+    });
   }
 }

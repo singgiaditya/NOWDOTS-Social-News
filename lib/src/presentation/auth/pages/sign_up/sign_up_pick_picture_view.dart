@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -152,10 +151,8 @@ class _SignUpPickPictureViewState extends State<SignUpPickPictureView> {
   GestureDetector _buildSkipButton(String email, BuildContext context) {
     return GestureDetector(
       onTap: () {
-        final requestData = RegisterSetProfilePictureRequestModel(
-            email: email, image: File.fromRawPath(Uint8List.fromList([0])));
         context.read<RegisterSetProfilePictureBloc>()
-          ..add(RegisterSetProfilePictureEvent.setProfilePicture(requestData));
+          ..add(RegisterSetProfilePictureEvent.skipProfilePicture(email));
       },
       child: Container(
           height: 40,

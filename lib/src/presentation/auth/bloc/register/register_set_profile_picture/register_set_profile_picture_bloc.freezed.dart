@@ -16,47 +16,47 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$RegisterSetProfilePictureEvent {
-  RegisterSetProfilePictureRequestModel get requestData =>
-      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(RegisterSetProfilePictureRequestModel requestData)
         setProfilePicture,
+    required TResult Function(String email) skipProfilePicture,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(RegisterSetProfilePictureRequestModel requestData)?
         setProfilePicture,
+    TResult? Function(String email)? skipProfilePicture,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(RegisterSetProfilePictureRequestModel requestData)?
         setProfilePicture,
+    TResult Function(String email)? skipProfilePicture,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_SetProfilePicture value) setProfilePicture,
+    required TResult Function(_SkipProfilePicture value) skipProfilePicture,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_SetProfilePicture value)? setProfilePicture,
+    TResult? Function(_SkipProfilePicture value)? skipProfilePicture,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_SetProfilePicture value)? setProfilePicture,
+    TResult Function(_SkipProfilePicture value)? skipProfilePicture,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $RegisterSetProfilePictureEventCopyWith<RegisterSetProfilePictureEvent>
-      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -66,8 +66,6 @@ abstract class $RegisterSetProfilePictureEventCopyWith<$Res> {
           $Res Function(RegisterSetProfilePictureEvent) then) =
       _$RegisterSetProfilePictureEventCopyWithImpl<$Res,
           RegisterSetProfilePictureEvent>;
-  @useResult
-  $Res call({RegisterSetProfilePictureRequestModel requestData});
 }
 
 /// @nodoc
@@ -80,28 +78,13 @@ class _$RegisterSetProfilePictureEventCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? requestData = null,
-  }) {
-    return _then(_value.copyWith(
-      requestData: null == requestData
-          ? _value.requestData
-          : requestData // ignore: cast_nullable_to_non_nullable
-              as RegisterSetProfilePictureRequestModel,
-    ) as $Val);
-  }
 }
 
 /// @nodoc
-abstract class _$$SetProfilePictureImplCopyWith<$Res>
-    implements $RegisterSetProfilePictureEventCopyWith<$Res> {
+abstract class _$$SetProfilePictureImplCopyWith<$Res> {
   factory _$$SetProfilePictureImplCopyWith(_$SetProfilePictureImpl value,
           $Res Function(_$SetProfilePictureImpl) then) =
       __$$SetProfilePictureImplCopyWithImpl<$Res>;
-  @override
   @useResult
   $Res call({RegisterSetProfilePictureRequestModel requestData});
 }
@@ -166,6 +149,7 @@ class _$SetProfilePictureImpl implements _SetProfilePicture {
   TResult when<TResult extends Object?>({
     required TResult Function(RegisterSetProfilePictureRequestModel requestData)
         setProfilePicture,
+    required TResult Function(String email) skipProfilePicture,
   }) {
     return setProfilePicture(requestData);
   }
@@ -175,6 +159,7 @@ class _$SetProfilePictureImpl implements _SetProfilePicture {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(RegisterSetProfilePictureRequestModel requestData)?
         setProfilePicture,
+    TResult? Function(String email)? skipProfilePicture,
   }) {
     return setProfilePicture?.call(requestData);
   }
@@ -184,6 +169,7 @@ class _$SetProfilePictureImpl implements _SetProfilePicture {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(RegisterSetProfilePictureRequestModel requestData)?
         setProfilePicture,
+    TResult Function(String email)? skipProfilePicture,
     required TResult orElse(),
   }) {
     if (setProfilePicture != null) {
@@ -196,6 +182,7 @@ class _$SetProfilePictureImpl implements _SetProfilePicture {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_SetProfilePicture value) setProfilePicture,
+    required TResult Function(_SkipProfilePicture value) skipProfilePicture,
   }) {
     return setProfilePicture(this);
   }
@@ -204,6 +191,7 @@ class _$SetProfilePictureImpl implements _SetProfilePicture {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_SetProfilePicture value)? setProfilePicture,
+    TResult? Function(_SkipProfilePicture value)? skipProfilePicture,
   }) {
     return setProfilePicture?.call(this);
   }
@@ -212,6 +200,7 @@ class _$SetProfilePictureImpl implements _SetProfilePicture {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_SetProfilePicture value)? setProfilePicture,
+    TResult Function(_SkipProfilePicture value)? skipProfilePicture,
     required TResult orElse(),
   }) {
     if (setProfilePicture != null) {
@@ -226,11 +215,148 @@ abstract class _SetProfilePicture implements RegisterSetProfilePictureEvent {
           final RegisterSetProfilePictureRequestModel requestData) =
       _$SetProfilePictureImpl;
 
-  @override
   RegisterSetProfilePictureRequestModel get requestData;
-  @override
   @JsonKey(ignore: true)
   _$$SetProfilePictureImplCopyWith<_$SetProfilePictureImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$SkipProfilePictureImplCopyWith<$Res> {
+  factory _$$SkipProfilePictureImplCopyWith(_$SkipProfilePictureImpl value,
+          $Res Function(_$SkipProfilePictureImpl) then) =
+      __$$SkipProfilePictureImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String email});
+}
+
+/// @nodoc
+class __$$SkipProfilePictureImplCopyWithImpl<$Res>
+    extends _$RegisterSetProfilePictureEventCopyWithImpl<$Res,
+        _$SkipProfilePictureImpl>
+    implements _$$SkipProfilePictureImplCopyWith<$Res> {
+  __$$SkipProfilePictureImplCopyWithImpl(_$SkipProfilePictureImpl _value,
+      $Res Function(_$SkipProfilePictureImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? email = null,
+  }) {
+    return _then(_$SkipProfilePictureImpl(
+      null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$SkipProfilePictureImpl implements _SkipProfilePicture {
+  const _$SkipProfilePictureImpl(this.email);
+
+  @override
+  final String email;
+
+  @override
+  String toString() {
+    return 'RegisterSetProfilePictureEvent.skipProfilePicture(email: $email)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SkipProfilePictureImpl &&
+            (identical(other.email, email) || other.email == email));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, email);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SkipProfilePictureImplCopyWith<_$SkipProfilePictureImpl> get copyWith =>
+      __$$SkipProfilePictureImplCopyWithImpl<_$SkipProfilePictureImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(RegisterSetProfilePictureRequestModel requestData)
+        setProfilePicture,
+    required TResult Function(String email) skipProfilePicture,
+  }) {
+    return skipProfilePicture(email);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(RegisterSetProfilePictureRequestModel requestData)?
+        setProfilePicture,
+    TResult? Function(String email)? skipProfilePicture,
+  }) {
+    return skipProfilePicture?.call(email);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(RegisterSetProfilePictureRequestModel requestData)?
+        setProfilePicture,
+    TResult Function(String email)? skipProfilePicture,
+    required TResult orElse(),
+  }) {
+    if (skipProfilePicture != null) {
+      return skipProfilePicture(email);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_SetProfilePicture value) setProfilePicture,
+    required TResult Function(_SkipProfilePicture value) skipProfilePicture,
+  }) {
+    return skipProfilePicture(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_SetProfilePicture value)? setProfilePicture,
+    TResult? Function(_SkipProfilePicture value)? skipProfilePicture,
+  }) {
+    return skipProfilePicture?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_SetProfilePicture value)? setProfilePicture,
+    TResult Function(_SkipProfilePicture value)? skipProfilePicture,
+    required TResult orElse(),
+  }) {
+    if (skipProfilePicture != null) {
+      return skipProfilePicture(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _SkipProfilePicture implements RegisterSetProfilePictureEvent {
+  const factory _SkipProfilePicture(final String email) =
+      _$SkipProfilePictureImpl;
+
+  String get email;
+  @JsonKey(ignore: true)
+  _$$SkipProfilePictureImplCopyWith<_$SkipProfilePictureImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

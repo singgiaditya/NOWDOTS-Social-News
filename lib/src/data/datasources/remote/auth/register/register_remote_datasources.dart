@@ -120,6 +120,31 @@ class RegisterRemoteDataSources {
     }
   }
 
+  Future<Either<String, RegisterSetProfilePictureResponseModel>>
+      skipProfilePicture(String email) async {
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      var token = await prefs.getString("token");
+      var headers = {
+        'Accept': 'application/json',
+        'Authorization': "Bearer $token"
+      };
+      var uri = Uri.parse(registerSetProfilePictureApi);
+      var response =
+          await http.post(uri, body: {"email": email}, headers: headers);
+      RegisterSetProfilePictureResponseModel data =
+          RegisterSetProfilePictureResponseModel.fromRawJson(response.body);
+
+      if (data.data == null) {
+        print(response);
+        return Left(data.message!);
+      }
+      return Right(data);
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
   Future<Either<String, RegisterSetUsernameUserResponseModel>> setUsername(
       RegisterSetUsernameUserRequestModel requestData) async {
     try {
