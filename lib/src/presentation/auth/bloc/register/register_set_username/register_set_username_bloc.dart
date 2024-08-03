@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:nowdots_social_news/src/data/datasources/remote/auth/register/register_remote_datasources.dart';
+import 'package:nowdots_social_news/src/data/datasources/remote/auth/register_remote_datasources.dart';
 import 'package:nowdots_social_news/src/data/models/auth/register/set_username_user/register_set_username_user_request_model.dart';
 import 'package:nowdots_social_news/src/data/models/auth/register/set_username_user/register_set_username_user_response_model.dart';
 

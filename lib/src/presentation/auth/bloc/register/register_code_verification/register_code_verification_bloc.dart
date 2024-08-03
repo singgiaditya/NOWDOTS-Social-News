@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:nowdots_social_news/src/data/datasources/remote/auth/register/register_remote_datasources.dart';
+import 'package:nowdots_social_news/src/data/datasources/remote/auth/register_remote_datasources.dart';
 import 'package:nowdots_social_news/src/data/models/auth/register/verification_code/register_verification_code_request_model.dart';
 import 'package:nowdots_social_news/src/data/models/auth/register/verification_code/register_verification_code_response_model.dart';
 

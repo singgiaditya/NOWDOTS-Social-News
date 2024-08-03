@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nowdots_social_news/src/config/routes/route.dart';
 import 'package:nowdots_social_news/src/config/themes/app_themes.dart';
 import 'package:nowdots_social_news/src/injection_container.dart';
+import 'package:nowdots_social_news/src/presentation/auth/bloc/login/login_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/register/create_account/create_account_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/register/register_code_verification/register_code_verification_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/register/register_set_password/register_set_password_bloc.dart';
@@ -10,6 +11,7 @@ import 'package:nowdots_social_news/src/presentation/auth/bloc/register/register
 import 'package:nowdots_social_news/src/presentation/auth/bloc/register/register_set_username/register_set_username_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/drawer/drawer_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/get_all_feeds/get_all_feeds_bloc.dart';
+import 'package:nowdots_social_news/src/presentation/splash_screen/bloc/splash_screen_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +27,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider<SplashScreenBloc>(
+          create: (context) => sl()..add(SplashScreenEvent.checkAuth()),
+        ),
         BlocProvider<GetAllFeedsBloc>(
           create: (context) => sl()..add(GetAllFeedsEvent.getAllFeeds()),
         ),
@@ -44,6 +49,9 @@ class MyApp extends StatelessWidget {
           create: (context) => sl(),
         ),
         BlocProvider<RegisterSetUsernameBloc>(
+          create: (context) => sl(),
+        ),
+        BlocProvider<LoginBloc>(
           create: (context) => sl(),
         ),
       ],

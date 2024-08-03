@@ -3,12 +3,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
+import 'package:nowdots_social_news/src/core/constant/api.dart';
 import 'package:nowdots_social_news/src/core/constant/logos.dart';
 import 'package:nowdots_social_news/src/core/widgets/avatar_cache_image.dart';
+import 'package:nowdots_social_news/src/data/models/auth/user_model.dart';
+import 'package:nowdots_social_news/src/injection_container.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/drawer/drawer_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/get_all_feeds/get_all_feeds_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_card.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/loading_feed_card.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
 class FeedView extends StatefulWidget {
@@ -20,6 +24,7 @@ class FeedView extends StatefulWidget {
 }
 
 class _FeedViewState extends State<FeedView> {
+  UserModel userModel = UserModel();
   String getLogo(int index) {
     switch (index) {
       case 0:
@@ -37,6 +42,19 @@ class _FeedViewState extends State<FeedView> {
       default:
         return nowdotsLogo;
     }
+  }
+
+  void getUser() async {
+    final SharedPreferences prefs = sl();
+    String? user = await prefs.getString("user");
+    userModel = UserModel.fromRawJson(user!);
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUser();
   }
 
   @override
@@ -75,16 +93,17 @@ class _FeedViewState extends State<FeedView> {
             ),
             body: TabBarView(
                 physics: NeverScrollableScrollPhysics(),
-                children: [_buildBody(), _buildShimmeringBody()]),
+                children: [_buildBody(userModel), _buildShimmeringBody()]),
           ),
         );
       },
     );
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(UserModel userModel) {
     return RefreshIndicator(
       onRefresh: () async {
+        getUser();
         BlocProvider.of<GetAllFeedsBloc>(context)
             .add(GetAllFeedsEvent.getAllFeeds());
       },
@@ -92,7 +111,11 @@ class _FeedViewState extends State<FeedView> {
         physics: AlwaysScrollableScrollPhysics(),
         child: Column(
           children: [
-            CreatePostCard(),
+            CreatePostCard(
+              image: userModel.profilePhoto != null
+                  ? "${baseUrl}${userModel.profilePhoto}"
+                  : " ",
+            ),
             Divider(
               color: boxColor,
             ),
@@ -154,19 +177,19 @@ class _FeedViewState extends State<FeedView> {
 }
 
 class CreatePostCard extends StatelessWidget {
-  const CreatePostCard({
-    super.key,
-  });
+  final String image;
+  const CreatePostCard({super.key, required this.image});
 
   @override
   Widget build(BuildContext context) {
+    print(image);
     return Container(
       padding: EdgeInsets.symmetric(vertical: 21, horizontal: 21),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           AvatarCacheImage(
-            image: "https://picsum.photos/200/300",
+            image: image,
             radius: 25,
           ),
           SizedBox(

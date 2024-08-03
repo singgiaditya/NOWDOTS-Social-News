@@ -11,13 +11,16 @@ import 'package:nowdots_social_news/src/data/models/auth/register/set_username_u
 import 'package:nowdots_social_news/src/data/models/auth/register/set_username_user/register_set_username_user_response_model.dart';
 import 'package:nowdots_social_news/src/data/models/auth/register/verification_code/register_verification_code_request_model.dart';
 import 'package:nowdots_social_news/src/data/models/auth/register/verification_code/register_verification_code_response_model.dart';
+import 'package:nowdots_social_news/src/data/models/auth/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterRemoteDataSources {
+  final SharedPreferences prefs;
+  RegisterRemoteDataSources(this.prefs);
+
   Future<Either<String, CreateAccountResponseModel>> createAccount(
       CreateAccountRequestModel requestData) async {
     try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
       var headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -47,7 +50,6 @@ class RegisterRemoteDataSources {
   Future<Either<String, RegisterVerificationCodeResponseModel>>
       verificationCode(RegisterVerificationCodeRequestModel requestData) async {
     try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
       var token = await prefs.getString("token");
       var headers = {
         'Accept': 'application/json',
@@ -74,7 +76,6 @@ class RegisterRemoteDataSources {
   Future<Either<String, RegisterSetPasswordResponseModel>> setPassword(
       RegisterSetPasswordRequestModel requestData) async {
     try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
       var token = await prefs.getString("token");
       var headers = {
         'Accept': 'application/json',
@@ -102,7 +103,6 @@ class RegisterRemoteDataSources {
       setProfilePicture(
           RegisterSetProfilePictureRequestModel requestData) async {
     try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
       var token = await prefs.getString("token");
       var headers = {
         'Accept': 'application/json',
@@ -137,7 +137,6 @@ class RegisterRemoteDataSources {
   Future<Either<String, RegisterSetProfilePictureResponseModel>>
       skipProfilePicture(String email) async {
     try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
       var token = await prefs.getString("token");
       var headers = {
         'Accept': 'application/json',
@@ -166,9 +165,7 @@ class RegisterRemoteDataSources {
   Future<Either<String, RegisterSetUsernameUserResponseModel>> setUsername(
       RegisterSetUsernameUserRequestModel requestData) async {
     try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
       var token = await prefs.getString("token");
-      print(token);
       var headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -180,6 +177,8 @@ class RegisterRemoteDataSources {
       if (response.statusCode == 200) {
         RegisterSetUsernameUserResponseModel data =
             RegisterSetUsernameUserResponseModel.fromRawJson(response.body);
+        UserModel user = UserModel.fromJson(data.data!.toJson());
+        prefs.setString("user", user.toRawJson());
         return Right(data);
       }
 

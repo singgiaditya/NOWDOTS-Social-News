@@ -19,6 +19,7 @@ import 'package:nowdots_social_news/src/presentation/feed/pages/feed_view.dart';
 import 'package:nowdots_social_news/src/presentation/feed/pages/fullscreen_image.dart';
 import 'package:nowdots_social_news/src/presentation/feed/pages/multple_image.dart';
 import 'package:nowdots_social_news/src/presentation/init_page.dart';
+import 'package:nowdots_social_news/src/presentation/splash_screen/splash_screen.dart';
 
 class AppRoute {
   static final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
@@ -47,8 +48,17 @@ class AppRoute {
 
   static GoRouter router = GoRouter(
       navigatorKey: _rootNavigatorKey,
-      initialLocation: "/boarding",
+      initialLocation: "/splash-screen",
       routes: [
+        //splash screen
+        GoRoute(
+          parentNavigatorKey: _rootNavigatorKey,
+          path: "/splash-screen",
+          name: "splash-screen",
+          builder: (context, state) => const SplashScreen(),
+        ),
+
+        // home (navigation bar)
         StatefulShellRoute.indexedStack(
             builder: (context, state, navigationShell) {
               return InitPage(
@@ -96,12 +106,14 @@ class AppRoute {
                     ),
                   ]),
             ]),
+        //boarding page
         GoRoute(
             parentNavigatorKey: _rootNavigatorKey,
             path: "/boarding",
             name: "boarding",
             builder: (context, state) => const BoardingView(),
             routes: [
+              //sign-in
               GoRoute(
                   parentNavigatorKey: _rootNavigatorKey,
                   path: "sign-in",
@@ -115,6 +127,8 @@ class AppRoute {
                       builder: (context, state) =>
                           const SignInEmailUsernameView(),
                     ),
+
+                    //forgot-password
                     GoRoute(
                       parentNavigatorKey: _rootNavigatorKey,
                       path: "forgot-password",
@@ -143,6 +157,8 @@ class AppRoute {
                           const ForgotPasswordCompleteView(),
                     ),
                   ]),
+
+              //sign-up
               GoRoute(
                   parentNavigatorKey: _rootNavigatorKey,
                   path: "sign-up",
@@ -184,18 +200,24 @@ class AppRoute {
                     )
                   ]),
             ]),
+
+        //fulscreen-image
         GoRoute(
           parentNavigatorKey: _rootNavigatorKey,
           path: "/image/:index",
           name: "image",
           builder: (context, state) => const FullscreenImage(),
         ),
+
+        //fullscreen multiple-image
         GoRoute(
           parentNavigatorKey: _rootNavigatorKey,
           path: "/multiple-image",
           name: "multiple-image",
           builder: (context, state) => const MultipleImage(),
         ),
+
+        //detail-feed
         GoRoute(
           parentNavigatorKey: _rootNavigatorKey,
           path: "/detail-feed",

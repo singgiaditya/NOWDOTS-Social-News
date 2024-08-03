@@ -113,7 +113,6 @@ class _SignUpPickPictureViewState extends State<SignUpPickPictureView> {
                   orElse: () {},
                   error: (message) => _showSnackBar(message, context),
                   loaded: (data) {
-                    print(data.data);
                     context.goNamed("sign-up-pick-username", extra: email);
                   },
                 );
