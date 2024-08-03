@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
-import 'package:nowdots_social_news/src/presentation/auth/widgets/logo_list.dart';
 import 'package:nowdots_social_news/src/presentation/splash_screen/bloc/splash_screen_bloc.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -29,33 +28,17 @@ class _SplashScreenState extends State<SplashScreen> {
       },
       builder: (context, state) {
         return Scaffold(
+          backgroundColor: Color.fromRGBO(250, 255, 0, 1),
           body: SafeArea(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                Column(
-                  children: [
-                    Text(
-                      "Nowdots",
-                      style: titleProximaNovaTextStyle.copyWith(
-                          fontSize: 40, fontWeight: FontWeight.w800, height: 0),
-                    ),
-                    Text(
-                      "Social News",
-                      style: regularProximaNovaTextStyle.copyWith(
-                        fontSize: 24,
-                        letterSpacing: 5,
-                      ),
-                    ),
-                  ],
-                ),
-                LogoList()
-              ],
+              child: Center(
+            child: Text(
+              "N",
+              style: titleProximaNovaTextStyle.copyWith(
+                  fontSize: 75,
+                  fontWeight: FontWeight.w900,
+                  color: Color.fromRGBO(36, 36, 36, 1)),
             ),
-          ),
+          )),
         );
       },
     );
