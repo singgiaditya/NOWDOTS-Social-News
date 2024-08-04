@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:nowdots_social_news/src/config/routes/route.dart';
 import 'package:nowdots_social_news/src/config/themes/app_themes.dart';
 import 'package:nowdots_social_news/src/injection_container.dart';
@@ -16,6 +17,7 @@ import 'package:nowdots_social_news/src/presentation/splash_screen/bloc/splash_s
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializieDependencies();
+  await GetIt.instance.allReady();
   runApp(const MyApp());
 }
 

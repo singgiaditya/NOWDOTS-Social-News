@@ -20,6 +20,7 @@ Future<void> initializieDependencies() async {
   sl.registerSingletonAsync<SharedPreferences>(
       () => SharedPreferences.getInstance());
 
+
   //data-sources
   sl.registerFactory<FeedLocalDatasources>(() => FeedLocalDatasources());
   sl.registerFactory<RegisterRemoteDataSources>(
