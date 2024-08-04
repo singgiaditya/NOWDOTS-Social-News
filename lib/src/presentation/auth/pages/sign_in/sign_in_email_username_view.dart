@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
 import 'package:nowdots_social_news/src/core/utils/input_validator.dart';
+import 'package:nowdots_social_news/src/data/models/auth/login/login_request_model.dart';
+import 'package:nowdots_social_news/src/presentation/auth/bloc/login/login_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/widgets/logo_list.dart';
 
 class SignInEmailUsernameView extends StatefulWidget {
@@ -11,6 +14,10 @@ class SignInEmailUsernameView extends StatefulWidget {
   @override
   State<SignInEmailUsernameView> createState() =>
       _SignInEmailUsernameViewState();
+}
+
+void showSnackBar(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
 }
 
 class _SignInEmailUsernameViewState extends State<SignInEmailUsernameView> {
@@ -143,25 +150,58 @@ class _SignInEmailUsernameViewState extends State<SignInEmailUsernameView> {
           const SizedBox(
             height: 30,
           ),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-                onPressed: isValid
-                    ? () {
-                        context.goNamed("home");
-                      }
-                    : null,
-                child: Text(
-                  "Log in",
-                  style: subtitleProximaNovaTextStyle.copyWith(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
-                    color: boxColor,
-                  ),
-                )),
+          BlocConsumer<LoginBloc, LoginState>(
+            listener: (context, state) {
+              state.maybeWhen(
+                orElse: () {},
+                error: (message) => showSnackBar(context, message),
+                loaded: (data) => context.goNamed("home"),
+              );
+            },
+            builder: (context, state) {
+              return state.maybeWhen(
+                  orElse: () => _buildLoginButton(context),
+                  loading: () => _buildLoadingLoginButton(),
+                  loaded: (data) => _buildLoginButton(context),
+                  error: (message) => _buildLoginButton(context));
+            },
           ),
         ],
       ),
+    );
+  }
+
+  SizedBox _buildLoginButton(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+          onPressed: isValid
+              ? () {
+                  final requestData = LoginRequestModel(
+                      emailOrUsername: _inputEmailUsernameController.text,
+                      password: _passwordController.text);
+                  context.read<LoginBloc>()..add(LoginEvent.login(requestData));
+                }
+              : null,
+          child: Text(
+            "Log in",
+            style: subtitleProximaNovaTextStyle.copyWith(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: boxColor,
+            ),
+          )),
+    );
+  }
+
+  SizedBox _buildLoadingLoginButton() {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+          onPressed: null,
+          child: Center(
+              child: SizedBox(
+                  height: 20, width: 20, child: CircularProgressIndicator()))),
     );
   }
 }

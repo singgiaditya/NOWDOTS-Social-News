@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/presentation/auth/pages/boarding/boarding_view.dart';
 import 'package:nowdots_social_news/src/presentation/auth/pages/forgot_password/forgot_password_code_verification_view.dart';
@@ -13,9 +14,16 @@ import 'package:nowdots_social_news/src/presentation/auth/pages/sign_up/sign_up_
 import 'package:nowdots_social_news/src/presentation/auth/pages/sign_up/sign_up_pick_picture_view.dart';
 import 'package:nowdots_social_news/src/presentation/auth/pages/sign_up/sign_up_pick_username.dart';
 import 'package:nowdots_social_news/src/presentation/auth/pages/sign_up/sign_up_view.dart';
+import 'package:nowdots_social_news/src/presentation/feed/pages/detail_feed_view.dart';
+import 'package:nowdots_social_news/src/presentation/feed/pages/feed_view.dart';
+import 'package:nowdots_social_news/src/presentation/feed/pages/fullscreen_image.dart';
+import 'package:nowdots_social_news/src/presentation/feed/pages/multple_image.dart';
 import 'package:nowdots_social_news/src/presentation/init_page.dart';
+import 'package:nowdots_social_news/src/presentation/splash_screen/splash_screen.dart';
 
 class AppRoute {
+  static final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
   // Home
@@ -40,11 +48,23 @@ class AppRoute {
 
   static GoRouter router = GoRouter(
       navigatorKey: _rootNavigatorKey,
-      initialLocation: "/boarding",
+      initialLocation: "/splash-screen",
       routes: [
+        //splash screen
+        GoRoute(
+          parentNavigatorKey: _rootNavigatorKey,
+          path: "/splash-screen",
+          name: "splash-screen",
+          builder: (context, state) => const SplashScreen(),
+        ),
+
+        // home (navigation bar)
         StatefulShellRoute.indexedStack(
             builder: (context, state, navigationShell) {
-              return InitPage(navigationShell: navigationShell);
+              return InitPage(
+                navigationShell: navigationShell,
+                scaffoldKey: _scaffoldKey,
+              );
             },
             branches: [
               StatefulShellBranch(navigatorKey: _shellNavigatorHome, routes: [
@@ -52,7 +72,9 @@ class AppRoute {
                   parentNavigatorKey: _shellNavigatorHome,
                   path: "/home",
                   name: "home",
-                  builder: (context, state) => const Text("Home"),
+                  builder: (context, state) => FeedView(
+                    parentKey: _scaffoldKey,
+                  ),
                 ),
               ]),
               StatefulShellBranch(navigatorKey: _shellNavigatorNews, routes: [
@@ -84,12 +106,14 @@ class AppRoute {
                     ),
                   ]),
             ]),
+        //boarding page
         GoRoute(
             parentNavigatorKey: _rootNavigatorKey,
             path: "/boarding",
             name: "boarding",
             builder: (context, state) => const BoardingView(),
             routes: [
+              //sign-in
               GoRoute(
                   parentNavigatorKey: _rootNavigatorKey,
                   path: "sign-in",
@@ -103,12 +127,13 @@ class AppRoute {
                       builder: (context, state) =>
                           const SignInEmailUsernameView(),
                     ),
+
+                    //forgot-password
                     GoRoute(
                       parentNavigatorKey: _rootNavigatorKey,
                       path: "forgot-password",
                       name: "forgot-password",
-                      builder: (context, state) =>
-                          const ForgotPasswordView(),
+                      builder: (context, state) => const ForgotPasswordView(),
                     ),
                     GoRoute(
                       parentNavigatorKey: _rootNavigatorKey,
@@ -132,6 +157,8 @@ class AppRoute {
                           const ForgotPasswordCompleteView(),
                     ),
                   ]),
+
+              //sign-up
               GoRoute(
                   parentNavigatorKey: _rootNavigatorKey,
                   path: "sign-up",
@@ -173,6 +200,29 @@ class AppRoute {
                     )
                   ]),
             ]),
-          
+
+        //fulscreen-image
+        GoRoute(
+          parentNavigatorKey: _rootNavigatorKey,
+          path: "/image/:index",
+          name: "image",
+          builder: (context, state) => const FullscreenImage(),
+        ),
+
+        //fullscreen multiple-image
+        GoRoute(
+          parentNavigatorKey: _rootNavigatorKey,
+          path: "/multiple-image",
+          name: "multiple-image",
+          builder: (context, state) => const MultipleImage(),
+        ),
+
+        //detail-feed
+        GoRoute(
+          parentNavigatorKey: _rootNavigatorKey,
+          path: "/detail-feed",
+          name: "detail-feed",
+          builder: (context, state) => const DetailFeedView(),
+        )
       ]);
 }

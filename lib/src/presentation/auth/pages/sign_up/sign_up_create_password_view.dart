@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
 import 'package:nowdots_social_news/src/core/utils/input_validator.dart';
+import 'package:nowdots_social_news/src/data/models/auth/register/set_password/register_set_password_request_model.dart';
+import 'package:nowdots_social_news/src/presentation/auth/bloc/register/register_set_password/register_set_password_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/widgets/logo_list.dart';
 
 class SignUpCreatePasswordView extends StatefulWidget {
@@ -31,6 +34,12 @@ class _SignUpCreatePasswordViewState extends State<SignUpCreatePasswordView> {
     });
   }
 
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,6 +48,7 @@ class _SignUpCreatePasswordViewState extends State<SignUpCreatePasswordView> {
   }
 
   SingleChildScrollView _buildBody(BuildContext context) {
+    final String email = GoRouterState.of(context).extra! as String;
     return SingleChildScrollView(
       child: SafeArea(
         child: Container(
@@ -89,8 +99,8 @@ class _SignUpCreatePasswordViewState extends State<SignUpCreatePasswordView> {
                             },
                             icon: Icon(
                               isObscure
-                            ? Icons.visibility_off_outlined
-                            : Icons.remove_red_eye_outlined,
+                                  ? Icons.visibility_off_outlined
+                                  : Icons.remove_red_eye_outlined,
                               color: thirdColor,
                             )),
                       ),
@@ -102,22 +112,40 @@ class _SignUpCreatePasswordViewState extends State<SignUpCreatePasswordView> {
                     SizedBox(
                       height: 26,
                     ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: ElevatedButton(
-                          onPressed: isValid
-                              ? () {
-                                  context.goNamed("sign-up-pick-picture");
-                                }
-                              : null,
-                          child: Text(
-                            "Next",
-                            style: subtitleProximaNovaTextStyle.copyWith(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white,
-                            ),
-                          )),
+                    BlocConsumer<RegisterSetPasswordBloc,
+                        RegisterSetPasswordState>(
+                      listener: (context, state) {
+                        state.maybeWhen(
+                          orElse: () {},
+                          error: (message) {
+                            _showSnackBar(message);
+                          },
+                          loaded: (data) {
+                            context.goNamed("sign-up-pick-picture",
+                                extra: email);
+                          },
+                        );
+                      },
+                      builder: (context, state) {
+                        return state.maybeWhen(
+                          orElse: () {
+                            return _buildButtonNext(email, context);
+                          },
+                          loading: () {
+                            return Align(
+                                alignment: Alignment.centerRight,
+                                child: ElevatedButton(
+                                    onPressed: null,
+                                    child: SizedBox(
+                                      height: 20,
+                                      width: 20,
+                                      child: CircularProgressIndicator(),
+                                    )));
+                          },
+                          error: (message) => _buildButtonNext(email, context),
+                          loaded: (data) => _buildButtonNext(email, context),
+                        );
+                      },
                     )
                   ],
                 ),
@@ -129,6 +157,31 @@ class _SignUpCreatePasswordViewState extends State<SignUpCreatePasswordView> {
           ),
         ),
       ),
+    );
+  }
+
+  Align _buildButtonNext(String email, BuildContext context) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: ElevatedButton(
+          onPressed: isValid
+              ? () {
+                  RegisterSetPasswordRequestModel requestData =
+                      RegisterSetPasswordRequestModel(
+                          password: _passwordController.text, email: email);
+                  context
+                      .read<RegisterSetPasswordBloc>()
+                      .add(RegisterSetPasswordEvent.setPassword(requestData));
+                }
+              : null,
+          child: Text(
+            "Next",
+            style: subtitleProximaNovaTextStyle.copyWith(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: Colors.white,
+            ),
+          )),
     );
   }
 

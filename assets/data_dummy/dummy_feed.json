@@ -1,0 +1,214 @@
+{
+    "data" : [
+        {
+            "user": {
+                "name": "Nowdots",
+                "username": "@nowdots",
+                "score": "2000",
+                "picture": "https://picsum.photos/id/5/200/300",
+                "isVerified": true
+            },
+            "content": "What is your best solution to overcome traffic jams in Jakarta? Write your suggestions and criticisms for the government so that traffic jams will soon disappear in Jakarta!",
+            "image": ["https://fastly.picsum.photos/id/826/1500/3000.jpg?hmac=reeplfwmG_BhjJ-bn4ISb7JRacV57wVrHsesBTtEjDk"],
+            "likeCount": "3.2k",
+            "commentCount": "16",
+            "forwardCount": "3",
+            "upVoteCount": "762",
+            "published_at": "1j",
+            "type": "Public",
+            "isAds": false
+        },
+        {
+            "user": {
+                "name": "Gojek Indonesia",
+                "username": "@gojekindonesia",
+                "score": "2000",
+                "picture": "https://picsum.photos/id/30/200/300",
+                "isVerified": true
+            },
+            "content": "The solution for you and your family who want to go anywhere quickly, cheaply and safely. #WeGotYou really is all about it ❤️",
+            "image" : ["https://fastly.picsum.photos/id/203/4032/3024.jpg?hmac=yeLnHOEAWUYBtMnanR0-0Q7gSvYbyxPG3PLJYvm170Q"],
+            "likeCount": "3.2k",
+            "commentCount": "16",
+            "forwardCount": "3",
+            "upVoteCount": "762",
+            "isAds": true
+        },
+        {
+            "user": {
+                "name": "Jane Doe",
+                "username": "@janedoe",
+                "score": "1500",
+                "picture": "https://picsum.photos/id/10/200/300",
+                "isVerified": false
+            },
+            "content": "How can we improve public transportation in Jakarta? Share your ideas to make commuting easier for everyone.",
+            "image" :[ "https://fastly.picsum.photos/id/111/4400/2656.jpg?hmac=leq8lj40D6cqFq5M_NLXkMYtV-30TtOOnzklhjPaAAQ"],
+            "likeCount": "2.1k",
+            "commentCount": "8",
+            "forwardCount": "5",
+            "upVoteCount": "580",
+            "published_at": "2j",
+            "type": "Public",
+            "isAds": false
+        },
+        {
+            "user": {
+                "name": "EcoWarrior",
+                "username": "@ecowarrior",
+                "score": "TBD",
+                "picture": "https://picsum.photos/id/30/200/300",
+                "isVerified": false
+            },
+            "content": "What steps are you taking to reduce your carbon footprint?",
+            "image" : ["https://picsum.photos/id/56/200/300", "https://picsum.photos/id/10/200/300"],
+            "likeCount": "3.0k",
+            "commentCount": "28",
+            "forwardCount": "750",
+            "upVoteCount": "200",
+            "published_at": "6j",
+            "type": "Public",
+            "isAds": false
+        },
+        {
+            "user": {
+                "name": "John Smith",
+                "username": "@johnsmith",
+                "score": "100",
+                "picture": "https://picsum.photos/id/15/200/300",
+                "isVerified": false
+            },
+            "content": "What can be done to reduce air pollution in Jakarta? Provide your insights and suggestions.",
+            "image" : ["https://picsum.photos/id/80/200/300", "https://picsum.photos/id/81/200/300", "https://picsum.photos/id/82/200/300"],
+            "likeCount": "4.5k",
+            "commentCount": "24",
+            "forwardCount": "7",
+            "upVoteCount": "900",
+            "published_at": "3j",
+            "type": "Public",
+            "isAds": false
+        },
+        {
+            "user": {
+                "name": "Alice Green",
+                "username": "@alicegreen",
+                "score": "0",
+                "picture": "https://picsum.photos/id/20/200/300",
+                "isVerified": false
+            },
+            "content": "What are your thoughts on the current state of education in Jakarta? Share your views and suggestions.",
+            "image" : ["https://picsum.photos/id/90/200/300", "https://picsum.photos/id/91/200/300", "https://picsum.photos/id/92/200/300", "https://picsum.photos/id/93/200/300"],
+            "likeCount": "3.0k",
+            "commentCount": "12",
+            "forwardCount": "4",
+            "upVoteCount": "700",
+            "published_at": "4j",
+            "type": "Public",
+            "isAds": false
+        },
+        {
+            "user": {
+                "name": "Michael Brown",
+                "username": "@michaelbrown",
+                "score": "-20",
+                "picture": "https://picsum.photos/id/25/200/300",
+                "isVerified": true
+            },
+            "content": "I dont care about all of this issues, please stop bothering me.",
+            "image": ["https://fastly.picsum.photos/id/85/1280/774.jpg?hmac=h_HHpvfhMmLP6uOSrHS7HSlXVRuMKfBbc8HFKd1Acv4"],
+            "likeCount": "3.8k",
+            "commentCount": "18",
+            "forwardCount": "6",
+            "upVoteCount": "850",
+            "published_at": "5j",
+            "type": "Public",
+            "isAds": false
+        },
+        {
+            "user": {
+                "name": "Emily White",
+                "username": "@emilywhite",
+                "score": "120",
+                "picture": "https://picsum.photos/id/30/200/300",
+                "isVerified": false
+            },
+            "content": "How can we enhance security and safety in Jakarta? Provide your thoughts and suggestions.",
+            "likeCount": "2.9k",
+            "commentCount": "10",
+            "forwardCount": "4",
+            "upVoteCount": "650",
+            "published_at": "6j",
+            "type": "Public",
+            "isAds": false
+        },
+        {
+            "user": {
+                "name": "David Lee",
+                "username": "@davidlee",
+                "score": "2100",
+                "picture": "https://picsum.photos/id/35/200/300",
+                "isVerified": true
+            },
+            "content": "What are the best ways to promote tourism in Jakarta? Share your ideas and suggestions.",
+            "image" : ["https://picsum.photos/id/101/200/300", "https://picsum.photos/id/102/200/300", "https://picsum.photos/id/103/200/300", "https://picsum.photos/id/104/200/300", "https://picsum.photos/id/88/200/300"],
+            "likeCount": "3.4k",
+            "commentCount": "14",
+            "forwardCount": "5",
+            "upVoteCount": "780",
+            "published_at": "7j",
+            "type": "Public",
+            "isAds": true
+        },
+        {
+            "user": {
+                "name": "Olivia Black",
+                "username": "@oliviablack",
+                "score": "210",
+                "picture": "https://picsum.photos/id/40/200/300",
+                "isVerified": false
+            },
+            "content": "What initiatives can help improve the environment in Jakarta? Share your thoughts and suggestions.",
+            "likeCount": "2.5k",
+            "commentCount": "9",
+            "forwardCount": "3",
+            "upVoteCount": "600",
+            "published_at": "8j",
+            "type": "Public",
+            "isAds": false
+        },
+        {
+            "user": {
+                "name": "Chris Johnson",
+                "username": "@chrisjohnson",
+                "score": "2400",
+                "picture": "https://picsum.photos/id/45/200/300",
+                "isVerified": true
+            },
+            "content": "What are the best strategies to boost the economy of Jakarta? Share your views and suggestions.",
+            "likeCount": "4.0k",
+            "commentCount": "20",
+            "forwardCount": "6",
+            "upVoteCount": "850",
+            "published_at": "9j",
+            "type": "Public",
+            "isAds": false
+        },
+        {
+            "user": {
+                "name": "Sophia Williams",
+                "username": "@sophiawilliams",
+                "score": "600",
+                "picture": "https://picsum.photos/id/50/200/300",
+                "isVerified": false
+            },
+            "content": "What are the key challenges faced by Jakarta's infrastructure? Share your thoughts and suggestions.",
+            "likeCount": "3.6k",
+            "commentCount": "15",
+            "forwardCount": "4",
+            "upVoteCount": "820",
+            "published_at": "10j",
+            "type": "Public",
+            "isAds": false
+        }
+    ]
+}
