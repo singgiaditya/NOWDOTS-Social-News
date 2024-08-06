@@ -4,6 +4,9 @@ import 'package:get_it/get_it.dart';
 import 'package:nowdots_social_news/src/config/routes/route.dart';
 import 'package:nowdots_social_news/src/config/themes/app_themes.dart';
 import 'package:nowdots_social_news/src/injection_container.dart';
+import 'package:nowdots_social_news/src/presentation/auth/bloc/forgot_password/forgot_pass/forgot_pass_bloc.dart';
+import 'package:nowdots_social_news/src/presentation/auth/bloc/forgot_password/forgot_password_set_new_password/forgot_password_set_new_password_bloc.dart';
+import 'package:nowdots_social_news/src/presentation/auth/bloc/forgot_password/forgot_password_verification_code/forgot_password_verification_code_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/login/login_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/register/create_account/create_account_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/register/register_code_verification/register_code_verification_bloc.dart';
@@ -54,6 +57,15 @@ class MyApp extends StatelessWidget {
           create: (context) => sl(),
         ),
         BlocProvider<LoginBloc>(
+          create: (context) => sl(),
+        ),
+        BlocProvider<ForgotPassBloc>(
+          create: (context) => sl(),
+        ),
+        BlocProvider<ForgotPasswordVerificationCodeBloc>(
+          create: (context) => sl(),
+        ),
+        BlocProvider<ForgotPasswordSetNewPasswordBloc>(
           create: (context) => sl(),
         ),
       ],

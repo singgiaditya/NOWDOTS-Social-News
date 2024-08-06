@@ -1,7 +1,11 @@
 import 'package:get_it/get_it.dart';
 import 'package:nowdots_social_news/src/data/datasources/local/feed/feed_local_datasources.dart';
+import 'package:nowdots_social_news/src/data/datasources/remote/auth/forgot_password_remote_datasources.dart';
 import 'package:nowdots_social_news/src/data/datasources/remote/auth/login_remote_datasources.dart';
 import 'package:nowdots_social_news/src/data/datasources/remote/auth/register_remote_datasources.dart';
+import 'package:nowdots_social_news/src/presentation/auth/bloc/forgot_password/forgot_pass/forgot_pass_bloc.dart';
+import 'package:nowdots_social_news/src/presentation/auth/bloc/forgot_password/forgot_password_set_new_password/forgot_password_set_new_password_bloc.dart';
+import 'package:nowdots_social_news/src/presentation/auth/bloc/forgot_password/forgot_password_verification_code/forgot_password_verification_code_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/login/login_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/register/create_account/create_account_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/register/register_code_verification/register_code_verification_bloc.dart';
@@ -20,13 +24,14 @@ Future<void> initializieDependencies() async {
   sl.registerSingletonAsync<SharedPreferences>(
       () => SharedPreferences.getInstance());
 
-
   //data-sources
   sl.registerFactory<FeedLocalDatasources>(() => FeedLocalDatasources());
   sl.registerFactory<RegisterRemoteDataSources>(
       () => RegisterRemoteDataSources(sl()));
   sl.registerFactory<LoginRemoteDataSources>(
       () => LoginRemoteDataSources(sl()));
+  sl.registerFactory<ForgotPasswordRemoteDataSources>(
+      () => ForgotPasswordRemoteDataSources(sl()));
 
   //blocs
   sl.registerFactory<DrawerBloc>(() => DrawerBloc());
@@ -42,4 +47,9 @@ Future<void> initializieDependencies() async {
       () => RegisterSetUsernameBloc(sl()));
   sl.registerFactory<LoginBloc>(() => LoginBloc(sl()));
   sl.registerFactory<SplashScreenBloc>(() => SplashScreenBloc(sl()));
+  sl.registerFactory<ForgotPassBloc>(() => ForgotPassBloc(sl()));
+  sl.registerFactory<ForgotPasswordVerificationCodeBloc>(
+      () => ForgotPasswordVerificationCodeBloc(sl()));
+  sl.registerFactory<ForgotPasswordSetNewPasswordBloc>(
+      () => ForgotPasswordSetNewPasswordBloc(sl()));
 }

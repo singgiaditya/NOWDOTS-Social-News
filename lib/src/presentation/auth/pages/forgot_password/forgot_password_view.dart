@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
 import 'package:nowdots_social_news/src/core/utils/input_validator.dart';
+import 'package:nowdots_social_news/src/data/models/auth/forgot_password/forgot_pass/forgot_password_request_model.dart';
+import 'package:nowdots_social_news/src/presentation/auth/bloc/forgot_password/forgot_pass/forgot_pass_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/widgets/logo_list.dart';
 
 class ForgotPasswordView extends StatefulWidget {
@@ -27,6 +30,11 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
         isValid = false;
       }
     });
+  }
+
+  void showSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
@@ -82,23 +90,25 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                     SizedBox(
                       height: 26,
                     ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: ElevatedButton(
-                          onPressed: isValid
-                              ? () {
-                                  context.goNamed(
-                                      "forgot-password-code-verification");
-                                }
-                              : null,
-                          child: Text(
-                            "Next",
-                            style: subtitleProximaNovaTextStyle.copyWith(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white,
-                            ),
-                          )),
+                    BlocConsumer<ForgotPassBloc, ForgotPassState>(
+                      listener: (context, state) {
+                        state.maybeWhen(
+                            orElse: () {},
+                            error: (message) => showSnackBar(context, message),
+                            loaded: (data) {
+                              context.goNamed(
+                                  "forgot-password-code-verification",
+                                  extra: data);
+                            });
+                      },
+                      builder: (context, state) {
+                        return state.maybeWhen(
+                          orElse: () => _buildNextButton(context),
+                          error: (message) => _buildNextButton(context),
+                          loaded: (data) => _buildNextButton(context),
+                          loading: () => _buildLoadingNextButton(context),
+                        );
+                      },
                     )
                   ],
                 ),
@@ -110,6 +120,42 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
           ),
         ),
       ),
+    );
+  }
+
+  Align _buildNextButton(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: ElevatedButton(
+          onPressed: isValid
+              ? () {
+                  final requestData = ForgotPasswordRequestModel(
+                      emailOrUsername: _emailOrUsernameController.text);
+                  context.read<ForgotPassBloc>()
+                    ..add(ForgotPassEvent.forgotPassword(requestData));
+                }
+              : null,
+          child: Text(
+            "Next",
+            style: subtitleProximaNovaTextStyle.copyWith(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: Colors.white,
+            ),
+          )),
+    );
+  }
+
+  Align _buildLoadingNextButton(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: ElevatedButton(
+          onPressed: null,
+          child: SizedBox(
+            width: 20,
+            height: 20,
+            child: CircularProgressIndicator(),
+          )),
     );
   }
 }

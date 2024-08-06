@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
 import 'package:nowdots_social_news/src/core/utils/input_validator.dart';
+import 'package:nowdots_social_news/src/data/models/auth/forgot_password/set_new_password/forgot_password_set_new_password_request_model.dart';
+import 'package:nowdots_social_news/src/data/models/auth/forgot_password/verification/forgot_password_verification_response_model.dart';
+import 'package:nowdots_social_news/src/data/models/auth/login/login_request_model.dart';
+import 'package:nowdots_social_news/src/presentation/auth/bloc/forgot_password/forgot_password_set_new_password/forgot_password_set_new_password_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/widgets/logo_list.dart';
 
 class ForgotPasswordNewPasswordView extends StatefulWidget {
@@ -33,6 +38,11 @@ class _ForgotPasswordNewPasswordViewState
     });
   }
 
+  void showSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +51,9 @@ class _ForgotPasswordNewPasswordViewState
   }
 
   SingleChildScrollView _buildBody(BuildContext context) {
+    final ForgotPasswordVerificationCodeResponseModel data =
+        GoRouterState.of(context).extra
+            as ForgotPasswordVerificationCodeResponseModel;
     return SingleChildScrollView(
         child: SafeArea(
       child: Container(
@@ -125,26 +138,73 @@ class _ForgotPasswordNewPasswordViewState
                     SizedBox(
                       height: 50,
                     ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: ElevatedButton(
-                          onPressed: isValid
-                              ? () {
-                                  context.goNamed("forgot-password-complete");
-                                }
-                              : null,
-                          child: Text(
-                            "Next",
-                            style: subtitleProximaNovaTextStyle.copyWith(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white,
-                            ),
-                          )),
+                    BlocConsumer<ForgotPasswordSetNewPasswordBloc,
+                        ForgotPasswordSetNewPasswordState>(
+                      listener: (context, state) {
+                        state.maybeWhen(
+                          orElse: () {},
+                          loaded: (dataResponse) {
+                            final LoginRequestModel requestData =
+                                LoginRequestModel(
+                                    emailOrUsername: data.email,
+                                    password: _passwordController.text);
+                            context.goNamed("forgot-password-complete",
+                                extra: requestData);
+                          },
+                          error: (message) => showSnackBar(context, message),
+                        );
+                      },
+                      builder: (context, state) {
+                        return state.maybeWhen(
+                            orElse: () => _buildNextButton(data, context),
+                            loaded: (dataResponse) =>
+                                _buildNextButton(data, context),
+                            loading: () => _buildLoadingNextButton());
+                      },
                     )
                   ],
                 ))
           ])),
     ));
+  }
+
+  Align _buildNextButton(
+      ForgotPasswordVerificationCodeResponseModel data, BuildContext context) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: ElevatedButton(
+          onPressed: isValid
+              ? () {
+                  final requestData = ForgotPasswordSetNewPasswordRequestModel(
+                      email: data.email,
+                      password: _passwordController.text,
+                      passwordConfirmation: _passwordConfirmController.text);
+                  context.read<ForgotPasswordSetNewPasswordBloc>().add(
+                      ForgotPasswordSetNewPasswordEvent.setNewPassword(
+                          requestData));
+                }
+              : null,
+          child: Text(
+            "Next",
+            style: subtitleProximaNovaTextStyle.copyWith(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: Colors.white,
+            ),
+          )),
+    );
+  }
+
+  Align _buildLoadingNextButton() {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: ElevatedButton(
+          onPressed: null,
+          child: SizedBox(
+            width: 20,
+            height: 20,
+            child: CircularProgressIndicator(),
+          )),
+    );
   }
 }
