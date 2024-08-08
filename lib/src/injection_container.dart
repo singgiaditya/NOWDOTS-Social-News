@@ -7,6 +7,7 @@ import 'package:nowdots_social_news/src/presentation/auth/bloc/forgot_password/f
 import 'package:nowdots_social_news/src/presentation/auth/bloc/forgot_password/forgot_password_set_new_password/forgot_password_set_new_password_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/forgot_password/forgot_password_verification_code/forgot_password_verification_code_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/login/login_bloc.dart';
+import 'package:nowdots_social_news/src/presentation/auth/bloc/logout/logout_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/register/create_account/create_account_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/register/register_code_verification/register_code_verification_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/register/register_set_password/register_set_password_bloc.dart';
@@ -28,8 +29,8 @@ Future<void> initializieDependencies() async {
   sl.registerFactory<FeedLocalDatasources>(() => FeedLocalDatasources());
   sl.registerFactory<RegisterRemoteDataSources>(
       () => RegisterRemoteDataSources(sl()));
-  sl.registerFactory<LoginRemoteDataSources>(
-      () => LoginRemoteDataSources(sl()));
+  sl.registerFactory<LoginLogoutRemoteDataSources>(
+      () => LoginLogoutRemoteDataSources(sl()));
   sl.registerFactory<ForgotPasswordRemoteDataSources>(
       () => ForgotPasswordRemoteDataSources(sl()));
 
@@ -52,4 +53,5 @@ Future<void> initializieDependencies() async {
       () => ForgotPasswordVerificationCodeBloc(sl()));
   sl.registerFactory<ForgotPasswordSetNewPasswordBloc>(
       () => ForgotPasswordSetNewPasswordBloc(sl()));
+  sl.registerFactory<LogoutBloc>(() => LogoutBloc(sl()));
 }

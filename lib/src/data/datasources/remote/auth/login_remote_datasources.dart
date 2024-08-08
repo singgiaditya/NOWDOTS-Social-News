@@ -5,9 +5,9 @@ import 'package:nowdots_social_news/src/data/models/auth/login/login_request_mod
 import 'package:nowdots_social_news/src/data/models/auth/login/login_response_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginRemoteDataSources {
+class LoginLogoutRemoteDataSources {
   final SharedPreferences prefs;
-  LoginRemoteDataSources(this.prefs);
+  LoginLogoutRemoteDataSources(this.prefs);
 
   Future<Either<String, LoginResponseModel>> login(
       LoginRequestModel requestData) async {
@@ -31,6 +31,27 @@ class LoginRemoteDataSources {
       }
       if (response.statusCode == 422) {
         return Left("Make sure you fill in all the required fields");
+      }
+      return Left("Something went wrong");
+    } catch (e) {
+      return Left("Please check your internet connection");
+    }
+  }
+
+  Future<Either<String, String>> logout() async {
+    try {
+      var token = await prefs.getString("token");
+      var headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer $token"
+      };
+      var uri = Uri.parse(logoutApi);
+      var response = await http.post(uri, headers: headers);
+
+      if (response.statusCode == 200) {
+        prefs.clear();
+        return Right("Success");
       }
       return Left("Something went wrong");
     } catch (e) {

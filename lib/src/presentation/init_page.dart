@@ -6,6 +6,7 @@ import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
 import 'package:nowdots_social_news/src/core/constant/icons.dart';
 import 'package:nowdots_social_news/src/core/widgets/avatar_cache_image.dart';
+import 'package:nowdots_social_news/src/presentation/auth/bloc/logout/logout_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/drawer/drawer_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/score_widget.dart';
 
@@ -24,6 +25,11 @@ class _InitPageState extends State<InitPage> {
 
   void _goToBranch(int index) {
     widget.navigationShell.goBranch(index);
+  }
+
+  void showSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
@@ -117,13 +123,89 @@ class _InitPageState extends State<InitPage> {
                 SizedBox(
                   height: 40,
                 ),
-                TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      "Settings and Support",
-                      style: titleProximaNovaTextStyle.copyWith(
-                          fontSize: 15, color: primaryColor),
-                    ))
+                ExpansionTile(
+                  shape: Border(),
+                  title: Text(
+                    "Setting and Support",
+                    style: titleProximaNovaTextStyle.copyWith(
+                        fontSize: 15, color: primaryColor),
+                  ),
+                  expandedAlignment: Alignment.centerLeft,
+                  expandedCrossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          "Profile",
+                          style: titleProximaNovaTextStyle.copyWith(
+                              fontSize: 15, color: primaryColor),
+                        )),
+                    TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          "Notifications",
+                          style: titleProximaNovaTextStyle.copyWith(
+                              fontSize: 15, color: primaryColor),
+                        )),
+                    TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          "Chats",
+                          style: titleProximaNovaTextStyle.copyWith(
+                              fontSize: 15, color: primaryColor),
+                        )),
+                    TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          "Appereance",
+                          style: titleProximaNovaTextStyle.copyWith(
+                              fontSize: 15, color: primaryColor),
+                        )),
+                    TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          "Appereance",
+                          style: titleProximaNovaTextStyle.copyWith(
+                              fontSize: 15, color: primaryColor),
+                        )),
+                    TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          "Settings",
+                          style: titleProximaNovaTextStyle.copyWith(
+                              fontSize: 15, color: primaryColor),
+                        )),
+                    TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          "Help Center",
+                          style: titleProximaNovaTextStyle.copyWith(
+                              fontSize: 15, color: primaryColor),
+                        )),
+                    BlocConsumer<LogoutBloc, LogoutState>(
+                      listener: (context, state) {
+                        state.maybeWhen(
+                          orElse: () {},
+                          error: (message) => showSnackBar(context, message),
+                          loaded: (data) => context.goNamed("boarding"),
+                        );
+                      },
+                      builder: (context, state) {
+                        return TextButton(
+                            onPressed: () {
+                              context
+                                  .read<LogoutBloc>()
+                                  .add(LogoutEvent.logout());
+                            },
+                            child: Text(
+                              "Log out",
+                              style: titleProximaNovaTextStyle.copyWith(
+                                  fontSize: 15, color: score2Color),
+                            ));
+                      },
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

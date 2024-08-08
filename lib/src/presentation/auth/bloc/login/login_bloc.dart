@@ -9,7 +9,7 @@ part 'login_state.dart';
 part 'login_bloc.freezed.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  final LoginRemoteDataSources loginRemoteDataSources;
+  final LoginLogoutRemoteDataSources loginRemoteDataSources;
   LoginBloc(this.loginRemoteDataSources) : super(_Initial()) {
     on<_Login>((event, emit) async {
       emit(_Loading());

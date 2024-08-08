@@ -4,6 +4,8 @@ const baseUrlApi = "${baseUrl}/api";
 //login
 const loginApi = "${baseUrlApi}/login";
 
+const logoutApi = "${baseUrlApi}/logout";
+
 //register
 const createAccountApi = "$baseUrlApi/create-account";
 const registerVerificationCodeApi = "$baseUrlApi/verifycation-code";
