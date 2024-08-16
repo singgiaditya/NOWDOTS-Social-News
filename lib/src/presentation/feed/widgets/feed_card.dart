@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
@@ -9,7 +8,7 @@ import 'package:nowdots_social_news/src/core/widgets/avatar_cache_image.dart';
 import 'package:nowdots_social_news/src/data/models/feeds_response_model.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/hashtag_text.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/image_hero.dart';
-import 'package:nowdots_social_news/src/presentation/feed/widgets/row_button_container.dart';
+import 'package:nowdots_social_news/src/presentation/feed/widgets/post_button/row_button_container.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/score_widget.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/span_divider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -108,7 +107,7 @@ class FeedCard extends StatelessWidget {
           color: primaryColor,
           backgroundColor: boxColor,
           commentCount: data.commentCount!,
-          forwardCount: data.forwardCount!,
+          shareCount: data.forwardCount!,
           likeCount: data.likeCount!,
           upVoteCount: data.upVoteCount ?? "0",
         ),
@@ -129,7 +128,7 @@ class FeedCard extends StatelessWidget {
               type: 2,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 5,
           ),
           Flexible(
@@ -157,7 +156,7 @@ class FeedCard extends StatelessWidget {
               type: 2,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 5,
           ),
           Flexible(
@@ -170,7 +169,7 @@ class FeedCard extends StatelessWidget {
                   height: 97.5,
                   type: 4,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 ImageHero(
@@ -201,7 +200,7 @@ class FeedCard extends StatelessWidget {
                   type: 6,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 5,
               ),
               Flexible(
@@ -215,7 +214,7 @@ class FeedCard extends StatelessWidget {
               )
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           Row(
@@ -229,7 +228,7 @@ class FeedCard extends StatelessWidget {
                   type: 7,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 5,
               ),
               Flexible(
@@ -261,7 +260,7 @@ class FeedCard extends StatelessWidget {
                   type: 6,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 5,
               ),
               Flexible(
@@ -275,7 +274,7 @@ class FeedCard extends StatelessWidget {
               )
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           Row(
@@ -289,7 +288,7 @@ class FeedCard extends StatelessWidget {
                   type: 7,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 5,
               ),
               Flexible(
@@ -304,14 +303,14 @@ class FeedCard extends StatelessWidget {
                       width: null,
                       height: 120,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                               bottomRight: Radius.circular(12)),
                           image: DecorationImage(
                               image: imageProvider, fit: BoxFit.cover)),
                       child: Container(
                         width: double.infinity,
                         height: double.infinity,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: Colors.black54,
                           borderRadius: BorderRadius.only(
                               bottomRight: Radius.circular(12)),

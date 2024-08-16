@@ -8,16 +8,16 @@ part 'splash_screen_bloc.freezed.dart';
 
 class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
   final SharedPreferences prefs;
-  SplashScreenBloc(this.prefs) : super(_Initial()) {
+  SplashScreenBloc(this.prefs) : super(const _Initial()) {
     on<_CheckAuth>((event, emit) async {
-      emit(_Loading());
+      emit(const _Loading());
       final token = prefs.getString("token");
 
       if (token == null) {
-        return emit(_NotAuth());
+        return emit(const _NotAuth());
       }
 
-      return emit(_WithAuth());
+      return emit(const _WithAuth());
     });
   }
 }

@@ -46,11 +46,11 @@ class _ForgotPasswordCodeVerificationViewState
           padding: const EdgeInsets.symmetric(horizontal: 37),
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 40,
               ),
-              LogoList(),
-              SizedBox(
+              const LogoList(),
+              const SizedBox(
                 height: 93,
               ),
               Form(
@@ -63,11 +63,11 @@ class _ForgotPasswordCodeVerificationViewState
                         fontSize: 26, fontWeight: FontWeight.w600),
                   ),
                   Text(
-                    "Check your email bs*****@g****.*** to get your confirmation code. If you didn’t receive any mail, you can request to resend the email.",
+                    "Check your email s*****@g****.*** to get your confirmation code. If you didn’t receive any mail, you can request to resend the email.",
                     style: regularSegoeUITextStyle.copyWith(
                         fontSize: 13, color: subColor),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 24,
                   ),
                   OtpTextField(
@@ -91,7 +91,7 @@ class _ForgotPasswordCodeVerificationViewState
                   ),
                 ],
               )),
-              SizedBox(
+              const SizedBox(
                 height: 150,
               ),
               Row(
@@ -147,9 +147,9 @@ class _ForgotPasswordCodeVerificationViewState
                 final ForgotPasswordVerificationCodeRequestModel requestData =
                     ForgotPasswordVerificationCodeRequestModel(
                         code: code, email: data.email);
-                context.read<ForgotPasswordVerificationCodeBloc>()
-                  ..add(ForgotPasswordVerificationCodeEvent.verificationCode(
-                      requestData));
+                context.read<ForgotPasswordVerificationCodeBloc>().add(
+                    ForgotPasswordVerificationCodeEvent.verificationCode(
+                        requestData));
               }
             : null,
         child: Text(
@@ -164,7 +164,7 @@ class _ForgotPasswordCodeVerificationViewState
 
   ElevatedButton _buildLoadingNextButton(
       BuildContext context, ForgotPasswordResponseModel data) {
-    return ElevatedButton(
+    return const ElevatedButton(
         onPressed: null,
         child: SizedBox(
           height: 20,

@@ -40,22 +40,23 @@ class _InitPageState extends State<InitPage> {
       bottomNavigationBar: _buildBottomNavBar(),
       drawerEnableOpenDragGesture: false,
       drawer: Drawer(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
         child: SingleChildScrollView(
             child: Container(
+          color: Colors.white,
           constraints:
               BoxConstraints(minHeight: MediaQuery.of(context).size.height),
-          padding: EdgeInsets.symmetric(horizontal: 27),
+          padding: const EdgeInsets.symmetric(horizontal: 27),
           child: SafeArea(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AvatarCacheImage(
+                const AvatarCacheImage(
                   image: "https://picsum.photos/200/300",
                   radius: 25,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Row(
@@ -64,10 +65,10 @@ class _InitPageState extends State<InitPage> {
                       "John Doe",
                       style: titleProximaNovaTextStyle,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 8,
                     ),
-                    ScoreWidget(scoreString: "2000")
+                    const ScoreWidget(scoreString: "2000")
                   ],
                 ),
                 Text(
@@ -75,7 +76,7 @@ class _InitPageState extends State<InitPage> {
                   style: regularProximaNovaTextStyle.copyWith(
                       fontSize: 15, color: subColor),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 14,
                 ),
                 Row(
@@ -93,7 +94,7 @@ class _InitPageState extends State<InitPage> {
                                 fontSize: 16,
                               ))
                         ])),
-                    SizedBox(
+                    const SizedBox(
                       width: 8,
                     ),
                     RichText(
@@ -110,7 +111,7 @@ class _InitPageState extends State<InitPage> {
                         ])),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 54,
                 ),
                 DrawerNavigation(
@@ -120,11 +121,11 @@ class _InitPageState extends State<InitPage> {
                   unselectedTextStyle: regularProximaNovaTextStyle.copyWith(
                       fontSize: 20, color: primaryColor),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 40,
                 ),
                 ExpansionTile(
-                  shape: Border(),
+                  shape: const Border(),
                   title: Text(
                     "Setting and Support",
                     style: titleProximaNovaTextStyle.copyWith(
@@ -195,7 +196,7 @@ class _InitPageState extends State<InitPage> {
                             onPressed: () {
                               context
                                   .read<LogoutBloc>()
-                                  .add(LogoutEvent.logout());
+                                  .add(const LogoutEvent.logout());
                             },
                             child: Text(
                               "Log out",
@@ -254,7 +255,7 @@ class DrawerNavigation extends StatefulWidget {
   final TextStyle selectedTextStyle;
   final TextStyle unselectedTextStyle;
 
-  DrawerNavigation({
+  const DrawerNavigation({
     super.key,
     required this.selectedTextStyle,
     required this.unselectedTextStyle,
@@ -286,7 +287,7 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
         return ListView.builder(
           itemCount: data.length,
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,

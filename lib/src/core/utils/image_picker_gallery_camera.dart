@@ -20,6 +20,15 @@ class ImagePickerGalleryCamera {
     }
   }
 
+  static Future<List<XFile>?> pickMultiImageFromGallery() async {
+    try {
+      final image = await ImagePicker().pickMultiImage();
+      return image;
+    } catch (e) {
+      return null;
+    }
+  }
+
   static Future<XFile?> pickImageFromGalleryOrCamera(
       BuildContext context) async {
     XFile? image;

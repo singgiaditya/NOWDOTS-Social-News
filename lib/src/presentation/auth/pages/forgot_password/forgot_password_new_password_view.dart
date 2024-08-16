@@ -57,14 +57,14 @@ class _ForgotPasswordNewPasswordViewState
     return SingleChildScrollView(
         child: SafeArea(
       child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 37),
+          margin: const EdgeInsets.symmetric(horizontal: 37),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            SizedBox(
+            const SizedBox(
               height: 40,
             ),
-            LogoList(),
-            SizedBox(
+            const LogoList(),
+            const SizedBox(
               height: 50,
             ),
             Form(
@@ -82,7 +82,7 @@ class _ForgotPasswordNewPasswordViewState
                       style: regularSegoeUITextStyle.copyWith(
                           fontSize: 13, color: subColor),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 33,
                     ),
                     TextFormField(
@@ -108,7 +108,7 @@ class _ForgotPasswordNewPasswordViewState
                             )),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 33,
                     ),
                     TextFormField(
@@ -135,7 +135,7 @@ class _ForgotPasswordNewPasswordViewState
                             )),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 50,
                     ),
                     BlocConsumer<ForgotPasswordSetNewPasswordBloc,
@@ -196,7 +196,7 @@ class _ForgotPasswordNewPasswordViewState
   }
 
   Align _buildLoadingNextButton() {
-    return Align(
+    return const Align(
       alignment: Alignment.centerRight,
       child: ElevatedButton(
           onPressed: null,

@@ -28,23 +28,23 @@ class ImageHero extends StatelessWidget {
         borderRadius = BorderRadius.circular(12);
         break;
       case 2:
-        borderRadius = BorderRadius.only(
+        borderRadius = const BorderRadius.only(
             topLeft: Radius.circular(12), bottomLeft: Radius.circular(12));
       case 3:
-        borderRadius = BorderRadius.only(
+        borderRadius = const BorderRadius.only(
             topRight: Radius.circular(12), bottomRight: Radius.circular(12));
         break;
       case 4:
-        borderRadius = BorderRadius.only(topRight: Radius.circular(12));
+        borderRadius = const BorderRadius.only(topRight: Radius.circular(12));
         break;
       case 5:
-        borderRadius = BorderRadius.only(bottomRight: Radius.circular(12));
+        borderRadius = const BorderRadius.only(bottomRight: Radius.circular(12));
         break;
       case 6:
-        borderRadius = BorderRadius.only(topLeft: Radius.circular(12));
+        borderRadius = const BorderRadius.only(topLeft: Radius.circular(12));
         break;
       case 7:
-        borderRadius = BorderRadius.only(bottomLeft: Radius.circular(12));
+        borderRadius = const BorderRadius.only(bottomLeft: Radius.circular(12));
         break;
       default:
         break;

@@ -61,7 +61,7 @@ class _SignInEmailUsernameViewState extends State<SignInEmailUsernameView> {
               BoxConstraints(minHeight: MediaQuery.of(context).size.height),
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 40,
               ),
               const LogoList(),
@@ -180,7 +180,7 @@ class _SignInEmailUsernameViewState extends State<SignInEmailUsernameView> {
                   final requestData = LoginRequestModel(
                       emailOrUsername: _inputEmailUsernameController.text,
                       password: _passwordController.text);
-                  context.read<LoginBloc>()..add(LoginEvent.login(requestData));
+                  context.read<LoginBloc>().add(LoginEvent.login(requestData));
                 }
               : null,
           child: Text(
@@ -195,7 +195,7 @@ class _SignInEmailUsernameViewState extends State<SignInEmailUsernameView> {
   }
 
   SizedBox _buildLoadingLoginButton() {
-    return SizedBox(
+    return const SizedBox(
       width: double.infinity,
       child: ElevatedButton(
           onPressed: null,

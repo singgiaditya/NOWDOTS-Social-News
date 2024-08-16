@@ -11,7 +11,7 @@ class GetAllFeedsBloc extends Bloc<GetAllFeedsEvent, GetAllFeedsState> {
   final FeedLocalDatasources feedlocalDataSource;
   GetAllFeedsBloc(this.feedlocalDataSource) : super(const _Initial()) {
     on<GetAllFeedsEvent>((event, emit) async {
-      emit(_Loading());
+      emit(const _Loading());
       final response = await feedlocalDataSource.getLocalFeeds();
       response.fold(
           (message) => emit(_Error(message)), (feeds) => emit(_Loaded(feeds)));

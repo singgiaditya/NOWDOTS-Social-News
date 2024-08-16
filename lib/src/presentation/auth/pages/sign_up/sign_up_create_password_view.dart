@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -57,11 +56,11 @@ class _SignUpCreatePasswordViewState extends State<SignUpCreatePasswordView> {
           padding: const EdgeInsets.symmetric(horizontal: 37),
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 40,
               ),
-              LogoList(),
-              SizedBox(
+              const LogoList(),
+              const SizedBox(
                 height: 93,
               ),
               Form(
@@ -79,7 +78,7 @@ class _SignUpCreatePasswordViewState extends State<SignUpCreatePasswordView> {
                       style: regularSegoeUITextStyle.copyWith(
                           fontSize: 13, color: subColor),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 24,
                     ),
                     TextFormField(
@@ -105,11 +104,11 @@ class _SignUpCreatePasswordViewState extends State<SignUpCreatePasswordView> {
                             )),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 33,
                     ),
                     _buildAgreements(),
-                    SizedBox(
+                    const SizedBox(
                       height: 26,
                     ),
                     BlocConsumer<RegisterSetPasswordBloc,
@@ -132,7 +131,7 @@ class _SignUpCreatePasswordViewState extends State<SignUpCreatePasswordView> {
                             return _buildButtonNext(email, context);
                           },
                           loading: () {
-                            return Align(
+                            return const Align(
                                 alignment: Alignment.centerRight,
                                 child: ElevatedButton(
                                     onPressed: null,
@@ -150,7 +149,7 @@ class _SignUpCreatePasswordViewState extends State<SignUpCreatePasswordView> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
             ],
@@ -198,21 +197,21 @@ class _SignUpCreatePasswordViewState extends State<SignUpCreatePasswordView> {
               style: regularSegoeUITextStyle.copyWith(
                   fontSize: 11, color: buttonColor),
             ),
-            TextSpan(text: " and "),
+            const TextSpan(text: " and "),
             TextSpan(
               recognizer: TapGestureRecognizer()..onTap = () {},
               text: "Privacy Policy",
               style: regularSegoeUITextStyle.copyWith(
                   fontSize: 11, color: buttonColor),
             ),
-            TextSpan(text: ",which includes the "),
+            const TextSpan(text: ",which includes the "),
             TextSpan(
               recognizer: TapGestureRecognizer()..onTap = () {},
               text: "Cookie Use.",
               style: regularSegoeUITextStyle.copyWith(
                   fontSize: 11, color: buttonColor),
             ),
-            TextSpan(
+            const TextSpan(
                 text:
                     " NOWDOTS may use your contact information, such as your email address and phone number, for purposes detailed in our Privacy Policy, such as recurring your account and personalizing our services, including advertisements. "),
             TextSpan(
@@ -221,14 +220,14 @@ class _SignUpCreatePasswordViewState extends State<SignUpCreatePasswordView> {
               style: regularSegoeUITextStyle.copyWith(
                   fontSize: 11, color: buttonColor),
             ),
-            TextSpan(text: " unless you opt-out "),
+            const TextSpan(text: " unless you opt-out "),
             TextSpan(
               recognizer: TapGestureRecognizer()..onTap = () {},
               text: "here",
               style: regularSegoeUITextStyle.copyWith(
                   fontSize: 11, color: buttonColor),
             ),
-            TextSpan(
+            const TextSpan(
                 text:
                     " others can locate you by your email or phone number if provided"),
           ]),

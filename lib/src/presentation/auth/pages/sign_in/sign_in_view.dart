@@ -22,7 +22,7 @@ class SignInView extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          HeaderBanner(
+          const HeaderBanner(
             imgUrl: signinImage,
           ),
           const SizedBox(

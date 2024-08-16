@@ -74,15 +74,15 @@ class _FeedViewState extends State<FeedView> {
                   scale: 2,
                 ),
               ),
-              title: Text("Feeds"),
+              title: const Text("Feeds"),
               actions: [
                 IconButton(
                   onPressed: () {},
-                  icon: Icon(Icons.search),
+                  icon: const Icon(Icons.search),
                   iconSize: 30,
                 )
               ],
-              bottom: TabBar(tabs: [
+              bottom: const TabBar(tabs: [
                 Tab(
                   text: "For You",
                 ),
@@ -92,7 +92,7 @@ class _FeedViewState extends State<FeedView> {
               ]),
             ),
             body: TabBarView(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 children: [_buildBody(userModel), _buildShimmeringBody()]),
           ),
         );
@@ -105,16 +105,21 @@ class _FeedViewState extends State<FeedView> {
       onRefresh: () async {
         getUser();
         BlocProvider.of<GetAllFeedsBloc>(context)
-            .add(GetAllFeedsEvent.getAllFeeds());
+            .add(const GetAllFeedsEvent.getAllFeeds());
       },
       child: SingleChildScrollView(
-        physics: AlwaysScrollableScrollPhysics(),
+        physics: const AlwaysScrollableScrollPhysics(),
         child: Column(
           children: [
-            CreatePostCard(
-              image: userModel.profilePhoto != null
-                  ? "${baseUrl}${userModel.profilePhoto}"
-                  : " ",
+            GestureDetector(
+              onTap: () {
+                context.pushNamed("post-feed");
+              },
+              child: CreatePostCard(
+                image: userModel.profilePhoto != null
+                    ? "${baseUrl}${userModel.profilePhoto}"
+                    : " ",
+              ),
             ),
             Divider(
               color: boxColor,
@@ -123,7 +128,7 @@ class _FeedViewState extends State<FeedView> {
               builder: (context, state) {
                 return state.maybeWhen(
                   orElse: () {
-                    return Center(
+                    return const Center(
                       child: Text("Initial"),
                     );
                   },
@@ -136,7 +141,7 @@ class _FeedViewState extends State<FeedView> {
                       ),
                       itemCount: data.data!.length,
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
@@ -164,9 +169,9 @@ class _FeedViewState extends State<FeedView> {
       gradient: shimmerGradient,
       child: ListView.separated(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
-            return LoadingFeedCard();
+            return const LoadingFeedCard();
           },
           separatorBuilder: (context, index) => Divider(
                 color: boxColor,
@@ -182,9 +187,8 @@ class CreatePostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(image);
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 21, horizontal: 21),
+      padding: const EdgeInsets.symmetric(vertical: 21, horizontal: 21),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -192,7 +196,7 @@ class CreatePostCard extends StatelessWidget {
             image: image,
             radius: 25,
           ),
-          SizedBox(
+          const SizedBox(
             width: 9,
           ),
           Text(
@@ -200,8 +204,8 @@ class CreatePostCard extends StatelessWidget {
             style: regularSegoeUITextStyle.copyWith(
                 fontSize: 15, color: thirdColor),
           ),
-          Spacer(),
-          IconButton(onPressed: () {}, icon: Icon(Icons.image_outlined))
+          const Spacer(),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.image_outlined))
         ],
       ),
     );

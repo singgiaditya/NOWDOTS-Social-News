@@ -1,16 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
 import 'package:nowdots_social_news/src/core/constant/icons.dart';
+import 'package:nowdots_social_news/src/core/enums/reaction_enums.dart';
 import 'package:nowdots_social_news/src/core/utils/string_extension.dart';
 import 'package:nowdots_social_news/src/core/widgets/avatar_cache_image.dart';
 import 'package:nowdots_social_news/src/data/models/feeds_response_model.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/hashtag_text.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/image_hero.dart';
+import 'package:nowdots_social_news/src/presentation/feed/widgets/post_button/reaction_button.dart';
+import 'package:nowdots_social_news/src/presentation/feed/widgets/post_button/reaction_show_menu.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/score_widget.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/span_divider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -105,7 +107,7 @@ class DetailFeedCard extends StatelessWidget {
                   SvgPicture.asset(downVoteOutline),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 width: 16,
               ),
               Flexible(
@@ -138,15 +140,15 @@ class DetailFeedCard extends StatelessWidget {
                       color: subColor, fontSize: 14),
                   children: [
                 spanDivider(),
-                TextSpan(text: " Oct 26, 2023 "),
+                const TextSpan(text: " Oct 26, 2023 "),
                 spanDivider(),
                 TextSpan(
                     text: " 6.2M ",
                     style: subtitleSegoeUITextStyle.copyWith(fontSize: 14)),
-                TextSpan(text: "Views")
+                const TextSpan(text: "Views")
               ])),
         ),
-        SizedBox(
+        const SizedBox(
           height: 22,
         ),
         Divider(
@@ -162,7 +164,7 @@ class DetailFeedCard extends StatelessWidget {
                 count: data.commentCount!,
                 label: "Comments",
               ),
-              CountText(
+              const CountText(
                 count: "3",
                 label: "Shares",
               ),
@@ -176,20 +178,33 @@ class DetailFeedCard extends StatelessWidget {
         Divider(
           color: boxColor,
         ),
-        SizedBox(
+        const SizedBox(
           height: 7,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            SvgPicture.asset(thumbUpOutline),
+            Theme(
+              data: Theme.of(context).copyWith(
+                  highlightColor: Colors.transparent,
+                  splashColor: Colors.transparent,
+                  splashFactory: NoSplash.splashFactory),
+              child: GestureDetector(
+                onTap: () {},
+                onLongPressStart: (details) async {
+                  final offset = details.globalPosition;
+                  reactionShowMenu(context, offset);
+                },
+                child: reactionButton(primaryColor, ReactionType.NONE),
+              ),
+            ),
             SvgPicture.asset(thumbDownOutline),
             SvgPicture.asset(commentOutline),
-            SvgPicture.asset(forward),
+            SvgPicture.asset(share),
             SvgPicture.asset(bookmarkOutline),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         Divider(
@@ -213,7 +228,7 @@ class DetailFeedCard extends StatelessWidget {
               type: 2,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 5,
           ),
           Flexible(
@@ -241,7 +256,7 @@ class DetailFeedCard extends StatelessWidget {
               type: 2,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 5,
           ),
           Flexible(
@@ -254,7 +269,7 @@ class DetailFeedCard extends StatelessWidget {
                   height: 97.5,
                   type: 4,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 ImageHero(
@@ -285,7 +300,7 @@ class DetailFeedCard extends StatelessWidget {
                   type: 6,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 5,
               ),
               Flexible(
@@ -299,7 +314,7 @@ class DetailFeedCard extends StatelessWidget {
               )
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           Row(
@@ -313,7 +328,7 @@ class DetailFeedCard extends StatelessWidget {
                   type: 7,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 5,
               ),
               Flexible(
@@ -345,7 +360,7 @@ class DetailFeedCard extends StatelessWidget {
                   type: 6,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 5,
               ),
               Flexible(
@@ -359,7 +374,7 @@ class DetailFeedCard extends StatelessWidget {
               )
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           Row(
@@ -373,7 +388,7 @@ class DetailFeedCard extends StatelessWidget {
                   type: 7,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 5,
               ),
               Flexible(
@@ -388,14 +403,14 @@ class DetailFeedCard extends StatelessWidget {
                       width: null,
                       height: 120,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                               bottomRight: Radius.circular(12)),
                           image: DecorationImage(
                               image: imageProvider, fit: BoxFit.cover)),
                       child: Container(
                         width: double.infinity,
                         height: double.infinity,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: Colors.black54,
                           borderRadius: BorderRadius.only(
                               bottomRight: Radius.circular(12)),
@@ -460,8 +475,6 @@ class DetailFeedCard extends StatelessWidget {
     return isFalse;
   }
 }
-
-
 
 class CountText extends StatelessWidget {
   final String count;

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
@@ -20,11 +19,11 @@ class DetailFeedView extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Post"),
+          title: const Text("Post"),
           actions: [
             IconButton(
               onPressed: () {},
-              icon: Icon(Icons.search),
+              icon: const Icon(Icons.search),
               iconSize: 30,
             )
           ],
@@ -42,8 +41,8 @@ class DetailFeedView extends StatelessWidget {
                     child: ListView.separated(
                       itemCount: 5,
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      separatorBuilder: (context, index) => SizedBox(
+                      physics: const NeverScrollableScrollPhysics(),
+                      separatorBuilder: (context, index) => const SizedBox(
                         height: 21,
                       ),
                       itemBuilder: (context, index) =>
@@ -53,7 +52,7 @@ class DetailFeedView extends StatelessWidget {
                 ],
               ),
             ),
-            ReplyTextField()
+            const ReplyTextField()
           ],
         ),
       ),
@@ -89,7 +88,7 @@ class _ReplyTextFieldState extends State<ReplyTextField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 14),
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 14),
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border(
@@ -111,7 +110,7 @@ class _ReplyTextFieldState extends State<ReplyTextField> {
             ),
             Visibility(
               visible: isFocused,
-              child: SizedBox(
+              child: const SizedBox(
                 height: 14,
               ),
             ),
@@ -131,19 +130,19 @@ class _ReplyTextFieldState extends State<ReplyTextField> {
                   decoration: InputDecoration(
                       filled: true,
                       fillColor: boxColor,
-                      contentPadding: EdgeInsets.only(
+                      contentPadding: const EdgeInsets.only(
                         left: 10,
                         right: 10,
                       ),
                       focusColor: Colors.white,
                       enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white),
+                          borderSide: const BorderSide(color: Colors.white),
                           borderRadius: BorderRadius.circular(80)),
                       focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white),
+                          borderSide: const BorderSide(color: Colors.white),
                           borderRadius: BorderRadius.circular(80)),
                       border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white),
+                          borderSide: const BorderSide(color: Colors.white),
                           borderRadius: BorderRadius.circular(80)),
                       hintText: "Post your reply",
                       hintStyle: regularSegoeUITextStyle.copyWith(
@@ -153,7 +152,7 @@ class _ReplyTextFieldState extends State<ReplyTextField> {
             ),
             Visibility(
               visible: isFocused,
-              child: SizedBox(
+              child: const SizedBox(
                 height: 14,
               ),
             ),
@@ -166,24 +165,24 @@ class _ReplyTextFieldState extends State<ReplyTextField> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         GestureDetector(
-                            onTap: () {}, child: Icon(Icons.image_outlined)),
+                            onTap: () {}, child: const Icon(Icons.image_outlined)),
                         GestureDetector(
-                            onTap: () {}, child: Icon(Icons.gif_box_outlined)),
+                            onTap: () {}, child: const Icon(Icons.gif_box_outlined)),
                         GestureDetector(
-                            onTap: () {}, child: Icon(Icons.poll_outlined)),
-                        GestureDetector(
-                            onTap: () {},
-                            child: Icon(Icons.emoji_emotions_outlined)),
+                            onTap: () {}, child: const Icon(Icons.poll_outlined)),
                         GestureDetector(
                             onTap: () {},
-                            child: Icon(Icons.calendar_month_outlined)),
+                            child: const Icon(Icons.emoji_emotions_outlined)),
                         GestureDetector(
                             onTap: () {},
-                            child: Icon(Icons.location_on_outlined))
+                            child: const Icon(Icons.calendar_month_outlined)),
+                        GestureDetector(
+                            onTap: () {},
+                            child: const Icon(Icons.location_on_outlined))
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 30,
                   ),
                   SizedBox(

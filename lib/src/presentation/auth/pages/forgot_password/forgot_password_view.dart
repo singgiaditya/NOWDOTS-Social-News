@@ -53,11 +53,11 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
           padding: const EdgeInsets.symmetric(horizontal: 37),
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 40,
               ),
-              LogoList(),
-              SizedBox(
+              const LogoList(),
+              const SizedBox(
                 height: 93,
               ),
               Form(
@@ -75,7 +75,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                       style: regularSegoeUITextStyle.copyWith(
                           fontSize: 13, color: subColor),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 24,
                     ),
                     TextFormField(
@@ -83,11 +83,11 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                       onChanged: (value) => onChangeTextField(value),
                       validator: InputValidator.validateInputEmailOrUsername,
                       keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: "Email or username",
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 26,
                     ),
                     BlocConsumer<ForgotPassBloc, ForgotPassState>(
@@ -113,7 +113,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
             ],
@@ -132,7 +132,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                   final requestData = ForgotPasswordRequestModel(
                       emailOrUsername: _emailOrUsernameController.text);
                   context.read<ForgotPassBloc>()
-                    ..add(ForgotPassEvent.forgotPassword(requestData));
+                    .add(ForgotPassEvent.forgotPassword(requestData));
                 }
               : null,
           child: Text(
@@ -147,7 +147,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   }
 
   Align _buildLoadingNextButton(BuildContext context) {
-    return Align(
+    return const Align(
       alignment: Alignment.centerRight,
       child: ElevatedButton(
           onPressed: null,

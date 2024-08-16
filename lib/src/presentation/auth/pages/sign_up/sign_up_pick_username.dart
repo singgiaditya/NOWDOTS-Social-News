@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -10,7 +9,7 @@ import 'package:nowdots_social_news/src/presentation/auth/bloc/register/register
 import 'package:nowdots_social_news/src/presentation/auth/widgets/logo_list.dart';
 
 class SignUpPickUsername extends StatefulWidget {
-  const SignUpPickUsername({Key? key}) : super(key: key);
+  const SignUpPickUsername({super.key});
 
   @override
   State<SignUpPickUsername> createState() => _SignUpPickUsernameState();
@@ -55,11 +54,11 @@ class _SignUpPickUsernameState extends State<SignUpPickUsername> {
           padding: const EdgeInsets.symmetric(horizontal: 37),
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 40,
               ),
-              LogoList(),
-              SizedBox(
+              const LogoList(),
+              const SizedBox(
                 height: 93,
               ),
               Form(
@@ -77,7 +76,7 @@ class _SignUpPickUsernameState extends State<SignUpPickUsername> {
                       style: regularSegoeUITextStyle.copyWith(
                           fontSize: 13, color: subColor),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 24,
                     ),
                     TextFormField(
@@ -85,11 +84,11 @@ class _SignUpPickUsernameState extends State<SignUpPickUsername> {
                       onChanged: (value) => onChangeTextField(value),
                       validator: InputValidator.validateInputUsername,
                       keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: "Username",
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 26,
                     ),
                     BlocConsumer<RegisterSetUsernameBloc,
@@ -115,7 +114,7 @@ class _SignUpPickUsernameState extends State<SignUpPickUsername> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
             ],
@@ -135,7 +134,7 @@ class _SignUpPickUsernameState extends State<SignUpPickUsername> {
                       RegisterSetUsernameUserRequestModel(
                           email: email, username: _usernameController.text);
                   context.read<RegisterSetUsernameBloc>()
-                    ..add(RegisterSetUsernameEvent.setUsername(requestData));
+                    .add(RegisterSetUsernameEvent.setUsername(requestData));
                 }
               : null,
           child: Text(
@@ -150,7 +149,7 @@ class _SignUpPickUsernameState extends State<SignUpPickUsername> {
   }
 
   Align _buildLoadingNextButton() {
-    return Align(
+    return const Align(
       alignment: Alignment.centerRight,
       child: ElevatedButton(
           onPressed: null,

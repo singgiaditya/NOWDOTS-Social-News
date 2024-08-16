@@ -9,7 +9,7 @@ import 'package:nowdots_social_news/src/presentation/auth/bloc/login/login_bloc.
 import 'package:nowdots_social_news/src/presentation/auth/widgets/header_banner.dart';
 
 class ForgotPasswordCompleteView extends StatefulWidget {
-  const ForgotPasswordCompleteView({Key? key}) : super(key: key);
+  const ForgotPasswordCompleteView({super.key});
 
   @override
   State<ForgotPasswordCompleteView> createState() =>
@@ -36,12 +36,12 @@ class _ForgotPasswordCompleteViewState
     return SingleChildScrollView(
       child: Column(
         children: [
-          HeaderBanner(imgUrl: forgotPasswordImage),
-          SizedBox(
+          const HeaderBanner(imgUrl: forgotPasswordImage),
+          const SizedBox(
             height: 40,
           ),
           Container(
-            padding: EdgeInsetsDirectional.symmetric(horizontal: 37),
+            padding: const EdgeInsetsDirectional.symmetric(horizontal: 37),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -50,7 +50,7 @@ class _ForgotPasswordCompleteViewState
                   style: titleSegoeUITextStyle.copyWith(
                       fontSize: 35, fontWeight: FontWeight.normal),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Text(
@@ -58,7 +58,7 @@ class _ForgotPasswordCompleteViewState
                   style: regularSegoeUITextStyle.copyWith(
                       fontSize: 13, color: subColor),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 BlocConsumer<LoginBloc, LoginState>(
@@ -89,7 +89,7 @@ class _ForgotPasswordCompleteViewState
       alignment: Alignment.centerRight,
       child: ElevatedButton(
           onPressed: () {
-            context.read<LoginBloc>()..add(LoginEvent.login(data));
+            context.read<LoginBloc>().add(LoginEvent.login(data));
           },
           child: Text(
             "Jump to feed",
@@ -103,7 +103,7 @@ class _ForgotPasswordCompleteViewState
   }
 
   Align _buildLoadingNextButton() {
-    return Align(
+    return const Align(
       alignment: Alignment.centerRight,
       child: ElevatedButton(
           onPressed: null,

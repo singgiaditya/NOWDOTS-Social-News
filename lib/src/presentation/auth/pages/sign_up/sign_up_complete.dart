@@ -25,12 +25,12 @@ class _SignUpCompleteState extends State<SignUpComplete> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          HeaderBanner(imgUrl: signupImage),
-          SizedBox(
+          const HeaderBanner(imgUrl: signupImage),
+          const SizedBox(
             height: 40,
           ),
           Container(
-            padding: EdgeInsetsDirectional.symmetric(horizontal: 37),
+            padding: const EdgeInsetsDirectional.symmetric(horizontal: 37),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -42,7 +42,7 @@ class _SignUpCompleteState extends State<SignUpComplete> {
                 Text("NOWDOTS",
                     style: titleSegoeUITextStyle.copyWith(
                         fontSize: 35, height: 0.8)),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 RichText(
@@ -61,7 +61,7 @@ class _SignUpCompleteState extends State<SignUpComplete> {
                             text: "Read Here")
                       ]),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Align(

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
 import 'package:nowdots_social_news/src/data/models/feeds_response_model.dart';
-import 'package:nowdots_social_news/src/presentation/feed/widgets/row_button_container.dart';
+import 'package:nowdots_social_news/src/presentation/feed/widgets/post_button/row_button_container.dart';
 
 class MultipleImage extends StatelessWidget {
   const MultipleImage({super.key});
@@ -36,7 +36,7 @@ class MultipleImage extends StatelessWidget {
               left: 0,
               right: 0,
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 21),
+                margin: const EdgeInsets.symmetric(horizontal: 21),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -45,10 +45,10 @@ class MultipleImage extends StatelessWidget {
                         context.pop();
                       },
                       child: Container(
-                        padding: EdgeInsets.all(4),
-                        decoration: BoxDecoration(
+                        padding: const EdgeInsets.all(4),
+                        decoration: const BoxDecoration(
                             color: Colors.black54, shape: BoxShape.circle),
-                        child: Icon(
+                        child: const Icon(
                           Icons.close,
                           color: Colors.white,
                           size: 20,
@@ -57,10 +57,10 @@ class MultipleImage extends StatelessWidget {
                     ),
                     GestureDetector(
                       child: Container(
-                        padding: EdgeInsets.all(4),
-                        decoration: BoxDecoration(
+                        padding: const EdgeInsets.all(4),
+                        decoration: const BoxDecoration(
                             color: Colors.black54, shape: BoxShape.circle),
-                        child: Icon(
+                        child: const Icon(
                           Icons.more_horiz,
                           color: Colors.white,
                           size: 20,
@@ -76,7 +76,7 @@ class MultipleImage extends StatelessWidget {
               left: 0,
               right: 0,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 21),
+                padding: const EdgeInsets.symmetric(horizontal: 21),
                 color: Colors.black54,
                 child: Column(
                   children: [
@@ -85,9 +85,9 @@ class MultipleImage extends StatelessWidget {
                         backgroundColor: Colors.transparent,
                         likeCount: data.likeCount!,
                         commentCount: data.commentCount!,
-                        forwardCount: data.forwardCount!,
+                        shareCount: data.forwardCount!,
                         upVoteCount: data.upVoteCount!),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     SizedBox(
@@ -96,23 +96,23 @@ class MultipleImage extends StatelessWidget {
                         style: regularSegoeUITextStyle.copyWith(
                             fontSize: 14, color: Colors.white),
                         decoration: InputDecoration(
-                            contentPadding: EdgeInsets.only(left: 10),
+                            contentPadding: const EdgeInsets.only(left: 10),
                             focusColor: Colors.white,
                             enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
+                                borderSide: const BorderSide(color: Colors.white),
                                 borderRadius: BorderRadius.circular(80)),
                             focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
+                                borderSide: const BorderSide(color: Colors.white),
                                 borderRadius: BorderRadius.circular(80)),
                             border: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
+                                borderSide: const BorderSide(color: Colors.white),
                                 borderRadius: BorderRadius.circular(80)),
                             hintText: "Post your reply",
                             hintStyle: regularSegoeUITextStyle.copyWith(
                                 fontSize: 14, color: Colors.white)),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                   ],

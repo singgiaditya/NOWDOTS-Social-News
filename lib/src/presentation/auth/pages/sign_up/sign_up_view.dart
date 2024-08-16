@@ -41,11 +41,6 @@ class _SignUpViewState extends State<SignUpView> {
     });
   }
 
-  void _showSnackBar(String message, BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(message),
-    ));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,11 +58,11 @@ class _SignUpViewState extends State<SignUpView> {
               BoxConstraints(minHeight: MediaQuery.of(context).size.height),
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 40,
               ),
               const LogoList(),
-              SizedBox(
+              const SizedBox(
                 height: 93,
               ),
               Form(
@@ -148,7 +143,7 @@ class _SignUpViewState extends State<SignUpView> {
                           return state.maybeWhen(orElse: () {
                             return _buildButtonNext(context);
                           }, loading: () {
-                            return Align(
+                            return const Align(
                                 alignment: Alignment.centerRight,
                                 child: ElevatedButton(
                                     onPressed: null,

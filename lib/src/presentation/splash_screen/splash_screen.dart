@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
       },
       builder: (context, state) {
         return Scaffold(
-          backgroundColor: Color.fromRGBO(250, 255, 0, 1),
+          backgroundColor: const Color.fromRGBO(250, 255, 0, 1),
           body: SafeArea(
               child: Center(
             child: Text(

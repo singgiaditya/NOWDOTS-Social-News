@@ -18,6 +18,7 @@ import 'package:nowdots_social_news/src/presentation/feed/pages/detail_feed_view
 import 'package:nowdots_social_news/src/presentation/feed/pages/feed_view.dart';
 import 'package:nowdots_social_news/src/presentation/feed/pages/fullscreen_image.dart';
 import 'package:nowdots_social_news/src/presentation/feed/pages/multple_image.dart';
+import 'package:nowdots_social_news/src/presentation/feed/pages/post_feed.dart';
 import 'package:nowdots_social_news/src/presentation/init_page.dart';
 import 'package:nowdots_social_news/src/presentation/splash_screen/splash_screen.dart';
 
@@ -223,6 +224,13 @@ class AppRoute {
           path: "/detail-feed",
           name: "detail-feed",
           builder: (context, state) => const DetailFeedView(),
+        ),
+        //post-feed
+        GoRoute(
+          parentNavigatorKey: _rootNavigatorKey,
+          path: "/post-feed",
+          name: "post-feed",
+          builder: (context, state) => const PostFeed(),
         )
       ]);
 }

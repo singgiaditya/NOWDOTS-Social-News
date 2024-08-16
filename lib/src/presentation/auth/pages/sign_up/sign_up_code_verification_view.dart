@@ -39,11 +39,11 @@ class _SignUpCodeVerificationViewState
           padding: const EdgeInsets.symmetric(horizontal: 37),
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 40,
               ),
-              LogoList(),
-              SizedBox(
+              const LogoList(),
+              const SizedBox(
                 height: 93,
               ),
               Form(
@@ -60,7 +60,7 @@ class _SignUpCodeVerificationViewState
                     style: regularSegoeUITextStyle.copyWith(
                         fontSize: 13, color: subColor),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 24,
                   ),
                   OtpTextField(
@@ -84,7 +84,7 @@ class _SignUpCodeVerificationViewState
                   ),
                 ],
               )),
-              SizedBox(
+              const SizedBox(
                 height: 150,
               ),
               Row(
@@ -139,7 +139,7 @@ class _SignUpCodeVerificationViewState
   }
 
   ElevatedButton _buildLoadingButton() {
-    return ElevatedButton(
+    return const ElevatedButton(
         onPressed: null,
         child: SizedBox(
           height: 20,
@@ -155,7 +155,7 @@ class _SignUpCodeVerificationViewState
                 var requestData = RegisterVerificationCodeRequestModel(
                     email: email, code: code);
                 context.read<RegisterCodeVerificationBloc>()
-                  ..add(RegisterCodeVerificationEvent.codeVerification(
+                  .add(RegisterCodeVerificationEvent.codeVerification(
                       requestData));
               }
             : null,

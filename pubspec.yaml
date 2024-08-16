@@ -73,10 +73,14 @@ flutter:
     - assets/icons/apple_icon.svg
     - assets/icons/comment_outline.svg
     - assets/icons/down_vote_outline.svg
+    - assets/icons/down_vote_filled.svg
     - assets/icons/up_vote_outline.svg
+    - assets/icons/up_vote_filled.svg
     - assets/icons/forward.svg
     - assets/icons/thumb_down_outline.svg
+    - assets/icons/thumb_down_filled.svg
     - assets/icons/thumb_up_outline.svg
+    - assets/icons/thumb_up_filled.svg
     - assets/icons/bookmark_outline.svg
 
     #data dummy
