@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'package:nowdots_social_news/src/core/constant/api.dart';
+import 'package:nowdots_social_news/src/core/constant/prefs_key.dart';
 import 'package:nowdots_social_news/src/data/models/auth/login/login_request_model.dart';
 import 'package:nowdots_social_news/src/data/models/auth/login/login_response_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,8 +23,8 @@ class LoginLogoutRemoteDataSources {
 
       if (response.statusCode == 200) {
         LoginResponseModel data = LoginResponseModel.fromRawJson(response.body);
-        await prefs.setString("token", data.token!);
-        await prefs.setString("user", data.user!.toRawJson());
+        await prefs.setString(tokenPrefs, data.token!);
+        await prefs.setString(userPrefs, data.user!.toRawJson());
         return Right(data);
       }
       if (response.statusCode == 401) {
@@ -40,7 +41,7 @@ class LoginLogoutRemoteDataSources {
 
   Future<Either<String, String>> logout() async {
     try {
-      var token = await prefs.getString("token");
+      var token = await prefs.getString(tokenPrefs);
       var headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',

@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'package:nowdots_social_news/src/core/constant/api.dart';
+import 'package:nowdots_social_news/src/core/constant/prefs_key.dart';
 import 'package:nowdots_social_news/src/data/models/auth/register/create_account/create_account_request_model.dart';
 import 'package:nowdots_social_news/src/data/models/auth/register/create_account/create_account_response_model.dart';
 import 'package:nowdots_social_news/src/data/models/auth/register/set_password/register_set_password_request_model.dart';
@@ -32,7 +33,7 @@ class RegisterRemoteDataSources {
       if (response.statusCode == 200) {
         CreateAccountResponseModel data =
             CreateAccountResponseModel.fromRawJson(response.body);
-        await prefs.setString("token", data.token!);
+        await prefs.setString(tokenPrefs, data.token!);
         return Right(data);
       }
       if (response.statusCode == 401) {
@@ -50,7 +51,7 @@ class RegisterRemoteDataSources {
   Future<Either<String, RegisterVerificationCodeResponseModel>>
       verificationCode(RegisterVerificationCodeRequestModel requestData) async {
     try {
-      var token = await prefs.getString("token");
+      var token = await prefs.getString(tokenPrefs);
       var headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -103,7 +104,7 @@ class RegisterRemoteDataSources {
       setProfilePicture(
           RegisterSetProfilePictureRequestModel requestData) async {
     try {
-      var token = await prefs.getString("token");
+      var token = await prefs.getString(tokenPrefs);
       var headers = {
         'Accept': 'application/json',
         'Content-Type': 'multipart/form-data',
@@ -137,7 +138,7 @@ class RegisterRemoteDataSources {
   Future<Either<String, RegisterSetProfilePictureResponseModel>>
       skipProfilePicture(String email) async {
     try {
-      var token = await prefs.getString("token");
+      var token = await prefs.getString(tokenPrefs);
       var headers = {
         'Accept': 'application/json',
         'Authorization': "Bearer $token"
@@ -165,7 +166,7 @@ class RegisterRemoteDataSources {
   Future<Either<String, RegisterSetUsernameUserResponseModel>> setUsername(
       RegisterSetUsernameUserRequestModel requestData) async {
     try {
-      var token = await prefs.getString("token");
+      var token = await prefs.getString(tokenPrefs);
       var headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -178,7 +179,7 @@ class RegisterRemoteDataSources {
         RegisterSetUsernameUserResponseModel data =
             RegisterSetUsernameUserResponseModel.fromRawJson(response.body);
         UserModel user = UserModel.fromJson(data.data!.toJson());
-        prefs.setString("user", user.toRawJson());
+        prefs.setString(userPrefs, user.toRawJson());
         return Right(data);
       }
 

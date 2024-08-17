@@ -1,8 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
+import 'package:nowdots_social_news/src/core/bloc/get_user/get_user_bloc.dart';
 import 'package:nowdots_social_news/src/core/constant/images.dart';
 import 'package:nowdots_social_news/src/presentation/auth/widgets/header_banner.dart';
 
@@ -68,6 +70,8 @@ class _SignUpCompleteState extends State<SignUpComplete> {
                   alignment: Alignment.centerRight,
                   child: ElevatedButton(
                       onPressed: () {
+                        context.read<GetUserBloc>()
+                          ..add(GetUserEvent.getLocalUser());
                         context.goNamed("home");
                       },
                       child: Text(

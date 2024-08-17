@@ -1,10 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
+import 'package:nowdots_social_news/src/core/bloc/get_user/get_user_bloc.dart';
+import 'package:nowdots_social_news/src/core/constant/api.dart';
 import 'package:nowdots_social_news/src/core/utils/image_picker_gallery_camera.dart';
 import 'package:nowdots_social_news/src/core/widgets/avatar_cache_image.dart';
 
@@ -95,8 +98,19 @@ class _PostFeedState extends State<PostFeed> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          AvatarCacheImage(
-                              image: "https://picsum.photos/200/300"),
+                          BlocBuilder<GetUserBloc, GetUserState>(
+                            builder: (context, state) {
+                              return state.maybeWhen(
+                                orElse: () {
+                                  return AvatarCacheImage(image: " ");
+                                },
+                                loaded: (data) {
+                                  return AvatarCacheImage(
+                                      image: "$baseUrl${data.profilePhoto}");
+                                },
+                              );
+                            },
+                          ),
                           SizedBox(
                             width: 12,
                           ),

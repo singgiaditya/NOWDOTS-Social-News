@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
+import 'package:nowdots_social_news/src/core/bloc/get_user/get_user_bloc.dart';
 import 'package:nowdots_social_news/src/core/utils/input_validator.dart';
 import 'package:nowdots_social_news/src/data/models/auth/login/login_request_model.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/login/login_bloc.dart';
@@ -155,7 +156,10 @@ class _SignInEmailUsernameViewState extends State<SignInEmailUsernameView> {
               state.maybeWhen(
                 orElse: () {},
                 error: (message) => showSnackBar(context, message),
-                loaded: (data) => context.goNamed("home"),
+                loaded: (data) {
+                  context.read<GetUserBloc>().add(GetUserEvent.getLocalUser());
+                  context.goNamed("home");
+                },
               );
             },
             builder: (context, state) {

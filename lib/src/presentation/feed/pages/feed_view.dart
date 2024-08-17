@@ -3,16 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
+import 'package:nowdots_social_news/src/core/bloc/get_user/get_user_bloc.dart';
 import 'package:nowdots_social_news/src/core/constant/api.dart';
 import 'package:nowdots_social_news/src/core/constant/logos.dart';
 import 'package:nowdots_social_news/src/core/widgets/avatar_cache_image.dart';
-import 'package:nowdots_social_news/src/data/models/auth/user_model.dart';
-import 'package:nowdots_social_news/src/injection_container.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/drawer/drawer_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/get_all_feeds/get_all_feeds_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_card.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/loading_feed_card.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
 class FeedView extends StatefulWidget {
@@ -24,7 +22,6 @@ class FeedView extends StatefulWidget {
 }
 
 class _FeedViewState extends State<FeedView> {
-  UserModel userModel = UserModel();
   String getLogo(int index) {
     switch (index) {
       case 0:
@@ -42,19 +39,6 @@ class _FeedViewState extends State<FeedView> {
       default:
         return nowdotsLogo;
     }
-  }
-
-  void getUser() async {
-    final SharedPreferences prefs = sl();
-    String? user = await prefs.getString("user");
-    userModel = UserModel.fromRawJson(user!);
-    setState(() {});
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getUser();
   }
 
   @override
@@ -93,17 +77,18 @@ class _FeedViewState extends State<FeedView> {
             ),
             body: TabBarView(
                 physics: const NeverScrollableScrollPhysics(),
-                children: [_buildBody(userModel), _buildShimmeringBody()]),
+                children: [_buildBody(), _buildShimmeringBody()]),
           ),
         );
       },
     );
   }
 
-  Widget _buildBody(UserModel userModel) {
+  Widget _buildBody() {
     return RefreshIndicator(
       onRefresh: () async {
-        getUser();
+        BlocProvider.of<GetUserBloc>(context)
+            .add(const GetUserEvent.getLocalUser());
         BlocProvider.of<GetAllFeedsBloc>(context)
             .add(const GetAllFeedsEvent.getAllFeeds());
       },
@@ -115,10 +100,23 @@ class _FeedViewState extends State<FeedView> {
               onTap: () {
                 context.pushNamed("post-feed");
               },
-              child: CreatePostCard(
-                image: userModel.profilePhoto != null
-                    ? "${baseUrl}${userModel.profilePhoto}"
-                    : " ",
+              child: BlocBuilder<GetUserBloc, GetUserState>(
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    orElse: () {
+                      return CreatePostCard(
+                        image: " ",
+                      );
+                    },
+                    loaded: (data) {
+                      return CreatePostCard(
+                        image: data.profilePhoto != null
+                            ? "${baseUrl}${data.profilePhoto}"
+                            : " ",
+                      );
+                    },
+                  );
+                },
               ),
             ),
             Divider(

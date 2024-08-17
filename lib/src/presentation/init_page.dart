@@ -4,6 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
+import 'package:nowdots_social_news/src/core/bloc/get_user/get_user_bloc.dart';
+import 'package:nowdots_social_news/src/core/constant/api.dart';
 import 'package:nowdots_social_news/src/core/constant/icons.dart';
 import 'package:nowdots_social_news/src/core/widgets/avatar_cache_image.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/logout/logout_bloc.dart';
@@ -52,29 +54,80 @@ class _InitPageState extends State<InitPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const AvatarCacheImage(
-                  image: "https://picsum.photos/200/300",
-                  radius: 25,
+                BlocBuilder<GetUserBloc, GetUserState>(
+                  builder: (context, state) {
+                    return state.maybeWhen(
+                      orElse: () {
+                        return AvatarCacheImage(
+                          image: " ",
+                          radius: 25,
+                        );
+                      },
+                      loaded: (data) {
+                        return AvatarCacheImage(
+                          image: "$baseUrl${data.profilePhoto}",
+                          radius: 25,
+                        );
+                      },
+                    );
+                  },
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                Row(
-                  children: [
-                    Text(
-                      "John Doe",
-                      style: titleProximaNovaTextStyle,
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    const ScoreWidget(scoreString: "2000")
-                  ],
+                BlocBuilder<GetUserBloc, GetUserState>(
+                  builder: (context, state) {
+                    return state.maybeWhen(
+                      orElse: () {
+                        return Row(
+                          children: [
+                            Text(
+                              "   ",
+                              style: titleProximaNovaTextStyle,
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            const ScoreWidget(scoreString: "TBD")
+                          ],
+                        );
+                      },
+                      loaded: (data) {
+                        return Row(
+                          children: [
+                            Text(
+                              "${data.name}",
+                              style: titleProximaNovaTextStyle,
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            const ScoreWidget(scoreString: "2000")
+                          ],
+                        );
+                      },
+                    );
+                  },
                 ),
-                Text(
-                  "@johndoe",
-                  style: regularProximaNovaTextStyle.copyWith(
-                      fontSize: 15, color: subColor),
+                BlocBuilder<GetUserBloc, GetUserState>(
+                  builder: (context, state) {
+                    return state.maybeWhen(
+                      orElse: () {
+                        return Text(
+                          "@johndoe",
+                          style: regularProximaNovaTextStyle.copyWith(
+                              fontSize: 15, color: subColor),
+                        );
+                      },
+                      loaded: (data) {
+                        return Text(
+                          "@${data.username}",
+                          style: regularProximaNovaTextStyle.copyWith(
+                              fontSize: 15, color: subColor),
+                        );
+                      },
+                    );
+                  },
                 ),
                 const SizedBox(
                   height: 14,
