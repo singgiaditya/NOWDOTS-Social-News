@@ -147,6 +147,7 @@ class _FeedViewState extends State<FeedView> {
                                 extra: data.data![index]);
                           },
                           child: FeedCard(
+                            parentKey: widget.parentKey,
                             data: data.data![index],
                           ),
                         );

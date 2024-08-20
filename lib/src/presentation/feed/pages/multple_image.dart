@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
 import 'package:nowdots_social_news/src/data/models/feeds_response_model.dart';
-import 'package:nowdots_social_news/src/presentation/feed/widgets/post_button/row_button_container.dart';
+import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/row_button_container.dart';
 
 class MultipleImage extends StatelessWidget {
   const MultipleImage({super.key});

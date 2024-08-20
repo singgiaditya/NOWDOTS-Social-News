@@ -3,9 +3,9 @@ import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
 import 'package:nowdots_social_news/src/core/widgets/avatar_cache_image.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/hashtag_text.dart';
-import 'package:nowdots_social_news/src/presentation/feed/widgets/post_button/comment_button.dart';
-import 'package:nowdots_social_news/src/presentation/feed/widgets/post_button/like_dislike_button.dart';
-import 'package:nowdots_social_news/src/presentation/feed/widgets/post_button/upvote_downvote_button.dart';
+import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/comment_button.dart';
+import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/like_dislike_button.dart';
+import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/upvote_downvote_button.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/score_widget.dart';
 
 class CommentCard extends StatelessWidget {

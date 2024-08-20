@@ -25,3 +25,5 @@ const thumbDownFilled = "assets/icons/thumb_down_filled.svg";
 const share = "assets/icons/forward.svg";
 const commentOutline = "assets/icons/comment_outline.svg";
 const bookmarkOutline = "assets/icons/bookmark_outline.svg";
+
+const followIcon = "assets/icons/follow_icon.svg";

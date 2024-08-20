@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/presentation/auth/pages/boarding/boarding_view.dart';
@@ -19,6 +18,8 @@ import 'package:nowdots_social_news/src/presentation/feed/pages/feed_view.dart';
 import 'package:nowdots_social_news/src/presentation/feed/pages/fullscreen_image.dart';
 import 'package:nowdots_social_news/src/presentation/feed/pages/multple_image.dart';
 import 'package:nowdots_social_news/src/presentation/feed/pages/post_feed.dart';
+import 'package:nowdots_social_news/src/presentation/feed/pages/report_continue.dart';
+import 'package:nowdots_social_news/src/presentation/feed/pages/report_reason.dart';
 import 'package:nowdots_social_news/src/presentation/init_page.dart';
 import 'package:nowdots_social_news/src/presentation/splash_screen/splash_screen.dart';
 
@@ -70,13 +71,48 @@ class AppRoute {
             branches: [
               StatefulShellBranch(navigatorKey: _shellNavigatorHome, routes: [
                 GoRoute(
-                  parentNavigatorKey: _shellNavigatorHome,
-                  path: "/home",
-                  name: "home",
-                  builder: (context, state) => FeedView(
-                    parentKey: _scaffoldKey,
-                  ),
-                ),
+                    parentNavigatorKey: _shellNavigatorHome,
+                    path: "/home",
+                    name: "home",
+                    builder: (context, state) => FeedView(
+                          parentKey: _scaffoldKey,
+                        ),
+                    routes: [
+                      GoRoute(
+                        parentNavigatorKey: _rootNavigatorKey,
+                        path: "report",
+                        name: "report",
+                        pageBuilder: (context, state) {
+                          return CustomTransitionPage(
+                            key: state.pageKey,
+                            child: ReportReason(),
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              const begin = Offset(0.0, 1.0);
+                              const end = Offset.zero;
+                              const curve = Curves.ease;
+
+                              final tween = Tween(begin: begin, end: end);
+                              final curvedAnimation = CurvedAnimation(
+                                parent: animation,
+                                curve: curve,
+                              );
+
+                              return SlideTransition(
+                                position: tween.animate(curvedAnimation),
+                                child: child,
+                              );
+                            },
+                          );
+                        },
+                      ),
+                      GoRoute(
+                        parentNavigatorKey: _rootNavigatorKey,
+                        path: "report-continue",
+                        name: "report-continue",
+                        builder: (context, state) => const ReportContinue(),
+                      ),
+                    ]),
               ]),
               StatefulShellBranch(navigatorKey: _shellNavigatorNews, routes: [
                 GoRoute(
@@ -231,6 +267,6 @@ class AppRoute {
           path: "/post-feed",
           name: "post-feed",
           builder: (context, state) => const PostFeed(),
-        )
+        ),
       ]);
 }

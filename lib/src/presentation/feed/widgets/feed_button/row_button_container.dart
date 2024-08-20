@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:nowdots_social_news/src/core/enums/reaction_enums.dart';
-import 'package:nowdots_social_news/src/presentation/feed/widgets/post_button/comment_button.dart';
-import 'package:nowdots_social_news/src/presentation/feed/widgets/post_button/like_dislike_button.dart';
-import 'package:nowdots_social_news/src/presentation/feed/widgets/post_button/share_button.dart';
-import 'package:nowdots_social_news/src/presentation/feed/widgets/post_button/upvote_downvote_button.dart';
+import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/comment_button.dart';
+import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/like_dislike_button.dart';
+import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/share_button.dart';
+import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/upvote_downvote_button.dart';
 
 class RowButtonContainer extends StatelessWidget {
   final String likeCount;

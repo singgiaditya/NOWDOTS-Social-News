@@ -82,6 +82,7 @@ flutter:
     - assets/icons/thumb_up_outline.svg
     - assets/icons/thumb_up_filled.svg
     - assets/icons/bookmark_outline.svg
+    - assets/icons/follow_icon.svg
 
     #data dummy
     - assets/data_dummy/dummy_feed.json
@@ -111,6 +112,10 @@ flutter:
         - asset: assets/fonts/Proxima Nova/proxima_nova_regular_italic.otf
           weight: 400
           style: italic
+        
+        # semibold
+        - asset: assets/fonts/Proxima Nova/proxima_nova_semibold.otf
+          weight: 600
 
           # bold
         - asset: assets/fonts/Proxima Nova/proxima_nova_bold.otf

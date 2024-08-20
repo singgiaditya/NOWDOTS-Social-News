@@ -3,8 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
 import 'package:nowdots_social_news/src/core/constant/icons.dart';
 import 'package:nowdots_social_news/src/core/enums/reaction_enums.dart';
-import 'package:nowdots_social_news/src/presentation/feed/widgets/post_button/reaction_button.dart';
-import 'package:nowdots_social_news/src/presentation/feed/widgets/post_button/reaction_show_menu.dart';
+import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/reaction_button.dart';
+import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/reaction_show_menu.dart';
 
 Row likeDislikeButton(
     BuildContext context, String likeCount, Color color, Color backgroundColor,
