@@ -9,6 +9,7 @@ import 'package:nowdots_social_news/src/core/enums/reaction_enums.dart';
 import 'package:nowdots_social_news/src/core/utils/string_extension.dart';
 import 'package:nowdots_social_news/src/core/widgets/avatar_cache_image.dart';
 import 'package:nowdots_social_news/src/data/models/feeds_response_model.dart';
+import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/more_menu_feed.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/hashtag_text.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/image_hero.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/reaction_button.dart';
@@ -82,7 +83,9 @@ class DetailFeedCard extends StatelessWidget {
               ),
               const Spacer(),
               GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    showMoreMenuFeed(context, data.user!.username!);
+                  },
                   child: Icon(
                     Icons.more_horiz,
                     color: subColor,

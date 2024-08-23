@@ -247,9 +247,65 @@ class _InitPageState extends State<InitPage> {
                       builder: (context, state) {
                         return TextButton(
                             onPressed: () {
-                              context
-                                  .read<LogoutBloc>()
-                                  .add(const LogoutEvent.logout());
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text(
+                                      textAlign: TextAlign.center,
+                                      'Logging out',
+                                      style: titleSegoeUITextStyle.copyWith(
+                                          fontSize: 15),
+                                    ),
+                                    content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          'Are you sure to log out of Nowdots?',
+                                          style:
+                                              regularSegoeUITextStyle.copyWith(
+                                                  fontSize: 14,
+                                                  color: subColor),
+                                        ),
+                                        SizedBox(
+                                          height: 14,
+                                        ),
+                                        Divider(
+                                          color: boxColor,
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            context.read<LogoutBloc>().add(
+                                                const LogoutEvent.logout());
+                                          },
+                                          child: Text(
+                                            'Log out',
+                                            style:
+                                                titleSegoeUITextStyle.copyWith(
+                                                    fontSize: 15,
+                                                    color: score2Color),
+                                          ),
+                                        ),
+                                        Divider(
+                                          color: boxColor,
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            context.pop();
+                                          },
+                                          child: Text(
+                                            'Cancel',
+                                            style: regularSegoeUITextStyle
+                                                .copyWith(
+                                                    fontSize: 15,
+                                                    color: primaryColor),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
                             },
                             child: Text(
                               "Log out",
