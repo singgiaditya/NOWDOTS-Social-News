@@ -21,6 +21,7 @@ import 'package:nowdots_social_news/src/presentation/feed/pages/post_feed.dart';
 import 'package:nowdots_social_news/src/presentation/feed/pages/report_continue.dart';
 import 'package:nowdots_social_news/src/presentation/feed/pages/report_reason.dart';
 import 'package:nowdots_social_news/src/presentation/init_page.dart';
+import 'package:nowdots_social_news/src/presentation/profile/pages/profile_view.dart';
 import 'package:nowdots_social_news/src/presentation/splash_screen/splash_screen.dart';
 
 class AppRoute {
@@ -74,10 +75,39 @@ class AppRoute {
                     parentNavigatorKey: _shellNavigatorHome,
                     path: "/home",
                     name: "home",
-                    builder: (context, state) => FeedView(
+                    pageBuilder: (context, state) => NoTransitionPage(
+                            child: FeedView(
                           parentKey: _scaffoldKey,
-                        ),
+                        )),
                     routes: [
+                      GoRoute(
+                        parentNavigatorKey: _shellNavigatorHome,
+                        path: "my-profile",
+                        name: "my-profile",
+                        pageBuilder: (context, state) {
+                          return CustomTransitionPage(
+                            key: state.pageKey,
+                            child: ProfileView(),
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              const begin = Offset(1.0, 0.0);
+                              const end = Offset.zero;
+                              const curve = Curves.fastOutSlowIn;
+
+                              final tween = Tween(begin: begin, end: end);
+                              final curvedAnimation = CurvedAnimation(
+                                parent: animation,
+                                curve: curve,
+                              );
+
+                              return SlideTransition(
+                                position: tween.animate(curvedAnimation),
+                                child: child,
+                              );
+                            },
+                          );
+                        },
+                      ),
                       GoRoute(
                         parentNavigatorKey: _rootNavigatorKey,
                         path: "report",
@@ -119,7 +149,8 @@ class AppRoute {
                   parentNavigatorKey: _shellNavigatorNews,
                   path: "/news",
                   name: "news",
-                  builder: (context, state) => const Text("News"),
+                  pageBuilder: (context, state) =>
+                      NoTransitionPage(child: Text("News")),
                 ),
               ]),
               StatefulShellBranch(
@@ -129,7 +160,8 @@ class AppRoute {
                       parentNavigatorKey: _shellNavigatorNotifications,
                       path: "/notifications",
                       name: "notifications",
-                      builder: (context, state) => const Text("Notifications"),
+                      pageBuilder: (context, state) =>
+                          NoTransitionPage(child: Text("Notifications")),
                     ),
                   ]),
               StatefulShellBranch(
@@ -139,7 +171,8 @@ class AppRoute {
                       parentNavigatorKey: _shellNavigatorSettings,
                       path: "/settings",
                       name: "settings",
-                      builder: (context, state) => const Text("Settings"),
+                      pageBuilder: (context, state) =>
+                          NoTransitionPage(child: Text("Settings")),
                     ),
                   ]),
             ]),

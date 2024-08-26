@@ -9,6 +9,7 @@ import 'package:nowdots_social_news/src/core/constant/logos.dart';
 import 'package:nowdots_social_news/src/core/widgets/avatar_cache_image.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/drawer/drawer_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/get_all_feeds/get_all_feeds_bloc.dart';
+import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/more_menu_feed.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_card.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/loading_feed_card.dart';
 import 'package:shimmer/shimmer.dart';
@@ -48,36 +49,59 @@ class _FeedViewState extends State<FeedView> {
         return DefaultTabController(
           length: 2,
           child: Scaffold(
-            appBar: AppBar(
-              leading: GestureDetector(
-                onTap: () {
-                  widget.parentKey.currentState!.openDrawer();
-                },
-                child: Image.asset(
-                  getLogo(state),
-                  scale: 2,
-                ),
-              ),
-              title: const Text("Feeds"),
-              actions: [
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.search),
-                  iconSize: 30,
-                )
-              ],
-              bottom: const TabBar(tabs: [
-                Tab(
-                  text: "For You",
-                ),
-                Tab(
-                  text: "Following",
-                )
-              ]),
+            body: NestedScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              headerSliverBuilder: (context, innerBoxIsScrolled) {
+                return [
+                  SliverAppBar(
+                    snap: true,
+                    leading: GestureDetector(
+                      onTap: () {
+                        widget.parentKey.currentState!.openDrawer();
+                      },
+                      child: Image.asset(
+                        getLogo(state),
+                        scale: 2,
+                      ),
+                    ),
+                    title: const Text("Feeds"),
+                    actions: [
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.search),
+                        iconSize: 30,
+                      )
+                    ],
+                    floating: true,
+                  ),
+                  PinnedHeaderSliver(
+                    child: Container(
+                      color: Colors.white,
+                      child: SafeArea(
+                        child: TabBar(
+                            labelStyle:
+                                titleSegoeUITextStyle.copyWith(fontSize: 14),
+                            labelColor: primaryColor,
+                            unselectedLabelColor: thirdColor,
+                            dividerColor: boxColor,
+                            indicatorColor: primaryColor,
+                            tabs: [
+                              Tab(
+                                text: "For You",
+                              ),
+                              Tab(
+                                text: "Following",
+                              )
+                            ]),
+                      ),
+                    ),
+                  ),
+                ];
+              },
+              body:
+                  TabBarView(children: [_buildBody(), _buildShimmeringBody()]),
             ),
-            body: TabBarView(
-                physics: const NeverScrollableScrollPhysics(),
-                children: [_buildBody(), _buildShimmeringBody()]),
           ),
         );
       },
@@ -92,73 +116,68 @@ class _FeedViewState extends State<FeedView> {
         BlocProvider.of<GetAllFeedsBloc>(context)
             .add(const GetAllFeedsEvent.getAllFeeds());
       },
-      child: SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        child: Column(
-          children: [
-            GestureDetector(
-              onTap: () {
-                context.pushNamed("post-feed");
-              },
-              child: BlocBuilder<GetUserBloc, GetUserState>(
-                builder: (context, state) {
-                  return state.maybeWhen(
-                    orElse: () {
-                      return CreatePostCard(
-                        image: " ",
-                      );
+      child: BlocBuilder<GetAllFeedsBloc, GetAllFeedsState>(
+        builder: (context, state) {
+          return state.maybeWhen(
+            orElse: () {
+              return const Center(
+                child: Text("Initial"),
+              );
+            },
+            loading: () => _buildShimmeringBody(),
+            error: (message) => Text(message),
+            loaded: (data) {
+              return ListView.separated(
+                separatorBuilder: (context, index) => Divider(
+                  color: boxColor,
+                ),
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: data.data!.length + 1,
+                itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return GestureDetector(
+                      onTap: () {
+                        context.pushNamed("post-feed");
+                      },
+                      child: BlocBuilder<GetUserBloc, GetUserState>(
+                        builder: (context, state) {
+                          return state.maybeWhen(
+                            orElse: () {
+                              return CreatePostCard(
+                                image: " ",
+                              );
+                            },
+                            loaded: (data) {
+                              return CreatePostCard(
+                                image: data.profilePhoto != null
+                                    ? "${baseUrl}${data.profilePhoto}"
+                                    : " ",
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    );
+                  }
+
+                  return GestureDetector(
+                    onTap: () {
+                      context.pushNamed("detail-feed",
+                          extra: data.data![index - 1]);
                     },
-                    loaded: (data) {
-                      return CreatePostCard(
-                        image: data.profilePhoto != null
-                            ? "${baseUrl}${data.profilePhoto}"
-                            : " ",
-                      );
-                    },
+                    child: FeedCard(
+                      moreOnTap: () => showMoreMenuFeed(
+                          widget.parentKey.currentContext!,
+                          data.data![index - 1].user!.username!),
+                      data: data.data![index - 1],
+                    ),
                   );
                 },
-              ),
-            ),
-            Divider(
-              color: boxColor,
-            ),
-            BlocBuilder<GetAllFeedsBloc, GetAllFeedsState>(
-              builder: (context, state) {
-                return state.maybeWhen(
-                  orElse: () {
-                    return const Center(
-                      child: Text("Initial"),
-                    );
-                  },
-                  loading: () => _buildShimmeringBody(),
-                  error: (message) => Text(message),
-                  loaded: (data) {
-                    return ListView.separated(
-                      separatorBuilder: (context, index) => Divider(
-                        color: boxColor,
-                      ),
-                      itemCount: data.data!.length,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            context.pushNamed("detail-feed",
-                                extra: data.data![index]);
-                          },
-                          child: FeedCard(
-                            parentKey: widget.parentKey,
-                            data: data.data![index],
-                          ),
-                        );
-                      },
-                    );
-                  },
-                );
-              },
-            ),
-          ],
-        ),
+              );
+            },
+          );
+        },
       ),
     );
   }

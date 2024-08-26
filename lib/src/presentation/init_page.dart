@@ -26,7 +26,8 @@ class _InitPageState extends State<InitPage> {
   int selectedIndex = 0;
 
   void _goToBranch(int index) {
-    widget.navigationShell.goBranch(index);
+    widget.navigationShell.goBranch(index,
+        initialLocation: index == widget.navigationShell.currentIndex);
   }
 
   void showSnackBar(BuildContext context, String message) {
@@ -58,15 +59,27 @@ class _InitPageState extends State<InitPage> {
                   builder: (context, state) {
                     return state.maybeWhen(
                       orElse: () {
-                        return AvatarCacheImage(
-                          image: " ",
-                          radius: 25,
+                        return GestureDetector(
+                          onTap: () {
+                            widget.scaffoldKey.currentState!.closeDrawer();
+                            context.goNamed("my-profile");
+                          },
+                          child: AvatarCacheImage(
+                            image: " ",
+                            radius: 25,
+                          ),
                         );
                       },
                       loaded: (data) {
-                        return AvatarCacheImage(
-                          image: "$baseUrl${data.profilePhoto}",
-                          radius: 25,
+                        return GestureDetector(
+                          onTap: () {
+                            widget.scaffoldKey.currentState!.closeDrawer();
+                            context.pushNamed("my-profile");
+                          },
+                          child: AvatarCacheImage(
+                            image: "$baseUrl${data.profilePhoto}",
+                            radius: 25,
+                          ),
                         );
                       },
                     );

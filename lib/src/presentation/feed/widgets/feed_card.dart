@@ -8,7 +8,6 @@ import 'package:nowdots_social_news/src/core/widgets/avatar_cache_image.dart';
 import 'package:nowdots_social_news/src/data/models/feeds_response_model.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/hashtag_text.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/image_hero.dart';
-import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/more_menu_feed.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/row_button_container.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/score_widget.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/span_divider.dart';
@@ -16,9 +15,9 @@ import 'package:shimmer/shimmer.dart';
 
 class FeedCard extends StatelessWidget {
   final Feed data;
-  final GlobalKey<ScaffoldState> parentKey;
+  final GestureTapCallback moreOnTap;
 
-  const FeedCard({super.key, required this.data, required this.parentKey});
+  const FeedCard({super.key, required this.data, required this.moreOnTap});
 
   @override
   Widget build(BuildContext context) {
@@ -78,9 +77,7 @@ class FeedCard extends StatelessWidget {
             ),
             const Spacer(),
             GestureDetector(
-                onTap: () {
-                  showMoreMenuFeed(parentKey.currentContext! ,data.user!.username!);
-                },
+                onTap: moreOnTap,
                 child: Icon(
                   Icons.more_horiz,
                   color: subColor,
