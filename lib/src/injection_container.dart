@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:nowdots_social_news/src/core/bloc/camera/camera_bloc.dart';
 import 'package:nowdots_social_news/src/core/bloc/get_user/get_user_bloc.dart';
 import 'package:nowdots_social_news/src/data/datasources/local/feed/feed_local_datasources.dart';
 import 'package:nowdots_social_news/src/data/datasources/local/user/user_local_datasources.dart';
@@ -61,5 +62,8 @@ Future<void> initializieDependencies() async {
   sl.registerFactory<LogoutBloc>(() => LogoutBloc(sl()));
   sl.registerFactory<GetUserBloc>(
     () => GetUserBloc(sl()),
+  );
+  sl.registerFactory<CameraBloc>(
+    () => CameraBloc(),
   );
 }

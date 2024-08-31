@@ -159,8 +159,9 @@ class _PostFeedState extends State<PostFeed> {
                   if (index == 0) {
                     return GestureDetector(
                       onTap: () async {
-                        final imageTemp = await ImagePickerGalleryCamera
-                            .pickImageFromCamera();
+                        final imageTemp =
+                            await ImagePickerGalleryCamera.pickImageFromCamera(
+                                context);
 
                         if (imageTemp == null) {
                           return;

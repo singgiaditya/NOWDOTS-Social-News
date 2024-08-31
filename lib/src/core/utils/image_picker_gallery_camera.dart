@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:nowdots_social_news/src/core/widgets/camera_capture.dart';
 
 class ImagePickerGalleryCamera {
   static Future<XFile?> pickImageFromGallery() async {
@@ -11,18 +12,22 @@ class ImagePickerGalleryCamera {
     }
   }
 
-  static Future<XFile?> pickImageFromCamera() async {
+  static Future<List<XFile>?> pickMultiImageFromGallery() async {
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.camera);
+      final image = await ImagePicker().pickMultiImage();
       return image;
     } catch (e) {
       return null;
     }
   }
 
-  static Future<List<XFile>?> pickMultiImageFromGallery() async {
+  static Future<XFile?> pickImageFromCamera(BuildContext context) async {
     try {
-      final image = await ImagePicker().pickMultiImage();
+      final image = await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CameraCapture(),
+          ));
       return image;
     } catch (e) {
       return null;
@@ -48,7 +53,13 @@ class ImagePickerGalleryCamera {
                 leading: Icon(Icons.camera_alt_outlined),
                 title: Text("Camera"),
                 onTap: () async {
-                  image = await pickImageFromCamera();
+                  // image = await pickImageFromCamera();
+                  // Navigator.pop(context);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CameraCapture(),
+                      ));
                   Navigator.pop(context);
                 })
           ],
