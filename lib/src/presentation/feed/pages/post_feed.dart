@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -10,6 +9,7 @@ import 'package:nowdots_social_news/src/core/bloc/get_user/get_user_bloc.dart';
 import 'package:nowdots_social_news/src/core/constant/api.dart';
 import 'package:nowdots_social_news/src/core/utils/image_picker_gallery_camera.dart';
 import 'package:nowdots_social_news/src/core/widgets/avatar_cache_image.dart';
+import 'package:nowdots_social_news/src/data/datasources/local/recent_photos/local_recent_photos.dart';
 
 class PostFeed extends StatefulWidget {
   const PostFeed({super.key});
@@ -20,7 +20,8 @@ class PostFeed extends StatefulWidget {
 
 class _PostFeedState extends State<PostFeed> {
   List<Widget> widgets = [];
-  List<XFile>? images;
+  List<File>? recentImages;
+  List<File>? imagesSelected;
   bool isImagePressed = false;
   bool isPollingPressed = false;
   PollingWidget pollingWidget = PollingWidget();
@@ -38,6 +39,34 @@ class _PostFeedState extends State<PostFeed> {
     }
     isPollingPressed = !isPollingPressed;
     setState(() {});
+  }
+
+  void imageSelected(File image) {
+    if (imagesSelected == null) {
+      imagesSelected = [];
+    }
+    imagesSelected!.add(image);
+    setState(() {});
+  }
+
+  void deleteImageSelected(int index) {
+    imagesSelected!.removeAt(index);
+    setState(() {});
+  }
+
+  void recentImage() async {
+    var recentPhotos = await LocalRecentPhotos.getRecentPhotos(6);
+    recentImages = [];
+    recentPhotos.forEach((photos) async {
+      final file = await photos.loadFile();
+      recentImages?.add(file!);
+    });
+  }
+
+  @override
+  void initState() {
+    recentImage();
+    super.initState();
   }
 
   @override
@@ -136,6 +165,58 @@ class _PostFeedState extends State<PostFeed> {
                                   return widgets[index];
                                 },
                               ),
+                              SizedBox(
+                                height: widgets.isEmpty ? 0 : 12,
+                              ),
+                              SizedBox(
+                                height: 220,
+                                child: ListView.separated(
+                                  scrollDirection: Axis.horizontal,
+                                  shrinkWrap: true,
+                                  itemCount: imagesSelected?.length ?? 0,
+                                  separatorBuilder: (context, index) =>
+                                      SizedBox(
+                                    width: 7,
+                                  ),
+                                  itemBuilder: (context, index) {
+                                    return Container(
+                                        height: 220,
+                                        width: 147,
+                                        padding: EdgeInsets.all(5),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            image: DecorationImage(
+                                                image: FileImage(
+                                                    imagesSelected![index]),
+                                                fit: BoxFit.cover)),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            InkWell(
+                                              onTap: () =>
+                                                  deleteImageSelected(index),
+                                              child: CircleAvatar(
+                                                backgroundColor: Colors.black
+                                                    .withOpacity(0.5),
+                                                radius: 14,
+                                                child: Center(
+                                                  child: Icon(
+                                                    Icons.clear_outlined,
+                                                    color: Colors.white,
+                                                    size: 18,
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ));
+                                  },
+                                ),
+                              ),
                             ],
                           )),
                         ],
@@ -145,81 +226,88 @@ class _PostFeedState extends State<PostFeed> {
                 ),
               ),
             ),
-            Container(
-              height: 71,
-              child: ListView.separated(
-                padding: EdgeInsets.symmetric(horizontal: 21),
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemCount: images != null ? images!.length + 1 : 0,
-                separatorBuilder: (context, index) => SizedBox(
-                  width: 8,
-                ),
-                itemBuilder: (context, index) {
-                  if (index == 0) {
+            Visibility(
+              visible: isImagePressed,
+              child: Container(
+                height: 71,
+                child: ListView.separated(
+                  padding: EdgeInsets.symmetric(horizontal: 21),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount:
+                      recentImages != null ? recentImages!.length + 2 : 0,
+                  separatorBuilder: (context, index) => SizedBox(
+                    width: 8,
+                  ),
+                  itemBuilder: (context, index) {
+                    if (index == 0) {
+                      return GestureDetector(
+                        onTap: () async {
+                          final imageTemp = await ImagePickerGalleryCamera
+                              .pickImageFromCamera(context);
+
+                          imageSelected(File(imageTemp!.path));
+
+                          setState(() {});
+                        },
+                        child: Container(
+                          width: 71,
+                          height: 71,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              border: Border.all(color: boxColor, width: 2)),
+                          child: Icon(
+                            Icons.camera_alt_outlined,
+                            color: primaryColor,
+                            size: 40,
+                          ),
+                        ),
+                      );
+                    }
+                    if (index == recentImages!.length + 1) {
+                      return GestureDetector(
+                        onTap: () async {
+                          List<XFile>? imagesTemp =
+                              await ImagePickerGalleryCamera
+                                  .pickMultiImageFromGallery();
+                          if (imagesTemp == null) {
+                            return;
+                          }
+
+                          imagesTemp.forEach((image) {
+                            imageSelected(File(image.path));
+                          });
+
+                          setState(() {});
+                        },
+                        child: Container(
+                          width: 71,
+                          height: 71,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              border: Border.all(color: boxColor, width: 2)),
+                          child: Icon(
+                            Icons.image_outlined,
+                            color: primaryColor,
+                            size: 40,
+                          ),
+                        ),
+                      );
+                    }
                     return GestureDetector(
-                      onTap: () async {
-                        final imageTemp =
-                            await ImagePickerGalleryCamera.pickImageFromCamera(
-                                context);
-
-                        if (imageTemp == null) {
-                          return;
-                        }
-
-                        if (images == null) {
-                          images = [];
-                        }
-
-                        images!.add(imageTemp);
-
-                        setState(() {});
-                      },
+                      onTap: () => imageSelected(recentImages![index - 1]),
                       child: Container(
                         width: 71,
                         height: 71,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
-                            border: Border.all(color: boxColor, width: 2)),
-                        child: Icon(
-                          Icons.camera_alt_outlined,
-                          color: primaryColor,
-                          size: 40,
-                        ),
+                            image: DecorationImage(
+                                image: FileImage(recentImages![index - 1]),
+                                fit: BoxFit.cover)),
                       ),
                     );
-                  }
-                  return Container(
-                    width: 71,
-                    height: 71,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        image: DecorationImage(
-                            image: FileImage(File(images![index - 1].path)),
-                            fit: BoxFit.cover)),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 4, right: 4),
-                      child: Align(
-                          alignment: Alignment.topRight,
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                images!.removeAt(index - 1);
-                              });
-                            },
-                            child: CircleAvatar(
-                              backgroundColor: primaryColor,
-                              radius: 8,
-                              child: Icon(
-                                Icons.clear,
-                                color: Colors.white,
-                                size: 13,
-                              ),
-                            ),
-                          )),
-                    ),
-                  );
-                },
+                  },
+                ),
               ),
             ),
             Divider(
@@ -304,19 +392,19 @@ class _PostFeedState extends State<PostFeed> {
                       GestureDetector(
                           onTap: () async {
                             FocusManager.instance.primaryFocus?.unfocus();
-                            List<XFile>? imagesTemp =
-                                await ImagePickerGalleryCamera
-                                    .pickMultiImageFromGallery();
-                            if (imagesTemp == null) {
-                              return;
-                            }
-                            if (images == null) {
-                              images = imagesTemp;
-                            } else {
-                              images!.addAll(imagesTemp);
-                            }
+                            // List<XFile>? imagesTemp =
+                            //     await ImagePickerGalleryCamera
+                            //         .pickMultiImageFromGallery();
+                            // if (imagesTemp == null) {
+                            //   return;
+                            // }
+                            // if (images == null) {
+                            //   images = imagesTemp;
+                            // } else {
+                            //   images!.addAll(imagesTemp);
+                            // }
 
-                            isImagePressed = true;
+                            isImagePressed = !isImagePressed;
                             setState(() {});
                           },
                           child: Icon(

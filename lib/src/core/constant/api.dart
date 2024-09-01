@@ -1,10 +1,10 @@
-const baseUrl = "https://nowdots-news-be.opwarnet.my.id";
-const baseUrlApi = "${baseUrl}/api";
+const baseUrl = "https://nowdots-news.opwarnet.my.id";
+const baseUrlApi = "${baseUrl}/api/v1";
 
 //login
 const loginApi = "${baseUrlApi}/login";
 
-const logoutApi = "${baseUrlApi}/logout";
+const logoutApi = "${baseUrlApi}/users/logout";
 
 //register
 const createAccountApi = "$baseUrlApi/create-account";

@@ -53,13 +53,7 @@ class ImagePickerGalleryCamera {
                 leading: Icon(Icons.camera_alt_outlined),
                 title: Text("Camera"),
                 onTap: () async {
-                  // image = await pickImageFromCamera();
-                  // Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CameraCapture(),
-                      ));
+                  image = await pickImageFromCamera(context);
                   Navigator.pop(context);
                 })
           ],
