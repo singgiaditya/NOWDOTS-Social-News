@@ -397,7 +397,8 @@ class DetailFeedCard extends StatelessWidget {
               Flexible(
                   child: GestureDetector(
                 onTap: () {
-                  context.pushNamed("multiple-image", extra: data);
+                  context.pushNamed("image",
+                      extra: data, pathParameters: {"index": "3"});
                 },
                 child: CachedNetworkImage(
                   imageUrl: data.image![3],

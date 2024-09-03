@@ -13,33 +13,45 @@ class FullscreenImage extends StatelessWidget {
     final Feed data = GoRouterState.of(context).extra! as Feed;
     final int index =
         int.parse(GoRouterState.of(context).pathParameters["index"]!);
+    final CarouselController controller =
+        CarouselController(initialItem: index);
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
         child: Stack(children: [
-          Hero(
-            tag: data.image![index],
-            child: CachedNetworkImage(
-              imageUrl: data.image![index],
-              placeholder: (context, url) => const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.white,
-                ),
-              ),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
-              imageBuilder: (context, imageProvider) {
-                return Container(
-                  width: double.infinity,
-                  height: double.infinity,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: imageProvider,
-                      fit: BoxFit.fitWidth,
+          CarouselView(
+            backgroundColor: Colors.black,
+            itemSnapping: true,
+            padding: EdgeInsets.all(0),
+            itemExtent: MediaQuery.of(context).size.width,
+            shape: Border.all(),
+            controller: controller,
+            children: List<Widget>.generate(data.image!.length, (int index) {
+              return Hero(
+                tag: data.image![index],
+                child: CachedNetworkImage(
+                  imageUrl: data.image![index],
+                  placeholder: (context, url) => const Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
                     ),
                   ),
-                );
-              },
-            ),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                  imageBuilder: (context, imageProvider) {
+                    return Container(
+                      width: double.infinity,
+                      height: double.infinity,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.fitWidth,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              );
+            }),
           ),
           Positioned(
             top: 20,

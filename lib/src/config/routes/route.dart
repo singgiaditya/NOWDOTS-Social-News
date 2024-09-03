@@ -16,7 +16,6 @@ import 'package:nowdots_social_news/src/presentation/auth/pages/sign_up/sign_up_
 import 'package:nowdots_social_news/src/presentation/feed/pages/detail_feed_view.dart';
 import 'package:nowdots_social_news/src/presentation/feed/pages/feed_view.dart';
 import 'package:nowdots_social_news/src/presentation/feed/pages/fullscreen_image.dart';
-import 'package:nowdots_social_news/src/presentation/feed/pages/multple_image.dart';
 import 'package:nowdots_social_news/src/presentation/feed/pages/post_feed.dart';
 import 'package:nowdots_social_news/src/presentation/feed/pages/report_continue.dart';
 import 'package:nowdots_social_news/src/presentation/feed/pages/report_reason.dart';
@@ -278,15 +277,6 @@ class AppRoute {
           name: "image",
           builder: (context, state) => const FullscreenImage(),
         ),
-
-        //fullscreen multiple-image
-        GoRoute(
-          parentNavigatorKey: _rootNavigatorKey,
-          path: "/multiple-image",
-          name: "multiple-image",
-          builder: (context, state) => const MultipleImage(),
-        ),
-
         //detail-feed
         GoRoute(
           parentNavigatorKey: _rootNavigatorKey,
