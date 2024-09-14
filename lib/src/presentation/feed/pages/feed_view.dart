@@ -11,7 +11,6 @@ import 'package:nowdots_social_news/src/core/widgets/avatar_cache_image.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/get_all_followiing_feeds/get_all_following_feeds_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/drawer/drawer_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/get_all_feeds/get_all_feeds_bloc.dart';
-import 'package:nowdots_social_news/src/presentation/feed/bloc/reaction/reaction_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/more_menu_feed.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_card.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/loading_feed_card.dart';
@@ -151,6 +150,17 @@ class _FeedViewState extends State<FeedView> {
               );
             },
             loaded: (data) {
+              if (data.data!.isEmpty) {
+                return Column(
+                  children: [
+                    _PostFeedCard(context),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    _buildEmptyFeedWidget(),
+                  ],
+                );
+              }
               return ListView.separated(
                 separatorBuilder: (context, index) => Divider(
                   color: boxColor,
@@ -202,6 +212,35 @@ class _FeedViewState extends State<FeedView> {
             },
           );
         },
+      ),
+    );
+  }
+
+  Widget _buildEmptyFeedWidget() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 40),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Welcome to Nowdots",
+            style: titleProximaNovaTextStyle.copyWith(fontSize: 20),
+          ),
+          Text(
+              "This is the perfect spot to stay updated on what's going on around you. Start following people and topics that interest you right now.",
+              style: regularSegoeUITextStyle.copyWith(
+                  fontSize: 14, color: thirdColor)),
+          SizedBox(
+            height: 28,
+          ),
+          ElevatedButton(
+              onPressed: () {},
+              child: Text(
+                "Start Following",
+                style: titleProximaNovaTextStyle.copyWith(
+                    fontSize: 16, color: Colors.white),
+              ))
+        ],
       ),
     );
   }
@@ -268,6 +307,17 @@ class _FeedViewState extends State<FeedView> {
               ));
             },
             loaded: (data) {
+              if (data.data!.isEmpty) {
+                return Column(
+                  children: [
+                    _PostFeedCard(context),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    _buildEmptyFeedWidget(),
+                  ],
+                );
+              }
               return ListView.separated(
                 separatorBuilder: (context, index) => Divider(
                   color: boxColor,
@@ -277,29 +327,7 @@ class _FeedViewState extends State<FeedView> {
                 itemCount: data.data!.length + 1,
                 itemBuilder: (context, index) {
                   if (index == 0) {
-                    return GestureDetector(
-                      onTap: () {
-                        context.pushNamed("post-feed");
-                      },
-                      child: BlocBuilder<GetUserBloc, GetUserState>(
-                        builder: (context, state) {
-                          return state.maybeWhen(
-                            orElse: () {
-                              return CreatePostCard(
-                                image: " ",
-                              );
-                            },
-                            loaded: (data) {
-                              return CreatePostCard(
-                                image: data.profilePhoto != null
-                                    ? "${baseUrl}${data.profilePhoto}"
-                                    : " ",
-                              );
-                            },
-                          );
-                        },
-                      ),
-                    );
+                    return _PostFeedCard(context);
                   }
 
                   return GestureDetector(
@@ -315,6 +343,32 @@ class _FeedViewState extends State<FeedView> {
                     ),
                   );
                 },
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  GestureDetector _PostFeedCard(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        context.pushNamed("post-feed");
+      },
+      child: BlocBuilder<GetUserBloc, GetUserState>(
+        builder: (context, state) {
+          return state.maybeWhen(
+            orElse: () {
+              return CreatePostCard(
+                image: " ",
+              );
+            },
+            loaded: (data) {
+              return CreatePostCard(
+                image: data.profilePhoto != null
+                    ? "${baseUrl}${data.profilePhoto}"
+                    : " ",
               );
             },
           );

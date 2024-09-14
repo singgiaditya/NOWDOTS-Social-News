@@ -61,7 +61,8 @@ class FeedCard extends StatelessWidget {
                       width: 4,
                     ),
                     ScoreWidget(
-                      scoreString: "${data.user!.profile?.repScore}",
+                      scoreString:
+                          data.user?.profile?.repScore.toString() ?? "TBD",
                     ),
                   ],
                 ),
