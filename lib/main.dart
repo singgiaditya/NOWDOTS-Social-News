@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:nowdots_social_news/src/config/routes/route.dart';
 import 'package:nowdots_social_news/src/config/themes/app_themes.dart';
 import 'package:nowdots_social_news/src/core/bloc/get_user/get_user_bloc.dart';
+import 'package:nowdots_social_news/src/core/enums/feed_type_enums.dart';
 import 'package:nowdots_social_news/src/injection_container.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/forgot_password/forgot_pass/forgot_pass_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/forgot_password/forgot_password_set_new_password/forgot_password_set_new_password_bloc.dart';
@@ -15,8 +16,10 @@ import 'package:nowdots_social_news/src/presentation/auth/bloc/register/register
 import 'package:nowdots_social_news/src/presentation/auth/bloc/register/register_set_password/register_set_password_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/register/register_set_profile_picture/register_set_profile_picture_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/register/register_set_username/register_set_username_bloc.dart';
+import 'package:nowdots_social_news/src/presentation/feed/bloc/get_all_followiing_feeds/get_all_following_feeds_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/drawer/drawer_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/get_all_feeds/get_all_feeds_bloc.dart';
+import 'package:nowdots_social_news/src/presentation/feed/bloc/reaction/reaction_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/splash_screen/bloc/splash_screen_bloc.dart';
 
 void main() async {
@@ -39,6 +42,14 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<GetAllFeedsBloc>(
           create: (context) => sl()..add(GetAllFeedsEvent.getAllFeeds()),
+        ),
+        BlocProvider<GetAllFollowingFeedsBloc>(
+          create: (context) => sl()
+            ..add(GetAllFollowingFeedsEvent.getAllFollowingFeeds(
+                FeedType.NOWDOTS)),
+        ),
+        BlocProvider<ReactionBloc>(
+          create: (context) => sl(),
         ),
         BlocProvider<DrawerBloc>(
           create: (context) => sl(),

@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
-import 'package:nowdots_social_news/src/data/models/feeds_response_model.dart';
+import 'package:nowdots_social_news/src/data/models/feed/feeds_response_model.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ImageHero extends StatelessWidget {
@@ -56,9 +56,9 @@ class ImageHero extends StatelessWidget {
             extra: data, pathParameters: {"index": index.toString()});
       },
       child: Hero(
-        tag: data.image![index],
+        tag: data.photos![index],
         child: CachedNetworkImage(
-          imageUrl: data.image![index],
+          imageUrl: data.photos![index],
           imageBuilder: (context, imageProvider) {
             return Container(
               width: width,

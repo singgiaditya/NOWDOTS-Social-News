@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/services.dart';
-import 'package:nowdots_social_news/src/data/models/feeds_response_model.dart';
+import 'package:nowdots_social_news/src/data/models/feed/feeds_response_model.dart';
 
 class FeedLocalDatasources {
   Future<Either<String, FeedsResponseModel>> getLocalFeeds() async {

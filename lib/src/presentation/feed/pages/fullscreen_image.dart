@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
-import 'package:nowdots_social_news/src/data/models/feeds_response_model.dart';
+import 'package:nowdots_social_news/src/data/models/feed/feeds_response_model.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/row_button_container.dart';
 
 class FullscreenImage extends StatelessWidget {
@@ -26,11 +26,11 @@ class FullscreenImage extends StatelessWidget {
             itemExtent: MediaQuery.of(context).size.width,
             shape: Border.all(),
             controller: controller,
-            children: List<Widget>.generate(data.image!.length, (int index) {
+            children: List<Widget>.generate(data.photosCount!, (int index) {
               return Hero(
-                tag: data.image![index],
+                tag: data.photos![index],
                 child: CachedNetworkImage(
-                  imageUrl: data.image![index],
+                  imageUrl: data.photos![index],
                   placeholder: (context, url) => const Center(
                     child: CircularProgressIndicator(
                       color: Colors.white,
@@ -103,12 +103,10 @@ class FullscreenImage extends StatelessWidget {
               child: Column(
                 children: [
                   RowButtonContainer(
-                      color: Colors.white,
-                      backgroundColor: Colors.transparent,
-                      likeCount: data.likeCount!,
-                      commentCount: data.commentCount!,
-                      shareCount: data.forwardCount!,
-                      upVoteCount: data.upVoteCount ?? "0"),
+                    color: Colors.white,
+                    backgroundColor: Colors.transparent,
+                    data: data,
+                  ),
                   const SizedBox(
                     height: 20,
                   ),

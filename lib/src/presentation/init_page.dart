@@ -7,10 +7,14 @@ import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
 import 'package:nowdots_social_news/src/core/bloc/get_user/get_user_bloc.dart';
 import 'package:nowdots_social_news/src/core/constant/api.dart';
 import 'package:nowdots_social_news/src/core/constant/icons.dart';
+import 'package:nowdots_social_news/src/core/enums/feed_type_enums.dart';
+import 'package:nowdots_social_news/src/core/utils/string_extension.dart';
 import 'package:nowdots_social_news/src/core/widgets/avatar_cache_image.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/logout/logout_bloc.dart';
+import 'package:nowdots_social_news/src/presentation/feed/bloc/get_all_followiing_feeds/get_all_following_feeds_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/drawer/drawer_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/score_widget.dart';
+import 'package:nowdots_social_news/src/presentation/feed/bloc/get_all_feeds/get_all_feeds_bloc.dart';
 
 class InitPage extends StatefulWidget {
   final StatefulNavigationShell navigationShell;
@@ -115,7 +119,9 @@ class _InitPageState extends State<InitPage> {
                             const SizedBox(
                               width: 8,
                             ),
-                            const ScoreWidget(scoreString: "2000")
+                            ScoreWidget(
+                                scoreString:
+                                    data.profile?.repScore.toString() ?? "TBD")
                           ],
                         );
                       },
@@ -398,13 +404,22 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
     "Nowhype",
   ];
 
+  final List<FeedType> dataType = [
+    FeedType.NOWDOTS,
+    FeedType.NOWHER,
+    FeedType.NOWFOODIE,
+    FeedType.NOWPLAY,
+    FeedType.NOWSPORT,
+    FeedType.NOWHYPE,
+  ];
+
   bool isSelected(index, selectedIndex) {
     return selectedIndex == index;
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DrawerBloc, int>(
+    return BlocBuilder<DrawerBloc, FeedType>(
       builder: (_, state) {
         return ListView.builder(
           itemCount: data.length,
@@ -416,12 +431,20 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
               children: [
                 TextButton(
                     onPressed: () {
-                      _.read<DrawerBloc>().add(DrawerChangeIndex(index));
+                      _
+                          .read<DrawerBloc>()
+                          .add(DrawerChangeType(dataType[index]));
+                      _
+                          .read<GetAllFeedsBloc>()
+                          .add(GetAllFeedsEvent.changeFeeds(dataType[index]));
+                      _.read<GetAllFollowingFeedsBloc>().add(
+                          GetAllFollowingFeedsEvent.getAllFollowingFeeds(
+                              dataType[index]));
                       widget.scaffoldKey.currentState!.closeDrawer();
                     },
                     child: Text(
-                      data[index],
-                      style: isSelected(index, state)
+                      dataType[index].name.capitalize(),
+                      style: isSelected(dataType[index], state)
                           ? widget.selectedTextStyle
                           : widget.unselectedTextStyle,
                     )),

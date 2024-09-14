@@ -27,3 +27,10 @@ const commentOutline = "assets/icons/comment_outline.svg";
 const bookmarkOutline = "assets/icons/bookmark_outline.svg";
 
 const followIcon = "assets/icons/follow_icon.svg";
+
+//reaction icon
+const goodReaction = "assets/icons/reaction_icon/good_reaction.svg";
+const kindReaction = "assets/icons/reaction_icon/helpful_reaction.svg";
+const smartReaction = "assets/icons/reaction_icon/kind_reaction.svg";
+const wiseReaction = "assets/icons/reaction_icon/smart_reaction.svg";
+const helpfulReaction = "assets/icons/reaction_icon/wise_reaction.svg";

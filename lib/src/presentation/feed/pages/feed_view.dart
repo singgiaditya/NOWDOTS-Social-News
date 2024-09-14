@@ -6,9 +6,12 @@ import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
 import 'package:nowdots_social_news/src/core/bloc/get_user/get_user_bloc.dart';
 import 'package:nowdots_social_news/src/core/constant/api.dart';
 import 'package:nowdots_social_news/src/core/constant/logos.dart';
+import 'package:nowdots_social_news/src/core/enums/feed_type_enums.dart';
 import 'package:nowdots_social_news/src/core/widgets/avatar_cache_image.dart';
+import 'package:nowdots_social_news/src/presentation/feed/bloc/get_all_followiing_feeds/get_all_following_feeds_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/drawer/drawer_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/get_all_feeds/get_all_feeds_bloc.dart';
+import 'package:nowdots_social_news/src/presentation/feed/bloc/reaction/reaction_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/more_menu_feed.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_card.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/loading_feed_card.dart';
@@ -23,19 +26,19 @@ class FeedView extends StatefulWidget {
 }
 
 class _FeedViewState extends State<FeedView> {
-  String getLogo(int index) {
-    switch (index) {
-      case 0:
+  String getLogo(FeedType type) {
+    switch (type) {
+      case FeedType.NOWDOTS:
         return nowdotsLogo;
-      case 1:
+      case FeedType.NOWHER:
         return nowherLogo;
-      case 2:
+      case FeedType.NOWFOODIE:
         return nowfoodieLogo;
-      case 3:
+      case FeedType.NOWPLAY:
         return nowplayLogo;
-      case 4:
+      case FeedType.NOWSPORT:
         return nowsportsLogo;
-      case 5:
+      case FeedType.NOWHYPE:
         return nowhypeLogo;
       default:
         return nowdotsLogo;
@@ -44,75 +47,81 @@ class _FeedViewState extends State<FeedView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DrawerBloc, int>(
+    return BlocBuilder<DrawerBloc, FeedType>(
       builder: (context, state) {
         return DefaultTabController(
           length: 2,
           child: Scaffold(
             body: NestedScrollView(
-              physics: AlwaysScrollableScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              headerSliverBuilder: (context, innerBoxIsScrolled) {
-                return [
-                  SliverAppBar(
-                    snap: true,
-                    leading: GestureDetector(
-                      onTap: () {
-                        widget.parentKey.currentState!.openDrawer();
-                      },
-                      child: Image.asset(
-                        getLogo(state),
-                        scale: 2,
+                physics: AlwaysScrollableScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                headerSliverBuilder: (context, innerBoxIsScrolled) {
+                  return [
+                    SliverAppBar(
+                      snap: true,
+                      leading: GestureDetector(
+                        onTap: () {
+                          widget.parentKey.currentState!.openDrawer();
+                        },
+                        child: Image.asset(
+                          getLogo(state),
+                          scale: 2,
+                        ),
+                      ),
+                      title: const Text("Feeds"),
+                      actions: [
+                        IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.search),
+                          iconSize: 30,
+                        )
+                      ],
+                      floating: true,
+                    ),
+                    PinnedHeaderSliver(
+                      child: Container(
+                        color: Colors.white,
+                        child: SafeArea(
+                          child: TabBar(
+                              labelStyle:
+                                  titleSegoeUITextStyle.copyWith(fontSize: 14),
+                              labelColor: primaryColor,
+                              unselectedLabelColor: thirdColor,
+                              dividerColor: boxColor,
+                              indicatorColor: primaryColor,
+                              tabs: [
+                                Tab(
+                                  text: "For You",
+                                ),
+                                Tab(
+                                  text: "Following",
+                                )
+                              ]),
+                        ),
                       ),
                     ),
-                    title: const Text("Feeds"),
-                    actions: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.search),
-                        iconSize: 30,
-                      )
-                    ],
-                    floating: true,
-                  ),
-                  PinnedHeaderSliver(
-                    child: Container(
-                      color: Colors.white,
-                      child: SafeArea(
-                        child: TabBar(
-                            labelStyle:
-                                titleSegoeUITextStyle.copyWith(fontSize: 14),
-                            labelColor: primaryColor,
-                            unselectedLabelColor: thirdColor,
-                            dividerColor: boxColor,
-                            indicatorColor: primaryColor,
-                            tabs: [
-                              Tab(
-                                text: "For You",
-                              ),
-                              Tab(
-                                text: "Following",
-                              )
-                            ]),
-                      ),
-                    ),
-                  ),
-                ];
-              },
-              body:
-                  TabBarView(children: [_buildBody(), _buildShimmeringBody()]),
-            ),
+                  ];
+                },
+                body: TabBarView(children: [
+                  _buildBody(state, false),
+                  _buildBody(state, true)
+                ])),
           ),
         );
       },
     );
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(FeedType type, bool isFollowing) {
+    if (isFollowing) {
+      return _buildFollowingFeeds(type);
+    }
+    return _buildFeeds();
+  }
+
+  RefreshIndicator _buildFeeds() {
     return RefreshIndicator(
       onRefresh: () async {
-        BlocProvider.of<GetUserBloc>(context)
-            .add(const GetUserEvent.getLocalUser());
         BlocProvider.of<GetAllFeedsBloc>(context)
             .add(const GetAllFeedsEvent.getAllFeeds());
       },
@@ -125,7 +134,139 @@ class _FeedViewState extends State<FeedView> {
               );
             },
             loading: () => _buildShimmeringBody(),
-            error: (message) => Text(message),
+            error: (message) {
+              if (message ==
+                  "This feature is only available for female users") {
+                return _buildNowherErrorWidget();
+              }
+              return SingleChildScrollView(
+                child: Container(
+                  height: MediaQuery.of(context).size.height / 2,
+                  child: Center(
+                      child: Text(
+                    message,
+                    style: titleProximaNovaTextStyle,
+                  )),
+                ),
+              );
+            },
+            loaded: (data) {
+              return ListView.separated(
+                separatorBuilder: (context, index) => Divider(
+                  color: boxColor,
+                ),
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: data.data!.length + 1,
+                itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return GestureDetector(
+                      onTap: () {
+                        context.pushNamed("post-feed");
+                      },
+                      child: BlocBuilder<GetUserBloc, GetUserState>(
+                        builder: (context, state) {
+                          return state.maybeWhen(
+                            orElse: () {
+                              return CreatePostCard(
+                                image: " ",
+                              );
+                            },
+                            loaded: (data) {
+                              return CreatePostCard(
+                                image: data.profilePhoto != null
+                                    ? "${baseUrl}${data.profilePhoto}"
+                                    : " ",
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    );
+                  }
+
+                  return GestureDetector(
+                    onTap: () {
+                      context.pushNamed("detail-feed",
+                          extra: data.data![index - 1]);
+                    },
+                    child: FeedCard(
+                      moreOnTap: () => showMoreMenuFeed(
+                          widget.parentKey.currentContext!,
+                          data.data![index - 1].user!.username!),
+                      data: data.data![index - 1],
+                    ),
+                  );
+                },
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  Container _buildNowherErrorWidget() {
+    return Container(
+      padding: EdgeInsets.only(left: 55, right: 55, top: 24),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Text(
+            "😔",
+            style: TextStyle(fontSize: 50),
+          ),
+          Icon(
+            Icons.lock,
+            size: 50,
+          )
+        ]),
+        SizedBox(
+          height: 24,
+        ),
+        Text(
+            "I'm sorry, Nowher is exclusively accessible to verified female users.",
+            style: titleSegoeUITextStyle.copyWith(
+              fontSize: 22,
+              color: primaryColor,
+            )),
+        SizedBox(
+          height: 15,
+        ),
+        Text(
+          "Don't be sad, there are still 5 pages accessible for everyone! If you think this is a mistake please let us know.",
+          style:
+              regularSegoeUITextStyle.copyWith(fontSize: 15, color: subColor),
+        )
+      ]),
+    );
+  }
+
+  RefreshIndicator _buildFollowingFeeds(FeedType type) {
+    return RefreshIndicator(
+      onRefresh: () async {
+        BlocProvider.of<GetAllFollowingFeedsBloc>(context)
+            .add(GetAllFollowingFeedsEvent.getAllFollowingFeeds(type));
+      },
+      child: BlocBuilder<GetAllFollowingFeedsBloc, GetAllFollowingFeedsState>(
+        builder: (context, state) {
+          return state.maybeWhen(
+            orElse: () {
+              return const Center(
+                child: Text("Initial"),
+              );
+            },
+            loading: () => _buildShimmeringBody(),
+            error: (message) {
+              if (message ==
+                  "This feature is only available for female users") {
+                return _buildNowherErrorWidget();
+              }
+              return Center(
+                  child: Text(
+                message,
+                style: titleProximaNovaTextStyle,
+              ));
+            },
             loaded: (data) {
               return ListView.separated(
                 separatorBuilder: (context, index) => Divider(

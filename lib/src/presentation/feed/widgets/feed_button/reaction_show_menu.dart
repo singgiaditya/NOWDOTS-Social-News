@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
+import 'package:nowdots_social_news/src/core/enums/reaction_enums.dart';
 
 Future<dynamic> reactionShowMenu(BuildContext context, Offset offset) {
   return showMenu(
@@ -29,7 +30,7 @@ Future<dynamic> reactionShowMenu(BuildContext context, Offset offset) {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pop(context);
+                    Navigator.pop(context, ReactionType.GOOD);
                   },
                   child: Column(
                     children: [
@@ -47,62 +48,74 @@ Future<dynamic> reactionShowMenu(BuildContext context, Offset offset) {
                 const SizedBox(
                   width: 4,
                 ),
-                Column(
-                  children: [
-                    const Text(
-                      "😇",
-                      style: TextStyle(fontSize: 25),
-                    ),
-                    Text(
-                      "Kind",
-                      style: regularProximaNovaTextStyle,
-                    ),
-                  ],
+                GestureDetector(
+                  onTap: () => Navigator.pop(context, ReactionType.KIND),
+                  child: Column(
+                    children: [
+                      const Text(
+                        "😇",
+                        style: TextStyle(fontSize: 25),
+                      ),
+                      Text(
+                        "Kind",
+                        style: regularProximaNovaTextStyle,
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   width: 4,
                 ),
-                Column(
-                  children: [
-                    const Text(
-                      "😎",
-                      style: TextStyle(fontSize: 25),
-                    ),
-                    Text(
-                      "Smart",
-                      style: regularProximaNovaTextStyle,
-                    ),
-                  ],
+                GestureDetector(
+                  onTap: () => Navigator.pop(context, ReactionType.SMART),
+                  child: Column(
+                    children: [
+                      const Text(
+                        "😎",
+                        style: TextStyle(fontSize: 25),
+                      ),
+                      Text(
+                        "Smart",
+                        style: regularProximaNovaTextStyle,
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   width: 4,
                 ),
-                Column(
-                  children: [
-                    const Text(
-                      "🥰",
-                      style: TextStyle(fontSize: 25),
-                    ),
-                    Text(
-                      "Wise",
-                      style: regularProximaNovaTextStyle,
-                    ),
-                  ],
+                GestureDetector(
+                  onTap: () => Navigator.pop(context, ReactionType.WISE),
+                  child: Column(
+                    children: [
+                      const Text(
+                        "🥰",
+                        style: TextStyle(fontSize: 25),
+                      ),
+                      Text(
+                        "Wise",
+                        style: regularProximaNovaTextStyle,
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   width: 4,
                 ),
-                Column(
-                  children: [
-                    const Text(
-                      "❤️",
-                      style: TextStyle(fontSize: 25),
-                    ),
-                    Text(
-                      "Helpful",
-                      style: regularProximaNovaTextStyle,
-                    ),
-                  ],
+                GestureDetector(
+                  onTap: () => Navigator.pop(context, ReactionType.HELPFUL),
+                  child: Column(
+                    children: [
+                      const Text(
+                        "❤️",
+                        style: TextStyle(fontSize: 25),
+                      ),
+                      Text(
+                        "Helpful",
+                        style: regularProximaNovaTextStyle,
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   width: 10,

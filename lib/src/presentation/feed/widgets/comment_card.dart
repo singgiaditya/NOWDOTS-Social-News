@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
+import 'package:nowdots_social_news/src/core/enums/reaction_enums.dart';
 import 'package:nowdots_social_news/src/core/widgets/avatar_cache_image.dart';
+import 'package:nowdots_social_news/src/data/models/feed/feeds_response_model.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/hashtag_text.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/comment_button.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/like_dislike_button.dart';
@@ -105,7 +107,12 @@ class CommentCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    likeDislikeButton(context, "123", primaryColor, boxColor),
+                    LikeDislikeButton(
+                      color: primaryColor,
+                      backgroundColor: boxColor,
+                      data: Feed(),
+                      reactionType: ReactionType.NONE,
+                    ),
                     GestureDetector(
                         onTap: () {
                           commentOnTap();
@@ -250,8 +257,12 @@ class CommentChildCard extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        likeDislikeButton(
-                            context, "123", primaryColor, boxColor),
+                        LikeDislikeButton(
+                          color: primaryColor,
+                          backgroundColor: boxColor,
+                          data: Feed(),
+                          reactionType: ReactionType.NONE,
+                        ),
                         GestureDetector(
                             onTap: () {
                               commentOnTap();

@@ -87,6 +87,13 @@ flutter:
     - assets/icons/bookmark_outline.svg
     - assets/icons/follow_icon.svg
 
+    #reaction icon
+    - assets/icons/reaction_icon/good_reaction.svg
+    - assets/icons/reaction_icon/helpful_reaction.svg
+    - assets/icons/reaction_icon/kind_reaction.svg
+    - assets/icons/reaction_icon/smart_reaction.svg
+    - assets/icons/reaction_icon/wise_reaction.svg
+
     #data dummy
     - assets/data_dummy/dummy_feed.json
 

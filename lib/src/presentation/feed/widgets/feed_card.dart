@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
-import 'package:nowdots_social_news/src/core/utils/string_extension.dart';
+import 'package:nowdots_social_news/src/core/constant/api.dart';
+import 'package:nowdots_social_news/src/core/utils/reaction_utils.dart';
 import 'package:nowdots_social_news/src/core/widgets/avatar_cache_image.dart';
-import 'package:nowdots_social_news/src/data/models/feeds_response_model.dart';
+import 'package:nowdots_social_news/src/data/models/feed/feeds_response_model.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/hashtag_text.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/image_hero.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/row_button_container.dart';
@@ -29,7 +30,9 @@ class FeedCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             AvatarCacheImage(
-              image: data.user!.picture!,
+              image: data.user!.profilePhoto != null
+                  ? "$baseUrl${data.user!.profilePhoto}"
+                  : null,
               radius: 25,
             ),
             const SizedBox(
@@ -44,7 +47,7 @@ class FeedCard extends StatelessWidget {
                       data.user!.name!,
                       style: titleProximaNovaTextStyle.copyWith(fontSize: 15),
                     ),
-                    data.user!.isVerified!
+                    data.user!.isVerified != 0
                         ? Padding(
                             padding: const EdgeInsets.only(left: 4),
                             child: Icon(
@@ -58,7 +61,7 @@ class FeedCard extends StatelessWidget {
                       width: 4,
                     ),
                     ScoreWidget(
-                      scoreString: data.user!.score!,
+                      scoreString: "${data.user!.profile?.repScore}",
                     ),
                   ],
                 ),
@@ -67,11 +70,11 @@ class FeedCard extends StatelessWidget {
                 ),
                 RichText(
                   text: TextSpan(
-                      text: "${data.user!.username!} ",
+                      text: "@${data.user!.username!} ",
                       style: regularProximaNovaTextStyle.copyWith(
                         color: subColor,
                       ),
-                      children: isAds(data.isAds!)),
+                      children: isAds(data.isAd! != 0)),
                 ),
               ],
             ),
@@ -89,13 +92,13 @@ class FeedCard extends StatelessWidget {
           height: 12,
         ),
         HashtagText(
-          text: data.content!,
+          text: data.content ?? "",
           decoratedTextStyle: regularProximaNovaTextStyle.copyWith(
               fontSize: 14, color: buttonColor),
           regularTextStyle: regularProximaNovaTextStyle.copyWith(
               fontSize: 14, color: primaryColor, height: 1.25),
         ),
-        data.image!.isNotEmpty
+        data.photos!.isNotEmpty
             ? Padding(
                 padding: const EdgeInsets.only(top: 12),
                 child: buildImages(context),
@@ -105,19 +108,17 @@ class FeedCard extends StatelessWidget {
           height: 12,
         ),
         RowButtonContainer(
-          color: primaryColor,
-          backgroundColor: boxColor,
-          commentCount: data.commentCount!,
-          shareCount: data.forwardCount!,
-          likeCount: data.likeCount!,
-          upVoteCount: data.upVoteCount ?? "0",
-        ),
+            color: primaryColor,
+            backgroundColor: boxColor,
+            data: data,
+            reactionType:
+                getReactionTypeFromListData(data.likes, data.dislikes)),
       ]),
     );
   }
 
   Widget buildImages(BuildContext context) {
-    if (data.image!.length == 2) {
+    if (data.photosCount! == 2) {
       return Row(
         children: [
           Flexible(
@@ -145,7 +146,7 @@ class FeedCard extends StatelessWidget {
       );
     }
 
-    if (data.image!.length == 3) {
+    if (data.photosCount! == 3) {
       return Row(
         children: [
           Flexible(
@@ -187,7 +188,7 @@ class FeedCard extends StatelessWidget {
       );
     }
 
-    if (data.image!.length == 4) {
+    if (data.photosCount! == 4) {
       return Column(
         children: [
           Row(
@@ -247,7 +248,7 @@ class FeedCard extends StatelessWidget {
       );
     }
 
-    if (data.image!.length > 4) {
+    if (data.photosCount! > 4) {
       return Column(
         children: [
           Row(
@@ -299,7 +300,7 @@ class FeedCard extends StatelessWidget {
                       extra: data, pathParameters: {"index": "3"});
                 },
                 child: CachedNetworkImage(
-                  imageUrl: data.image![3],
+                  imageUrl: data.photos![3],
                   imageBuilder: (context, imageProvider) {
                     return Container(
                       width: null,
@@ -319,7 +320,7 @@ class FeedCard extends StatelessWidget {
                         ),
                         child: Center(
                             child: Text(
-                          "+${data.image!.length - 3}",
+                          "+${data.photos!.length - 3}",
                           style: titleProximaNovaTextStyle.copyWith(
                             color: Colors.white,
                             fontSize: 29,
@@ -365,9 +366,12 @@ class FeedCard extends StatelessWidget {
 
     var isFalse = [
       spanDivider(),
-      TextSpan(text: " ${data.publishedAt} "),
+      //todo: add date
+      // TextSpan(text: " ${data.publishedAt} "),
+      TextSpan(text: " 1j "),
       spanDivider(),
-      TextSpan(text: " ${data.type?.name.capitalize()}"),
+      // TextSpan(text: " ${data.type?.name.capitalize()}"),
+      TextSpan(text: " Public"),
     ];
 
     if (isAds == true) {

@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'get_all_feeds_bloc.dart';
+part of 'reaction_bloc.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,378 +15,190 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$GetAllFeedsEvent {
+mixin _$ReactionEvent {
+  ReactionType get reaction => throw _privateConstructorUsedError;
+  String get feedId => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() started,
-    required TResult Function() getAllFeeds,
-    required TResult Function(FeedType type) changeFeeds,
+    required TResult Function(ReactionType reaction, String feedId) reaction,
+    required TResult Function(ReactionType reaction, String feedId) unReaction,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? started,
-    TResult? Function()? getAllFeeds,
-    TResult? Function(FeedType type)? changeFeeds,
+    TResult? Function(ReactionType reaction, String feedId)? reaction,
+    TResult? Function(ReactionType reaction, String feedId)? unReaction,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? started,
-    TResult Function()? getAllFeeds,
-    TResult Function(FeedType type)? changeFeeds,
+    TResult Function(ReactionType reaction, String feedId)? reaction,
+    TResult Function(ReactionType reaction, String feedId)? unReaction,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Started value) started,
-    required TResult Function(_GetAllFeeds value) getAllFeeds,
-    required TResult Function(_ChangeFeeds value) changeFeeds,
+    required TResult Function(_Reaction value) reaction,
+    required TResult Function(_UnReaction value) unReaction,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Started value)? started,
-    TResult? Function(_GetAllFeeds value)? getAllFeeds,
-    TResult? Function(_ChangeFeeds value)? changeFeeds,
+    TResult? Function(_Reaction value)? reaction,
+    TResult? Function(_UnReaction value)? unReaction,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Started value)? started,
-    TResult Function(_GetAllFeeds value)? getAllFeeds,
-    TResult Function(_ChangeFeeds value)? changeFeeds,
+    TResult Function(_Reaction value)? reaction,
+    TResult Function(_UnReaction value)? unReaction,
     required TResult orElse(),
   }) =>
+      throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $ReactionEventCopyWith<ReactionEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $GetAllFeedsEventCopyWith<$Res> {
-  factory $GetAllFeedsEventCopyWith(
-          GetAllFeedsEvent value, $Res Function(GetAllFeedsEvent) then) =
-      _$GetAllFeedsEventCopyWithImpl<$Res, GetAllFeedsEvent>;
+abstract class $ReactionEventCopyWith<$Res> {
+  factory $ReactionEventCopyWith(
+          ReactionEvent value, $Res Function(ReactionEvent) then) =
+      _$ReactionEventCopyWithImpl<$Res, ReactionEvent>;
+  @useResult
+  $Res call({ReactionType reaction, String feedId});
 }
 
 /// @nodoc
-class _$GetAllFeedsEventCopyWithImpl<$Res, $Val extends GetAllFeedsEvent>
-    implements $GetAllFeedsEventCopyWith<$Res> {
-  _$GetAllFeedsEventCopyWithImpl(this._value, this._then);
+class _$ReactionEventCopyWithImpl<$Res, $Val extends ReactionEvent>
+    implements $ReactionEventCopyWith<$Res> {
+  _$ReactionEventCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? reaction = null,
+    Object? feedId = null,
+  }) {
+    return _then(_value.copyWith(
+      reaction: null == reaction
+          ? _value.reaction
+          : reaction // ignore: cast_nullable_to_non_nullable
+              as ReactionType,
+      feedId: null == feedId
+          ? _value.feedId
+          : feedId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
 }
 
 /// @nodoc
-abstract class _$$StartedImplCopyWith<$Res> {
-  factory _$$StartedImplCopyWith(
-          _$StartedImpl value, $Res Function(_$StartedImpl) then) =
-      __$$StartedImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$StartedImplCopyWithImpl<$Res>
-    extends _$GetAllFeedsEventCopyWithImpl<$Res, _$StartedImpl>
-    implements _$$StartedImplCopyWith<$Res> {
-  __$$StartedImplCopyWithImpl(
-      _$StartedImpl _value, $Res Function(_$StartedImpl) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$StartedImpl implements _Started {
-  const _$StartedImpl();
-
+abstract class _$$ReactionImplCopyWith<$Res>
+    implements $ReactionEventCopyWith<$Res> {
+  factory _$$ReactionImplCopyWith(
+          _$ReactionImpl value, $Res Function(_$ReactionImpl) then) =
+      __$$ReactionImplCopyWithImpl<$Res>;
   @override
-  String toString() {
-    return 'GetAllFeedsEvent.started()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$StartedImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() started,
-    required TResult Function() getAllFeeds,
-    required TResult Function(FeedType type) changeFeeds,
-  }) {
-    return started();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? started,
-    TResult? Function()? getAllFeeds,
-    TResult? Function(FeedType type)? changeFeeds,
-  }) {
-    return started?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? started,
-    TResult Function()? getAllFeeds,
-    TResult Function(FeedType type)? changeFeeds,
-    required TResult orElse(),
-  }) {
-    if (started != null) {
-      return started();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Started value) started,
-    required TResult Function(_GetAllFeeds value) getAllFeeds,
-    required TResult Function(_ChangeFeeds value) changeFeeds,
-  }) {
-    return started(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Started value)? started,
-    TResult? Function(_GetAllFeeds value)? getAllFeeds,
-    TResult? Function(_ChangeFeeds value)? changeFeeds,
-  }) {
-    return started?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Started value)? started,
-    TResult Function(_GetAllFeeds value)? getAllFeeds,
-    TResult Function(_ChangeFeeds value)? changeFeeds,
-    required TResult orElse(),
-  }) {
-    if (started != null) {
-      return started(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _Started implements GetAllFeedsEvent {
-  const factory _Started() = _$StartedImpl;
-}
-
-/// @nodoc
-abstract class _$$GetAllFeedsImplCopyWith<$Res> {
-  factory _$$GetAllFeedsImplCopyWith(
-          _$GetAllFeedsImpl value, $Res Function(_$GetAllFeedsImpl) then) =
-      __$$GetAllFeedsImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$GetAllFeedsImplCopyWithImpl<$Res>
-    extends _$GetAllFeedsEventCopyWithImpl<$Res, _$GetAllFeedsImpl>
-    implements _$$GetAllFeedsImplCopyWith<$Res> {
-  __$$GetAllFeedsImplCopyWithImpl(
-      _$GetAllFeedsImpl _value, $Res Function(_$GetAllFeedsImpl) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$GetAllFeedsImpl implements _GetAllFeeds {
-  const _$GetAllFeedsImpl();
-
-  @override
-  String toString() {
-    return 'GetAllFeedsEvent.getAllFeeds()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$GetAllFeedsImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() started,
-    required TResult Function() getAllFeeds,
-    required TResult Function(FeedType type) changeFeeds,
-  }) {
-    return getAllFeeds();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? started,
-    TResult? Function()? getAllFeeds,
-    TResult? Function(FeedType type)? changeFeeds,
-  }) {
-    return getAllFeeds?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? started,
-    TResult Function()? getAllFeeds,
-    TResult Function(FeedType type)? changeFeeds,
-    required TResult orElse(),
-  }) {
-    if (getAllFeeds != null) {
-      return getAllFeeds();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Started value) started,
-    required TResult Function(_GetAllFeeds value) getAllFeeds,
-    required TResult Function(_ChangeFeeds value) changeFeeds,
-  }) {
-    return getAllFeeds(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Started value)? started,
-    TResult? Function(_GetAllFeeds value)? getAllFeeds,
-    TResult? Function(_ChangeFeeds value)? changeFeeds,
-  }) {
-    return getAllFeeds?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Started value)? started,
-    TResult Function(_GetAllFeeds value)? getAllFeeds,
-    TResult Function(_ChangeFeeds value)? changeFeeds,
-    required TResult orElse(),
-  }) {
-    if (getAllFeeds != null) {
-      return getAllFeeds(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _GetAllFeeds implements GetAllFeedsEvent {
-  const factory _GetAllFeeds() = _$GetAllFeedsImpl;
-}
-
-/// @nodoc
-abstract class _$$ChangeFeedsImplCopyWith<$Res> {
-  factory _$$ChangeFeedsImplCopyWith(
-          _$ChangeFeedsImpl value, $Res Function(_$ChangeFeedsImpl) then) =
-      __$$ChangeFeedsImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({FeedType type});
+  $Res call({ReactionType reaction, String feedId});
 }
 
 /// @nodoc
-class __$$ChangeFeedsImplCopyWithImpl<$Res>
-    extends _$GetAllFeedsEventCopyWithImpl<$Res, _$ChangeFeedsImpl>
-    implements _$$ChangeFeedsImplCopyWith<$Res> {
-  __$$ChangeFeedsImplCopyWithImpl(
-      _$ChangeFeedsImpl _value, $Res Function(_$ChangeFeedsImpl) _then)
+class __$$ReactionImplCopyWithImpl<$Res>
+    extends _$ReactionEventCopyWithImpl<$Res, _$ReactionImpl>
+    implements _$$ReactionImplCopyWith<$Res> {
+  __$$ReactionImplCopyWithImpl(
+      _$ReactionImpl _value, $Res Function(_$ReactionImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? type = null,
+    Object? reaction = null,
+    Object? feedId = null,
   }) {
-    return _then(_$ChangeFeedsImpl(
-      null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as FeedType,
+    return _then(_$ReactionImpl(
+      null == reaction
+          ? _value.reaction
+          : reaction // ignore: cast_nullable_to_non_nullable
+              as ReactionType,
+      null == feedId
+          ? _value.feedId
+          : feedId // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
 
 /// @nodoc
 
-class _$ChangeFeedsImpl implements _ChangeFeeds {
-  const _$ChangeFeedsImpl(this.type);
+class _$ReactionImpl implements _Reaction {
+  const _$ReactionImpl(this.reaction, this.feedId);
 
   @override
-  final FeedType type;
+  final ReactionType reaction;
+  @override
+  final String feedId;
 
   @override
   String toString() {
-    return 'GetAllFeedsEvent.changeFeeds(type: $type)';
+    return 'ReactionEvent.reaction(reaction: $reaction, feedId: $feedId)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ChangeFeedsImpl &&
-            (identical(other.type, type) || other.type == type));
+            other is _$ReactionImpl &&
+            (identical(other.reaction, reaction) ||
+                other.reaction == reaction) &&
+            (identical(other.feedId, feedId) || other.feedId == feedId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, type);
+  int get hashCode => Object.hash(runtimeType, reaction, feedId);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ChangeFeedsImplCopyWith<_$ChangeFeedsImpl> get copyWith =>
-      __$$ChangeFeedsImplCopyWithImpl<_$ChangeFeedsImpl>(this, _$identity);
+  _$$ReactionImplCopyWith<_$ReactionImpl> get copyWith =>
+      __$$ReactionImplCopyWithImpl<_$ReactionImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() started,
-    required TResult Function() getAllFeeds,
-    required TResult Function(FeedType type) changeFeeds,
+    required TResult Function(ReactionType reaction, String feedId) reaction,
+    required TResult Function(ReactionType reaction, String feedId) unReaction,
   }) {
-    return changeFeeds(type);
+    return reaction(this.reaction, feedId);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? started,
-    TResult? Function()? getAllFeeds,
-    TResult? Function(FeedType type)? changeFeeds,
+    TResult? Function(ReactionType reaction, String feedId)? reaction,
+    TResult? Function(ReactionType reaction, String feedId)? unReaction,
   }) {
-    return changeFeeds?.call(type);
+    return reaction?.call(this.reaction, feedId);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? started,
-    TResult Function()? getAllFeeds,
-    TResult Function(FeedType type)? changeFeeds,
+    TResult Function(ReactionType reaction, String feedId)? reaction,
+    TResult Function(ReactionType reaction, String feedId)? unReaction,
     required TResult orElse(),
   }) {
-    if (changeFeeds != null) {
-      return changeFeeds(type);
+    if (reaction != null) {
+      return reaction(this.reaction, feedId);
     }
     return orElse();
   }
@@ -394,54 +206,205 @@ class _$ChangeFeedsImpl implements _ChangeFeeds {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Started value) started,
-    required TResult Function(_GetAllFeeds value) getAllFeeds,
-    required TResult Function(_ChangeFeeds value) changeFeeds,
+    required TResult Function(_Reaction value) reaction,
+    required TResult Function(_UnReaction value) unReaction,
   }) {
-    return changeFeeds(this);
+    return reaction(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Started value)? started,
-    TResult? Function(_GetAllFeeds value)? getAllFeeds,
-    TResult? Function(_ChangeFeeds value)? changeFeeds,
+    TResult? Function(_Reaction value)? reaction,
+    TResult? Function(_UnReaction value)? unReaction,
   }) {
-    return changeFeeds?.call(this);
+    return reaction?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Started value)? started,
-    TResult Function(_GetAllFeeds value)? getAllFeeds,
-    TResult Function(_ChangeFeeds value)? changeFeeds,
+    TResult Function(_Reaction value)? reaction,
+    TResult Function(_UnReaction value)? unReaction,
     required TResult orElse(),
   }) {
-    if (changeFeeds != null) {
-      return changeFeeds(this);
+    if (reaction != null) {
+      return reaction(this);
     }
     return orElse();
   }
 }
 
-abstract class _ChangeFeeds implements GetAllFeedsEvent {
-  const factory _ChangeFeeds(final FeedType type) = _$ChangeFeedsImpl;
+abstract class _Reaction implements ReactionEvent {
+  const factory _Reaction(final ReactionType reaction, final String feedId) =
+      _$ReactionImpl;
 
-  FeedType get type;
+  @override
+  ReactionType get reaction;
+  @override
+  String get feedId;
+  @override
   @JsonKey(ignore: true)
-  _$$ChangeFeedsImplCopyWith<_$ChangeFeedsImpl> get copyWith =>
+  _$$ReactionImplCopyWith<_$ReactionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-mixin _$GetAllFeedsState {
+abstract class _$$UnReactionImplCopyWith<$Res>
+    implements $ReactionEventCopyWith<$Res> {
+  factory _$$UnReactionImplCopyWith(
+          _$UnReactionImpl value, $Res Function(_$UnReactionImpl) then) =
+      __$$UnReactionImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({ReactionType reaction, String feedId});
+}
+
+/// @nodoc
+class __$$UnReactionImplCopyWithImpl<$Res>
+    extends _$ReactionEventCopyWithImpl<$Res, _$UnReactionImpl>
+    implements _$$UnReactionImplCopyWith<$Res> {
+  __$$UnReactionImplCopyWithImpl(
+      _$UnReactionImpl _value, $Res Function(_$UnReactionImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? reaction = null,
+    Object? feedId = null,
+  }) {
+    return _then(_$UnReactionImpl(
+      null == reaction
+          ? _value.reaction
+          : reaction // ignore: cast_nullable_to_non_nullable
+              as ReactionType,
+      null == feedId
+          ? _value.feedId
+          : feedId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$UnReactionImpl implements _UnReaction {
+  const _$UnReactionImpl(this.reaction, this.feedId);
+
+  @override
+  final ReactionType reaction;
+  @override
+  final String feedId;
+
+  @override
+  String toString() {
+    return 'ReactionEvent.unReaction(reaction: $reaction, feedId: $feedId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UnReactionImpl &&
+            (identical(other.reaction, reaction) ||
+                other.reaction == reaction) &&
+            (identical(other.feedId, feedId) || other.feedId == feedId));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, reaction, feedId);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UnReactionImplCopyWith<_$UnReactionImpl> get copyWith =>
+      __$$UnReactionImplCopyWithImpl<_$UnReactionImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(ReactionType reaction, String feedId) reaction,
+    required TResult Function(ReactionType reaction, String feedId) unReaction,
+  }) {
+    return unReaction(this.reaction, feedId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(ReactionType reaction, String feedId)? reaction,
+    TResult? Function(ReactionType reaction, String feedId)? unReaction,
+  }) {
+    return unReaction?.call(this.reaction, feedId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(ReactionType reaction, String feedId)? reaction,
+    TResult Function(ReactionType reaction, String feedId)? unReaction,
+    required TResult orElse(),
+  }) {
+    if (unReaction != null) {
+      return unReaction(this.reaction, feedId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Reaction value) reaction,
+    required TResult Function(_UnReaction value) unReaction,
+  }) {
+    return unReaction(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Reaction value)? reaction,
+    TResult? Function(_UnReaction value)? unReaction,
+  }) {
+    return unReaction?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Reaction value)? reaction,
+    TResult Function(_UnReaction value)? unReaction,
+    required TResult orElse(),
+  }) {
+    if (unReaction != null) {
+      return unReaction(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _UnReaction implements ReactionEvent {
+  const factory _UnReaction(final ReactionType reaction, final String feedId) =
+      _$UnReactionImpl;
+
+  @override
+  ReactionType get reaction;
+  @override
+  String get feedId;
+  @override
+  @JsonKey(ignore: true)
+  _$$UnReactionImplCopyWith<_$UnReactionImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$ReactionState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(FeedsResponseModel data) loaded,
+    required TResult Function() loaded,
     required TResult Function(String message) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -449,7 +412,7 @@ mixin _$GetAllFeedsState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(FeedsResponseModel data)? loaded,
+    TResult? Function()? loaded,
     TResult? Function(String message)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -457,7 +420,7 @@ mixin _$GetAllFeedsState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(FeedsResponseModel data)? loaded,
+    TResult Function()? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) =>
@@ -490,16 +453,16 @@ mixin _$GetAllFeedsState {
 }
 
 /// @nodoc
-abstract class $GetAllFeedsStateCopyWith<$Res> {
-  factory $GetAllFeedsStateCopyWith(
-          GetAllFeedsState value, $Res Function(GetAllFeedsState) then) =
-      _$GetAllFeedsStateCopyWithImpl<$Res, GetAllFeedsState>;
+abstract class $ReactionStateCopyWith<$Res> {
+  factory $ReactionStateCopyWith(
+          ReactionState value, $Res Function(ReactionState) then) =
+      _$ReactionStateCopyWithImpl<$Res, ReactionState>;
 }
 
 /// @nodoc
-class _$GetAllFeedsStateCopyWithImpl<$Res, $Val extends GetAllFeedsState>
-    implements $GetAllFeedsStateCopyWith<$Res> {
-  _$GetAllFeedsStateCopyWithImpl(this._value, this._then);
+class _$ReactionStateCopyWithImpl<$Res, $Val extends ReactionState>
+    implements $ReactionStateCopyWith<$Res> {
+  _$ReactionStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -516,7 +479,7 @@ abstract class _$$InitialImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$InitialImplCopyWithImpl<$Res>
-    extends _$GetAllFeedsStateCopyWithImpl<$Res, _$InitialImpl>
+    extends _$ReactionStateCopyWithImpl<$Res, _$InitialImpl>
     implements _$$InitialImplCopyWith<$Res> {
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
@@ -530,7 +493,7 @@ class _$InitialImpl implements _Initial {
 
   @override
   String toString() {
-    return 'GetAllFeedsState.initial()';
+    return 'ReactionState.initial()';
   }
 
   @override
@@ -547,7 +510,7 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(FeedsResponseModel data) loaded,
+    required TResult Function() loaded,
     required TResult Function(String message) error,
   }) {
     return initial();
@@ -558,7 +521,7 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(FeedsResponseModel data)? loaded,
+    TResult? Function()? loaded,
     TResult? Function(String message)? error,
   }) {
     return initial?.call();
@@ -569,7 +532,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(FeedsResponseModel data)? loaded,
+    TResult Function()? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -617,7 +580,7 @@ class _$InitialImpl implements _Initial {
   }
 }
 
-abstract class _Initial implements GetAllFeedsState {
+abstract class _Initial implements ReactionState {
   const factory _Initial() = _$InitialImpl;
 }
 
@@ -630,7 +593,7 @@ abstract class _$$LoadingImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$LoadingImplCopyWithImpl<$Res>
-    extends _$GetAllFeedsStateCopyWithImpl<$Res, _$LoadingImpl>
+    extends _$ReactionStateCopyWithImpl<$Res, _$LoadingImpl>
     implements _$$LoadingImplCopyWith<$Res> {
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
@@ -644,7 +607,7 @@ class _$LoadingImpl implements _Loading {
 
   @override
   String toString() {
-    return 'GetAllFeedsState.loading()';
+    return 'ReactionState.loading()';
   }
 
   @override
@@ -661,7 +624,7 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(FeedsResponseModel data) loaded,
+    required TResult Function() loaded,
     required TResult Function(String message) error,
   }) {
     return loading();
@@ -672,7 +635,7 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(FeedsResponseModel data)? loaded,
+    TResult? Function()? loaded,
     TResult? Function(String message)? error,
   }) {
     return loading?.call();
@@ -683,7 +646,7 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(FeedsResponseModel data)? loaded,
+    TResult Function()? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -731,7 +694,7 @@ class _$LoadingImpl implements _Loading {
   }
 }
 
-abstract class _Loading implements GetAllFeedsState {
+abstract class _Loading implements ReactionState {
   const factory _Loading() = _$LoadingImpl;
 }
 
@@ -740,71 +703,45 @@ abstract class _$$LoadedImplCopyWith<$Res> {
   factory _$$LoadedImplCopyWith(
           _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
       __$$LoadedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({FeedsResponseModel data});
 }
 
 /// @nodoc
 class __$$LoadedImplCopyWithImpl<$Res>
-    extends _$GetAllFeedsStateCopyWithImpl<$Res, _$LoadedImpl>
+    extends _$ReactionStateCopyWithImpl<$Res, _$LoadedImpl>
     implements _$$LoadedImplCopyWith<$Res> {
   __$$LoadedImplCopyWithImpl(
       _$LoadedImpl _value, $Res Function(_$LoadedImpl) _then)
       : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? data = null,
-  }) {
-    return _then(_$LoadedImpl(
-      null == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as FeedsResponseModel,
-    ));
-  }
 }
 
 /// @nodoc
 
 class _$LoadedImpl implements _Loaded {
-  const _$LoadedImpl(this.data);
-
-  @override
-  final FeedsResponseModel data;
+  const _$LoadedImpl();
 
   @override
   String toString() {
-    return 'GetAllFeedsState.loaded(data: $data)';
+    return 'ReactionState.loaded()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$LoadedImpl &&
-            (identical(other.data, data) || other.data == data));
+        (other.runtimeType == runtimeType && other is _$LoadedImpl);
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, data);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
-      __$$LoadedImplCopyWithImpl<_$LoadedImpl>(this, _$identity);
+  int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(FeedsResponseModel data) loaded,
+    required TResult Function() loaded,
     required TResult Function(String message) error,
   }) {
-    return loaded(data);
+    return loaded();
   }
 
   @override
@@ -812,10 +749,10 @@ class _$LoadedImpl implements _Loaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(FeedsResponseModel data)? loaded,
+    TResult? Function()? loaded,
     TResult? Function(String message)? error,
   }) {
-    return loaded?.call(data);
+    return loaded?.call();
   }
 
   @override
@@ -823,12 +760,12 @@ class _$LoadedImpl implements _Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(FeedsResponseModel data)? loaded,
+    TResult Function()? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(data);
+      return loaded();
     }
     return orElse();
   }
@@ -871,13 +808,8 @@ class _$LoadedImpl implements _Loaded {
   }
 }
 
-abstract class _Loaded implements GetAllFeedsState {
-  const factory _Loaded(final FeedsResponseModel data) = _$LoadedImpl;
-
-  FeedsResponseModel get data;
-  @JsonKey(ignore: true)
-  _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+abstract class _Loaded implements ReactionState {
+  const factory _Loaded() = _$LoadedImpl;
 }
 
 /// @nodoc
@@ -891,7 +823,7 @@ abstract class _$$ErrorImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$ErrorImplCopyWithImpl<$Res>
-    extends _$GetAllFeedsStateCopyWithImpl<$Res, _$ErrorImpl>
+    extends _$ReactionStateCopyWithImpl<$Res, _$ErrorImpl>
     implements _$$ErrorImplCopyWith<$Res> {
   __$$ErrorImplCopyWithImpl(
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
@@ -921,7 +853,7 @@ class _$ErrorImpl implements _Error {
 
   @override
   String toString() {
-    return 'GetAllFeedsState.error(message: $message)';
+    return 'ReactionState.error(message: $message)';
   }
 
   @override
@@ -946,7 +878,7 @@ class _$ErrorImpl implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(FeedsResponseModel data) loaded,
+    required TResult Function() loaded,
     required TResult Function(String message) error,
   }) {
     return error(message);
@@ -957,7 +889,7 @@ class _$ErrorImpl implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(FeedsResponseModel data)? loaded,
+    TResult? Function()? loaded,
     TResult? Function(String message)? error,
   }) {
     return error?.call(message);
@@ -968,7 +900,7 @@ class _$ErrorImpl implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(FeedsResponseModel data)? loaded,
+    TResult Function()? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -1016,7 +948,7 @@ class _$ErrorImpl implements _Error {
   }
 }
 
-abstract class _Error implements GetAllFeedsState {
+abstract class _Error implements ReactionState {
   const factory _Error(final String message) = _$ErrorImpl;
 
   String get message;

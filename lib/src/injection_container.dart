@@ -6,6 +6,8 @@ import 'package:nowdots_social_news/src/data/datasources/local/user/user_local_d
 import 'package:nowdots_social_news/src/data/datasources/remote/auth/forgot_password_remote_datasources.dart';
 import 'package:nowdots_social_news/src/data/datasources/remote/auth/login_remote_datasources.dart';
 import 'package:nowdots_social_news/src/data/datasources/remote/auth/register_remote_datasources.dart';
+import 'package:nowdots_social_news/src/data/datasources/remote/feed/feed_remote_datasources.dart';
+import 'package:nowdots_social_news/src/data/datasources/remote/feed/reaction_remote_datasources.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/forgot_password/forgot_pass/forgot_pass_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/forgot_password/forgot_password_set_new_password/forgot_password_set_new_password_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/forgot_password/forgot_password_verification_code/forgot_password_verification_code_bloc.dart';
@@ -16,8 +18,10 @@ import 'package:nowdots_social_news/src/presentation/auth/bloc/register/register
 import 'package:nowdots_social_news/src/presentation/auth/bloc/register/register_set_password/register_set_password_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/register/register_set_profile_picture/register_set_profile_picture_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/register/register_set_username/register_set_username_bloc.dart';
+import 'package:nowdots_social_news/src/presentation/feed/bloc/get_all_followiing_feeds/get_all_following_feeds_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/drawer/drawer_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/get_all_feeds/get_all_feeds_bloc.dart';
+import 'package:nowdots_social_news/src/presentation/feed/bloc/reaction/reaction_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/splash_screen/bloc/splash_screen_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -39,10 +43,18 @@ Future<void> initializieDependencies() async {
   sl.registerFactory<UserLocalDatasources>(
     () => UserLocalDatasources(sl()),
   );
+  sl.registerFactory<FeedRemoteDatasources>(
+    () => FeedRemoteDatasources(sl()),
+  );
+  sl.registerFactory<ReactionRemoteDatasources>(
+    () => ReactionRemoteDatasources(sl()),
+  );
 
   //blocs
   sl.registerFactory<DrawerBloc>(() => DrawerBloc());
   sl.registerFactory<GetAllFeedsBloc>(() => GetAllFeedsBloc(sl()));
+  sl.registerFactory<GetAllFollowingFeedsBloc>(
+      () => GetAllFollowingFeedsBloc(sl()));
   sl.registerFactory<CreateAccountBloc>(() => CreateAccountBloc(sl()));
   sl.registerFactory<RegisterCodeVerificationBloc>(
       () => RegisterCodeVerificationBloc(sl()));
@@ -65,5 +77,8 @@ Future<void> initializieDependencies() async {
   );
   sl.registerFactory<CameraBloc>(
     () => CameraBloc(),
+  );
+  sl.registerFactory<ReactionBloc>(
+    () => ReactionBloc(sl()),
   );
 }

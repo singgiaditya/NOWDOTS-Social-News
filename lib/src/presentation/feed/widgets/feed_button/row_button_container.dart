@@ -1,25 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:nowdots_social_news/src/core/enums/reaction_enums.dart';
+import 'package:nowdots_social_news/src/data/models/feed/feeds_response_model.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/comment_button.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/like_dislike_button.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/share_button.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/upvote_downvote_button.dart';
 
 class RowButtonContainer extends StatelessWidget {
-  final String likeCount;
-  final String commentCount;
-  final String shareCount;
-  final String upVoteCount;
   final Color color;
   final Color backgroundColor;
   final ReactionType reactionType;
+  final Feed? data;
 
   const RowButtonContainer(
       {super.key,
-      required this.likeCount,
-      required this.commentCount,
-      required this.shareCount,
-      required this.upVoteCount,
+      required this.data,
       required this.color,
       required this.backgroundColor,
       this.reactionType = ReactionType.NONE});
@@ -29,11 +24,10 @@ class RowButtonContainer extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        likeDislikeButton(context, likeCount, color, backgroundColor,
-            reactionType: reactionType),
-        commentButton(commentCount, color),
-        shareButton(shareCount, color),
-        upvoteDownvoteButton(upVoteCount, color, backgroundColor)
+        LikeDislikeButton(data: data, color: color, backgroundColor: backgroundColor, reactionType: reactionType),
+        commentButton("${data!.commentsCount}", color),
+        shareButton("${data!.sharesCount}", color),
+        upvoteDownvoteButton("${data!.upVoteCount}", color, backgroundColor)
       ],
     );
   }

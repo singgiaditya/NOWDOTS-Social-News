@@ -10,6 +10,7 @@ import 'package:nowdots_social_news/src/core/widgets/avatar_cache_image.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/get_all_feeds/get_all_feeds_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_card.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/loading_feed_card.dart';
+import 'package:nowdots_social_news/src/presentation/feed/widgets/score_widget.dart';
 import 'package:nowdots_social_news/src/presentation/profile/widgets/more_menu_profile_feed.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -423,10 +424,27 @@ Widget buildBanner() {
                             style:
                                 subtitleSegoeUITextStyle.copyWith(fontSize: 14),
                           ),
-                          Text(
-                            "371",
-                            style: titleSegoeUITextStyle.copyWith(
-                                fontSize: 30, color: score5Color),
+                          BlocBuilder<GetUserBloc, GetUserState>(
+                            builder: (context, state) {
+                              return state.maybeWhen(
+                                orElse: () {
+                                  return Text(
+                                    "TBD",
+                                    style: titleSegoeUITextStyle.copyWith(
+                                        fontSize: 30, color: primaryColor),
+                                  );
+                                },
+                                loaded: (data) {
+                                  return Text(
+                                    data.profile?.repScore.toString() ?? "TBD",
+                                    style: titleSegoeUITextStyle.copyWith(
+                                        fontSize: 30,
+                                        color: repScoreColor(
+                                            data.profile?.repScore ?? null)),
+                                  );
+                                },
+                              );
+                            },
                           ),
                         ],
                       ),

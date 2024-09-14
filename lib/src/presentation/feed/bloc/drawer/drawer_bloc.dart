@@ -1,16 +1,16 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nowdots_social_news/src/core/enums/feed_type_enums.dart';
 
 sealed class DrawerEvent {}
 
-final class DrawerChangeIndex extends DrawerEvent {
-  final int index;
+final class DrawerChangeType extends DrawerEvent {
+  final FeedType type;
 
-  DrawerChangeIndex(this.index);
-  
+  DrawerChangeType(this.type);
 }
 
-class DrawerBloc extends Bloc<DrawerEvent, int> {
-  DrawerBloc() : super(0) {
-    on<DrawerChangeIndex>((event, emit) => emit(event.index));
+class DrawerBloc extends Bloc<DrawerEvent, FeedType> {
+  DrawerBloc() : super(FeedType.NOWDOTS) {
+    on<DrawerChangeType>((event, emit) => emit(event.type));
   }
 }

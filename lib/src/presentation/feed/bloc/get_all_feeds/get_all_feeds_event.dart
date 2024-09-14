@@ -4,4 +4,5 @@ part of 'get_all_feeds_bloc.dart';
 class GetAllFeedsEvent with _$GetAllFeedsEvent {
   const factory GetAllFeedsEvent.started() = _Started;
   const factory GetAllFeedsEvent.getAllFeeds() = _GetAllFeeds;
+  const factory GetAllFeedsEvent.changeFeeds(FeedType type) = _ChangeFeeds;
 }
