@@ -101,6 +101,7 @@ class Feed {
   final int? photosCount;
   final int? upVoteCount;
   final int? downVoteCount;
+  final PurpleShare? share;
   final List<ReactionModel>? likes;
   final List<dynamic>? dislikes;
   final List<dynamic>? comments;
@@ -131,6 +132,7 @@ class Feed {
     this.photosCount,
     this.upVoteCount,
     this.downVoteCount,
+    this.share,
     this.likes,
     this.dislikes,
     this.comments,
@@ -168,6 +170,8 @@ class Feed {
         photosCount: json["photos_count"],
         upVoteCount: json["up_vote_count"],
         downVoteCount: json["down_vote_count"],
+        share:
+            json["share"] == null ? null : PurpleShare.fromJson(json["share"]),
         likes: json["likes"] == null
             ? []
             : List<ReactionModel>.from(
@@ -216,6 +220,7 @@ class Feed {
         "photos_count": photosCount,
         "up_vote_count": upVoteCount,
         "down_vote_count": downVoteCount,
+        "share": share?.toJson(),
         "likes": likes == null ? [] : List<dynamic>.from(likes!.map((x) => x)),
         "dislikes":
             dislikes == null ? [] : List<dynamic>.from(dislikes!.map((x) => x)),
@@ -261,5 +266,75 @@ class Link {
         "url": url,
         "label": label,
         "active": active,
+      };
+}
+
+class PurpleShare {
+  final int? id;
+  final int? userId;
+  final int? categoryId;
+  final String? content;
+  final int? isPinned;
+  final int? isAd;
+  final int? isAnonymous;
+  final dynamic shareId;
+  final String? createdAt;
+  final DateTime? updatedAt;
+  final UserModel? user;
+  final List<dynamic>? photos;
+
+  PurpleShare({
+    this.id,
+    this.userId,
+    this.categoryId,
+    this.content,
+    this.isPinned,
+    this.isAd,
+    this.isAnonymous,
+    this.shareId,
+    this.createdAt,
+    this.updatedAt,
+    this.user,
+    this.photos,
+  });
+
+  factory PurpleShare.fromRawJson(String str) =>
+      PurpleShare.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory PurpleShare.fromJson(Map<String, dynamic> json) => PurpleShare(
+        id: json["id"],
+        userId: json["user_id"],
+        categoryId: json["category_id"],
+        content: json["content"],
+        isPinned: json["is_pinned"],
+        isAd: json["is_ad"],
+        isAnonymous: json["is_anonymous"],
+        shareId: json["share_id"],
+        createdAt: json["created_at"],
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
+        user: json["user"] == null ? null : UserModel.fromJson(json["user"]),
+        photos: json["photos"] == null
+            ? []
+            : List<dynamic>.from(json["photos"]!.map((x) => x)),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "user_id": userId,
+        "category_id": categoryId,
+        "content": content,
+        "is_pinned": isPinned,
+        "is_ad": isAd,
+        "is_anonymous": isAnonymous,
+        "share_id": shareId,
+        "created_at": createdAt,
+        "updated_at": updatedAt?.toIso8601String(),
+        "user": user?.toJson(),
+        "photos":
+            photos == null ? [] : List<dynamic>.from(photos!.map((x) => x)),
       };
 }

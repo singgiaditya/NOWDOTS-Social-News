@@ -110,19 +110,27 @@ class FeedCard extends StatelessWidget {
         const SizedBox(
           height: 12,
         ),
-        HashtagText(
-          text: data.content ?? "",
-          decoratedTextStyle: regularProximaNovaTextStyle.copyWith(
-              fontSize: 14, color: buttonColor),
-          regularTextStyle: regularProximaNovaTextStyle.copyWith(
-              fontSize: 14, color: primaryColor, height: 1.25),
-        ),
+        data.content != null
+            ? HashtagText(
+                text: data.content ?? "",
+                decoratedTextStyle: regularProximaNovaTextStyle.copyWith(
+                    fontSize: 14, color: buttonColor),
+                regularTextStyle: regularProximaNovaTextStyle.copyWith(
+                    fontSize: 14, color: primaryColor, height: 1.25),
+              )
+            : Container(),
         data.photos!.isNotEmpty
             ? Padding(
                 padding: const EdgeInsets.only(top: 12),
                 child: buildImages(context),
               )
             : Container(),
+        data.shareId != null && data.content != null
+            ? SizedBox(
+                height: 12,
+              )
+            : SizedBox(),
+        data.shareId != null ? _buildQuoteShare() : Container(),
         const SizedBox(
           height: 12,
         ),
@@ -133,6 +141,121 @@ class FeedCard extends StatelessWidget {
             reactionType:
                 getReactionTypeFromListData(data.likes, data.dislikes)),
       ]),
+    );
+  }
+
+  Container _buildQuoteShare() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+          border: Border.all(color: boxColor),
+          borderRadius: BorderRadius.circular(12)),
+      child: Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              data.isAnonymous! == 0
+                  ? AvatarCacheImage(
+                      image: data.share!.user!.profilePhoto != null
+                          ? "$baseUrl${data.share!.user!.profilePhoto}"
+                          : null,
+                      radius: 18,
+                    )
+                  : CircleAvatar(
+                      backgroundImage: AssetImage(anonymousAvatar),
+                      radius: 18,
+                    ),
+              const SizedBox(
+                width: 9,
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  data.isAnonymous! == 0
+                      ? Container(
+                          constraints: BoxConstraints(maxWidth: 95),
+                          child: Text(
+                            overflow: TextOverflow.ellipsis,
+                            data.share!.user!.name!,
+                            style: titleProximaNovaTextStyle.copyWith(
+                                fontSize: 15),
+                          ),
+                        )
+                      : Text(
+                          "Anonymous",
+                          style:
+                              titleProximaNovaTextStyle.copyWith(fontSize: 15),
+                        ),
+                  data.user!.isVerified != 0 && data.isAnonymous == 0
+                      ? Padding(
+                          padding: const EdgeInsets.only(left: 4),
+                          child: Icon(
+                            Icons.verified,
+                            color: buttonColor,
+                            size: 15,
+                          ),
+                        )
+                      : Container(),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  data.isAnonymous == 0
+                      ? SizedBox(
+                          height: 20,
+                          child: ScoreWidget(
+                            scoreString:
+                                data.user?.profile?.repScore.toString() ??
+                                    "TBD",
+                          ),
+                        )
+                      : Container(),
+                  Text(
+                    " | ",
+                    style: regularProximaNovaTextStyle.copyWith(
+                        color: subColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
+                  ),
+                  Flexible(
+                    child: Container(
+                      constraints: BoxConstraints(maxWidth: 60),
+                      child: Text(
+                        overflow: TextOverflow.ellipsis,
+                        "@${data.share?.user?.username}",
+                        style: regularProximaNovaTextStyle.copyWith(
+                            color: subColor, fontSize: 16),
+                      ),
+                    ),
+                  ),
+                  RichText(
+                    text: TextSpan(
+                        text: " ",
+                        style: regularProximaNovaTextStyle.copyWith(
+                            color: subColor, fontSize: 14),
+                        children: [
+                          spanDivider(),
+                          TextSpan(
+                            text: " 2mgg",
+                          )
+                        ]),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          HashtagText(
+            text: data.share?.content ?? " ",
+            decoratedTextStyle: regularProximaNovaTextStyle.copyWith(
+                fontSize: 14, color: buttonColor),
+            regularTextStyle: regularProximaNovaTextStyle.copyWith(
+                fontSize: 14, color: primaryColor, height: 1.25),
+          ),
+        ],
+      ),
     );
   }
 
