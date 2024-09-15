@@ -116,12 +116,12 @@ class DetailFeedCard extends StatelessWidget {
           ),
         ),
         const SizedBox(
-          height: 12,
+          height: 19,
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 21),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Column(
@@ -135,23 +135,28 @@ class DetailFeedCard extends StatelessWidget {
                 width: 16,
               ),
               Flexible(
-                child: HashtagText(
-                  text: data.content ?? "",
-                  decoratedTextStyle: regularProximaNovaTextStyle.copyWith(
-                      fontSize: 14, color: buttonColor),
-                  regularTextStyle: regularProximaNovaTextStyle.copyWith(
-                      fontSize: 14, color: primaryColor, height: 1.25),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    HashtagText(
+                      text: data.content ?? "",
+                      decoratedTextStyle: regularProximaNovaTextStyle.copyWith(
+                          fontSize: 14, color: buttonColor),
+                      regularTextStyle: regularProximaNovaTextStyle.copyWith(
+                          fontSize: 14, color: primaryColor, height: 1.25),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    data.photos!.isNotEmpty
+                        ? buildImages(context)
+                        : Container(),
+                  ],
                 ),
               ),
             ],
           ),
         ),
-        data.photos!.isNotEmpty
-            ? Padding(
-                padding: const EdgeInsets.only(top: 12, left: 21, right: 21),
-                child: buildImages(context),
-              )
-            : Container(),
         const SizedBox(
           height: 19,
         ),
@@ -488,9 +493,8 @@ class DetailFeedCard extends StatelessWidget {
 
     var isFalse = [
       spanDivider(),
-      // TextSpan(text: " ${data.publishedAt} "),
       TextSpan(text: " ${data.createdAt} "),
-      spanDivider(),
+      // spanDivider(),
       // TextSpan(text: " ${data.type?.name.capitalize()}"),
       // TextSpan(text: " Public"),
     ];

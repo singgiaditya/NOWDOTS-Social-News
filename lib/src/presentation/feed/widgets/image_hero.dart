@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
+import 'package:nowdots_social_news/src/core/constant/api.dart';
 import 'package:nowdots_social_news/src/data/models/feed/feeds_response_model.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -38,7 +39,8 @@ class ImageHero extends StatelessWidget {
         borderRadius = const BorderRadius.only(topRight: Radius.circular(12));
         break;
       case 5:
-        borderRadius = const BorderRadius.only(bottomRight: Radius.circular(12));
+        borderRadius =
+            const BorderRadius.only(bottomRight: Radius.circular(12));
         break;
       case 6:
         borderRadius = const BorderRadius.only(topLeft: Radius.circular(12));
@@ -58,7 +60,7 @@ class ImageHero extends StatelessWidget {
       child: Hero(
         tag: data.photos![index],
         child: CachedNetworkImage(
-          imageUrl: data.photos![index],
+          imageUrl: baseUrl + data.photos![index]['file_path'],
           imageBuilder: (context, imageProvider) {
             return Container(
               width: width,
