@@ -69,7 +69,8 @@ class _LikeDislikeButtonState extends State<LikeDislikeButton> {
               if (result != null && result != reaction) {
                 BlocProvider.of<ReactionBloc>(context)
                     .add(ReactionEvent.reaction(result, "${widget.data!.id}"));
-                if (reaction == ReactionType.NONE) {
+                if (reaction == ReactionType.NONE ||
+                    reaction == ReactionType.BAD) {
                   likesCount++;
                 }
                 reaction = result;
