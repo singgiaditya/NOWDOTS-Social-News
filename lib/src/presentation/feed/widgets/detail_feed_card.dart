@@ -6,6 +6,7 @@ import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
 import 'package:nowdots_social_news/src/core/constant/api.dart';
 import 'package:nowdots_social_news/src/core/constant/icons.dart';
+import 'package:nowdots_social_news/src/core/constant/images.dart';
 import 'package:nowdots_social_news/src/core/enums/reaction_enums.dart';
 import 'package:nowdots_social_news/src/core/widgets/avatar_cache_image.dart';
 import 'package:nowdots_social_news/src/data/models/feed/feeds_response_model.dart';
@@ -34,12 +35,17 @@ class DetailFeedCard extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AvatarCacheImage(
-                image: data.user!.profilePhoto != null
-                    ? "$baseUrl${data.user!.profilePhoto}"
-                    : null,
-                radius: 25,
-              ),
+              data.isAnonymous! == 0
+                  ? AvatarCacheImage(
+                      image: data.user!.profilePhoto != null
+                          ? "$baseUrl${data.user!.profilePhoto}"
+                          : null,
+                      radius: 25,
+                    )
+                  : CircleAvatar(
+                      backgroundImage: AssetImage(anonymousAvatar),
+                      radius: 25,
+                    ),
               const SizedBox(
                 width: 9,
               ),
@@ -48,11 +54,18 @@ class DetailFeedCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text(
-                        data.user!.name!,
-                        style: titleProximaNovaTextStyle.copyWith(fontSize: 15),
-                      ),
-                      data.user!.isVerified! != 0
+                      data.isAnonymous! == 0
+                          ? Text(
+                              data.user!.name!,
+                              style: titleProximaNovaTextStyle.copyWith(
+                                  fontSize: 15),
+                            )
+                          : Text(
+                              "Anonymous",
+                              style: titleProximaNovaTextStyle.copyWith(
+                                  fontSize: 15),
+                            ),
+                      data.user!.isVerified! != 0 && data.isAnonymous == 0
                           ? Padding(
                               padding: const EdgeInsets.only(left: 4),
                               child: Icon(
@@ -65,9 +78,13 @@ class DetailFeedCard extends StatelessWidget {
                       const SizedBox(
                         width: 4,
                       ),
-                      ScoreWidget(
-                        scoreString: "${data.user!.profile?.repScore}",
-                      ),
+                      data.isAnonymous == 0
+                          ? ScoreWidget(
+                              scoreString:
+                                  data.user!.profile?.repScore.toString() ??
+                                      "TBD",
+                            )
+                          : Container()
                     ],
                   ),
                   const SizedBox(
@@ -75,7 +92,9 @@ class DetailFeedCard extends StatelessWidget {
                   ),
                   RichText(
                     text: TextSpan(
-                        text: "${data.user!.username!} ",
+                        text: data.isAnonymous! == 0
+                            ? "@${data.user!.username!} "
+                            : "@anonymous ",
                         style: regularProximaNovaTextStyle.copyWith(
                           color: subColor,
                         ),

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
 import 'package:nowdots_social_news/src/core/constant/api.dart';
+import 'package:nowdots_social_news/src/core/constant/images.dart';
 import 'package:nowdots_social_news/src/core/utils/reaction_utils.dart';
 import 'package:nowdots_social_news/src/core/widgets/avatar_cache_image.dart';
 import 'package:nowdots_social_news/src/data/models/feed/feeds_response_model.dart';
@@ -29,12 +30,17 @@ class FeedCard extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AvatarCacheImage(
-              image: data.user!.profilePhoto != null
-                  ? "$baseUrl${data.user!.profilePhoto}"
-                  : null,
-              radius: 25,
-            ),
+            data.isAnonymous! == 0
+                ? AvatarCacheImage(
+                    image: data.user!.profilePhoto != null
+                        ? "$baseUrl${data.user!.profilePhoto}"
+                        : null,
+                    radius: 25,
+                  )
+                : CircleAvatar(
+                    backgroundImage: AssetImage(anonymousAvatar),
+                    radius: 25,
+                  ),
             const SizedBox(
               width: 9,
             ),
@@ -43,11 +49,18 @@ class FeedCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text(
-                      data.user!.name!,
-                      style: titleProximaNovaTextStyle.copyWith(fontSize: 15),
-                    ),
-                    data.user!.isVerified != 0
+                    data.isAnonymous! == 0
+                        ? Text(
+                            data.user!.name!,
+                            style: titleProximaNovaTextStyle.copyWith(
+                                fontSize: 15),
+                          )
+                        : Text(
+                            "Anonymous",
+                            style: titleProximaNovaTextStyle.copyWith(
+                                fontSize: 15),
+                          ),
+                    data.user!.isVerified != 0 && data.isAnonymous == 0
                         ? Padding(
                             padding: const EdgeInsets.only(left: 4),
                             child: Icon(
@@ -60,10 +73,13 @@ class FeedCard extends StatelessWidget {
                     const SizedBox(
                       width: 4,
                     ),
-                    ScoreWidget(
-                      scoreString:
-                          data.user?.profile?.repScore.toString() ?? "TBD",
-                    ),
+                    data.isAnonymous == 0
+                        ? ScoreWidget(
+                            scoreString:
+                                data.user?.profile?.repScore.toString() ??
+                                    "TBD",
+                          )
+                        : Container()
                   ],
                 ),
                 const SizedBox(
@@ -71,7 +87,9 @@ class FeedCard extends StatelessWidget {
                 ),
                 RichText(
                   text: TextSpan(
-                      text: "@${data.user!.username!} ",
+                      text: data.isAnonymous! == 0
+                          ? "@${data.user!.username!} "
+                          : "@anonymous ",
                       style: regularProximaNovaTextStyle.copyWith(
                         color: subColor,
                       ),
@@ -368,11 +386,11 @@ class FeedCard extends StatelessWidget {
     var isFalse = [
       spanDivider(),
       //todo: add date
-      // TextSpan(text: " ${data.publishedAt} "),
-      TextSpan(text: " 1j "),
-      spanDivider(),
+      TextSpan(text: " ${data.createdAt} "),
+      // TextSpan(text: " 1j "),
+      // spanDivider(),
       // TextSpan(text: " ${data.type?.name.capitalize()}"),
-      TextSpan(text: " Public"),
+      // TextSpan(text: " Public"),
     ];
 
     if (isAds == true) {
