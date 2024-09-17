@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:nowdots_social_news/src/core/enums/vote_enums.dart';
+import 'package:nowdots_social_news/src/core/utils/vote_utils.dart';
 import 'package:nowdots_social_news/src/data/models/auth/user_model.dart';
 import 'package:nowdots_social_news/src/data/models/reaction_model.dart';
 
@@ -99,7 +101,7 @@ class Feed {
   final int? bookmarksCount;
   final int? viewsCount;
   final int? photosCount;
-  final int? upVoteCount;
+  int? upVoteCount;
   final int? downVoteCount;
   final PurpleShare? share;
   final List<ReactionModel>? likes;
@@ -109,6 +111,7 @@ class Feed {
   final List<dynamic>? bookmarks;
   final List<dynamic>? upVote;
   final List<dynamic>? downVote;
+  VoteType? voteType;
   final UserModel? user;
   final List<dynamic>? photos;
 
@@ -132,6 +135,7 @@ class Feed {
     this.photosCount,
     this.upVoteCount,
     this.downVoteCount,
+    this.voteType,
     this.share,
     this.likes,
     this.dislikes,
@@ -194,6 +198,9 @@ class Feed {
         downVote: json["down_vote"] == null
             ? []
             : List<dynamic>.from(json["down_vote"]!.map((x) => x)),
+        voteType: getVoteTypeFromListData(
+            List<dynamic>.from(json["up_vote"]!.map((x) => x)),
+            List<dynamic>.from(json["down_vote"]!.map((x) => x))),
         user: json["user"] == null ? null : UserModel.fromJson(json["user"]),
         photos: json["photos"] == null
             ? []

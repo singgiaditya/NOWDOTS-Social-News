@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
+import 'package:nowdots_social_news/src/core/constant/api.dart';
+import 'package:nowdots_social_news/src/core/utils/reaction_utils.dart';
 import 'package:nowdots_social_news/src/data/models/feed/feeds_response_model.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/row_button_container.dart';
 
@@ -28,9 +30,9 @@ class FullscreenImage extends StatelessWidget {
             controller: controller,
             children: List<Widget>.generate(data.photosCount!, (int index) {
               return Hero(
-                tag: data.photos![index],
+                tag: baseUrl + data.photos![index]["file_path"],
                 child: CachedNetworkImage(
-                  imageUrl: data.photos![index],
+                  imageUrl: baseUrl + data.photos![index]["file_path"],
                   placeholder: (context, url) => const Center(
                     child: CircularProgressIndicator(
                       color: Colors.white,
@@ -106,6 +108,8 @@ class FullscreenImage extends StatelessWidget {
                     color: Colors.white,
                     backgroundColor: Colors.transparent,
                     data: data,
+                    reactionType:
+                        getReactionTypeFromListData(data.likes, data.dislikes),
                   ),
                   const SizedBox(
                     height: 20,

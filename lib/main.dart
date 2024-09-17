@@ -20,6 +20,7 @@ import 'package:nowdots_social_news/src/presentation/feed/bloc/get_all_followiin
 import 'package:nowdots_social_news/src/presentation/feed/bloc/drawer/drawer_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/get_all_feeds/get_all_feeds_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/reaction/reaction_bloc.dart';
+import 'package:nowdots_social_news/src/presentation/feed/bloc/vote/vote_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/splash_screen/bloc/splash_screen_bloc.dart';
 
 void main() async {
@@ -49,6 +50,9 @@ class MyApp extends StatelessWidget {
                 FeedType.NOWDOTS)),
         ),
         BlocProvider<ReactionBloc>(
+          create: (context) => sl(),
+        ),
+        BlocProvider<VoteBloc>(
           create: (context) => sl(),
         ),
         BlocProvider<DrawerBloc>(

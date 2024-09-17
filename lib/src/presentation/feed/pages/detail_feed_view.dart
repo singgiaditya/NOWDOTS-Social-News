@@ -19,6 +19,12 @@ class DetailFeedView extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              context.pop();
+            },
+            icon: const Icon(Icons.arrow_back),
+          ),
           title: const Text("Post"),
           actions: [
             IconButton(
@@ -165,11 +171,14 @@ class _ReplyTextFieldState extends State<ReplyTextField> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         GestureDetector(
-                            onTap: () {}, child: const Icon(Icons.image_outlined)),
+                            onTap: () {},
+                            child: const Icon(Icons.image_outlined)),
                         GestureDetector(
-                            onTap: () {}, child: const Icon(Icons.gif_box_outlined)),
+                            onTap: () {},
+                            child: const Icon(Icons.gif_box_outlined)),
                         GestureDetector(
-                            onTap: () {}, child: const Icon(Icons.poll_outlined)),
+                            onTap: () {},
+                            child: const Icon(Icons.poll_outlined)),
                         GestureDetector(
                             onTap: () {},
                             child: const Icon(Icons.emoji_emotions_outlined)),

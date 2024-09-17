@@ -24,10 +24,18 @@ class RowButtonContainer extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        LikeDislikeButton(data: data, color: color, backgroundColor: backgroundColor, reactionType: reactionType),
+        LikeDislikeButton(
+            data: data,
+            color: color,
+            backgroundColor: backgroundColor,
+            reactionType: reactionType),
         commentButton("${data!.commentsCount}", color),
         shareButton("${data!.sharesCount}", color),
-        upvoteDownvoteButton("${data!.upVoteCount}", color, backgroundColor)
+        UpvoteDownvoteWidget(
+          data: data,
+          color: color,
+          backgroundColor: backgroundColor,
+        )
       ],
     );
   }

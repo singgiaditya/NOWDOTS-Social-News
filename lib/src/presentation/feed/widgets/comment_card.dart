@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
 import 'package:nowdots_social_news/src/core/enums/reaction_enums.dart';
+import 'package:nowdots_social_news/src/core/enums/vote_enums.dart';
 import 'package:nowdots_social_news/src/core/widgets/avatar_cache_image.dart';
 import 'package:nowdots_social_news/src/data/models/feed/feeds_response_model.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/hashtag_text.dart';
@@ -118,7 +119,8 @@ class CommentCard extends StatelessWidget {
                           commentOnTap();
                         },
                         child: commentButton("7", primaryColor)),
-                    upvoteDownvoteButton("123", primaryColor, boxColor)
+                    upvoteDownvoteButton(
+                        "123", primaryColor, boxColor, VoteType.NONE)
                   ],
                 )
               ],

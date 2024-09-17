@@ -44,3 +44,11 @@ String reactionFeedApi(String feedId) {
 String reactionDislikeFeedApi(String feedId) {
   return "$baseUrlApi/feeds/$feedId/dislike";
 }
+
+String upVoteFeedApi(String feedId) {
+  return "$baseUrlApi/feeds/$feedId/up-vote";
+}
+
+String downVoteFeedApi(String feedId) {
+  return "$baseUrlApi/feeds/$feedId/down-vote";
+}

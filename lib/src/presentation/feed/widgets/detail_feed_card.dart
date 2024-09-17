@@ -8,8 +8,11 @@ import 'package:nowdots_social_news/src/core/constant/api.dart';
 import 'package:nowdots_social_news/src/core/constant/icons.dart';
 import 'package:nowdots_social_news/src/core/constant/images.dart';
 import 'package:nowdots_social_news/src/core/enums/reaction_enums.dart';
+import 'package:nowdots_social_news/src/core/enums/vote_enums.dart';
+import 'package:nowdots_social_news/src/core/utils/reaction_utils.dart';
 import 'package:nowdots_social_news/src/core/widgets/avatar_cache_image.dart';
 import 'package:nowdots_social_news/src/data/models/feed/feeds_response_model.dart';
+import 'package:nowdots_social_news/src/presentation/feed/bloc/vote/vote_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/more_menu_feed.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/hashtag_text.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/image_hero.dart';
@@ -18,11 +21,26 @@ import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/re
 import 'package:nowdots_social_news/src/presentation/feed/widgets/score_widget.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/span_divider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class DetailFeedCard extends StatelessWidget {
+class DetailFeedCard extends StatefulWidget {
   final Feed data;
 
   const DetailFeedCard({super.key, required this.data});
+
+  @override
+  State<DetailFeedCard> createState() => _DetailFeedCardState();
+}
+
+class _DetailFeedCardState extends State<DetailFeedCard> {
+  late ReactionType reactionType;
+
+  @override
+  void initState() {
+    super.initState();
+    reactionType =
+        getReactionTypeFromListData(widget.data.likes, widget.data.dislikes);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +53,10 @@ class DetailFeedCard extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              data.isAnonymous! == 0
+              widget.data.isAnonymous! == 0
                   ? AvatarCacheImage(
-                      image: data.user!.profilePhoto != null
-                          ? "$baseUrl${data.user!.profilePhoto}"
+                      image: widget.data.user!.profilePhoto != null
+                          ? "$baseUrl${widget.data.user!.profilePhoto}"
                           : null,
                       radius: 25,
                     )
@@ -54,9 +72,9 @@ class DetailFeedCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      data.isAnonymous! == 0
+                      widget.data.isAnonymous! == 0
                           ? Text(
-                              data.user!.name!,
+                              widget.data.user!.name!,
                               style: titleProximaNovaTextStyle.copyWith(
                                   fontSize: 15),
                             )
@@ -65,7 +83,8 @@ class DetailFeedCard extends StatelessWidget {
                               style: titleProximaNovaTextStyle.copyWith(
                                   fontSize: 15),
                             ),
-                      data.user!.isVerified! != 0 && data.isAnonymous == 0
+                      widget.data.user!.isVerified! != 0 &&
+                              widget.data.isAnonymous == 0
                           ? Padding(
                               padding: const EdgeInsets.only(left: 4),
                               child: Icon(
@@ -78,11 +97,11 @@ class DetailFeedCard extends StatelessWidget {
                       const SizedBox(
                         width: 4,
                       ),
-                      data.isAnonymous == 0
+                      widget.data.isAnonymous == 0
                           ? ScoreWidget(
-                              scoreString:
-                                  data.user!.profile?.repScore.toString() ??
-                                      "TBD",
+                              scoreString: widget.data.user!.profile?.repScore
+                                      .toString() ??
+                                  "TBD",
                             )
                           : Container()
                     ],
@@ -92,20 +111,20 @@ class DetailFeedCard extends StatelessWidget {
                   ),
                   RichText(
                     text: TextSpan(
-                        text: data.isAnonymous! == 0
-                            ? "@${data.user!.username!} "
+                        text: widget.data.isAnonymous! == 0
+                            ? "@${widget.data.user!.username!} "
                             : "@anonymous ",
                         style: regularProximaNovaTextStyle.copyWith(
                           color: subColor,
                         ),
-                        children: isAds(data.isAd! != 0)),
+                        children: isAds(widget.data.isAd! != 0)),
                   ),
                 ],
               ),
               const Spacer(),
               GestureDetector(
                   onTap: () {
-                    showMoreMenuFeed(context, data.user!.username!);
+                    showMoreMenuFeed(context, widget.data.user!.username!);
                   },
                   child: Icon(
                     Icons.more_horiz,
@@ -126,9 +145,61 @@ class DetailFeedCard extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  SvgPicture.asset(upVoteOutline),
-                  Text("${data.sharesCount!}"),
-                  SvgPicture.asset(downVoteOutline),
+                  widget.data.voteType == VoteType.UP
+                      ? GestureDetector(
+                          onTap: () {
+                            context.read<VoteBloc>().add(VoteEvent.unVote(
+                                VoteType.UP, "${widget.data.id}"));
+                            widget.data.upVoteCount =
+                                widget.data.upVoteCount! - 1;
+                            widget.data.voteType = VoteType.NONE;
+                            setState(() {});
+                          },
+                          child: SvgPicture.asset(
+                            upVoteFilled,
+                          ),
+                        )
+                      : GestureDetector(
+                          onTap: () {
+                            context.read<VoteBloc>().add(VoteEvent.vote(
+                                VoteType.UP, "${widget.data.id}"));
+                            widget.data.upVoteCount =
+                                widget.data.upVoteCount! + 1;
+                            widget.data.voteType = VoteType.UP;
+                            setState(() {});
+                          },
+                          child: SvgPicture.asset(
+                            upVoteOutline,
+                          ),
+                        ),
+                  Text("${widget.data.upVoteCount}"),
+                  widget.data.voteType == VoteType.DOWN
+                      ? GestureDetector(
+                          onTap: () {
+                            context.read<VoteBloc>().add(VoteEvent.unVote(
+                                VoteType.DOWN, "${widget.data.id}"));
+                            widget.data.voteType = VoteType.NONE;
+                            setState(() {});
+                          },
+                          child: SvgPicture.asset(
+                            downVoteFilled,
+                          ),
+                        )
+                      : GestureDetector(
+                          onTap: () {
+                            context.read<VoteBloc>().add(VoteEvent.vote(
+                                VoteType.DOWN, "${widget.data.id}"));
+                            if (widget.data.voteType == VoteType.UP) {
+                              widget.data.upVoteCount =
+                                  widget.data.upVoteCount! - 1;
+                            }
+                            widget.data.voteType = VoteType.DOWN;
+                            setState(() {});
+                          },
+                          child: SvgPicture.asset(
+                            downVoteOutline,
+                          ),
+                        ),
                 ],
               ),
               const SizedBox(
@@ -138,9 +209,9 @@ class DetailFeedCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    data.content != null
+                    widget.data.content != null
                         ? HashtagText(
-                            text: data.content ?? "",
+                            text: widget.data.content ?? "",
                             decoratedTextStyle: regularProximaNovaTextStyle
                                 .copyWith(fontSize: 14, color: buttonColor),
                             regularTextStyle:
@@ -150,15 +221,17 @@ class DetailFeedCard extends StatelessWidget {
                                     height: 1.25),
                           )
                         : Container(),
-                    data.content != null
+                    widget.data.content != null
                         ? SizedBox(
                             height: 10,
                           )
                         : Container(),
-                    data.photos!.isNotEmpty
+                    widget.data.photos!.isNotEmpty
                         ? buildImages(context)
                         : Container(),
-                    data.shareId != null ? _buildQuoteShare() : Container(),
+                    widget.data.shareId != null
+                        ? _buildQuoteShare()
+                        : Container(),
                   ],
                 ),
               ),
@@ -196,17 +269,17 @@ class DetailFeedCard extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              CountText(count: "${data.likesCount!}", label: "Likes"),
+              CountText(count: "${widget.data.likesCount}", label: "Likes"),
               CountText(
-                count: "${data.commentsCount!}",
+                count: "${widget.data.commentsCount!}",
                 label: "Comments",
               ),
-              const CountText(
-                count: "3",
+              CountText(
+                count: "${widget.data.sharesCount!}",
                 label: "Shares",
               ),
               CountText(
-                count: "${data.upVoteCount}",
+                count: "${widget.data.upVoteCount}",
                 label: "Votes",
               ),
             ],
@@ -263,10 +336,10 @@ class DetailFeedCard extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              data.isAnonymous! == 0
+              widget.data.isAnonymous! == 0
                   ? AvatarCacheImage(
-                      image: data.share!.user!.profilePhoto != null
-                          ? "$baseUrl${data.share!.user!.profilePhoto}"
+                      image: widget.data.share!.user!.profilePhoto != null
+                          ? "$baseUrl${widget.data.share!.user!.profilePhoto}"
                           : null,
                       radius: 18,
                     )
@@ -280,12 +353,12 @@ class DetailFeedCard extends StatelessWidget {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  data.isAnonymous! == 0
+                  widget.data.isAnonymous! == 0
                       ? Container(
                           constraints: BoxConstraints(maxWidth: 80),
                           child: Text(
                             overflow: TextOverflow.ellipsis,
-                            data.share!.user!.name!,
+                            widget.data.share!.user!.name!,
                             style: titleProximaNovaTextStyle.copyWith(
                                 fontSize: 15),
                           ),
@@ -295,7 +368,8 @@ class DetailFeedCard extends StatelessWidget {
                           style:
                               titleProximaNovaTextStyle.copyWith(fontSize: 15),
                         ),
-                  data.user!.isVerified != 0 && data.isAnonymous == 0
+                  widget.data.user!.isVerified != 0 &&
+                          widget.data.isAnonymous == 0
                       ? Padding(
                           padding: const EdgeInsets.only(left: 4),
                           child: Icon(
@@ -308,13 +382,13 @@ class DetailFeedCard extends StatelessWidget {
                   const SizedBox(
                     width: 4,
                   ),
-                  data.isAnonymous == 0
+                  widget.data.isAnonymous == 0
                       ? SizedBox(
                           height: 20,
                           child: ScoreWidget(
-                            scoreString:
-                                data.user?.profile?.repScore.toString() ??
-                                    "TBD",
+                            scoreString: widget.data.user?.profile?.repScore
+                                    .toString() ??
+                                "TBD",
                           ),
                         )
                       : Container(),
@@ -330,7 +404,7 @@ class DetailFeedCard extends StatelessWidget {
                       constraints: BoxConstraints(maxWidth: 40),
                       child: Text(
                         overflow: TextOverflow.ellipsis,
-                        "@${data.share?.user?.username}",
+                        "@${widget.data.share?.user?.username}",
                         style: regularProximaNovaTextStyle.copyWith(
                             color: subColor, fontSize: 16),
                       ),
@@ -356,7 +430,7 @@ class DetailFeedCard extends StatelessWidget {
             height: 8,
           ),
           HashtagText(
-            text: data.share?.content ?? " ",
+            text: widget.data.share?.content ?? " ",
             decoratedTextStyle: regularProximaNovaTextStyle.copyWith(
                 fontSize: 14, color: buttonColor),
             regularTextStyle: regularProximaNovaTextStyle.copyWith(
@@ -368,12 +442,12 @@ class DetailFeedCard extends StatelessWidget {
   }
 
   Widget buildImages(BuildContext context) {
-    if (data.photos!.length == 2) {
+    if (widget.data.photos!.length == 2) {
       return Row(
         children: [
           Flexible(
             child: ImageHero(
-              data: data,
+              data: widget.data,
               index: 0,
               width: null,
               height: 200,
@@ -385,7 +459,7 @@ class DetailFeedCard extends StatelessWidget {
           ),
           Flexible(
             child: ImageHero(
-              data: data,
+              data: widget.data,
               index: 1,
               width: null,
               height: 200,
@@ -396,12 +470,12 @@ class DetailFeedCard extends StatelessWidget {
       );
     }
 
-    if (data.photos!.length == 3) {
+    if (widget.data.photos!.length == 3) {
       return Row(
         children: [
           Flexible(
             child: ImageHero(
-              data: data,
+              data: widget.data,
               index: 0,
               width: null,
               height: 200,
@@ -415,7 +489,7 @@ class DetailFeedCard extends StatelessWidget {
             child: Column(
               children: [
                 ImageHero(
-                  data: data,
+                  data: widget.data,
                   index: 1,
                   width: null,
                   height: 97.5,
@@ -425,7 +499,7 @@ class DetailFeedCard extends StatelessWidget {
                   height: 5,
                 ),
                 ImageHero(
-                  data: data,
+                  data: widget.data,
                   index: 2,
                   width: null,
                   height: 97.5,
@@ -438,14 +512,14 @@ class DetailFeedCard extends StatelessWidget {
       );
     }
 
-    if (data.photos!.length == 4) {
+    if (widget.data.photos!.length == 4) {
       return Column(
         children: [
           Row(
             children: [
               Flexible(
                 child: ImageHero(
-                  data: data,
+                  data: widget.data,
                   index: 0,
                   width: null,
                   height: 120,
@@ -457,7 +531,7 @@ class DetailFeedCard extends StatelessWidget {
               ),
               Flexible(
                 child: ImageHero(
-                  data: data,
+                  data: widget.data,
                   index: 1,
                   width: null,
                   height: 120,
@@ -473,7 +547,7 @@ class DetailFeedCard extends StatelessWidget {
             children: [
               Flexible(
                 child: ImageHero(
-                  data: data,
+                  data: widget.data,
                   index: 2,
                   width: null,
                   height: 120,
@@ -485,7 +559,7 @@ class DetailFeedCard extends StatelessWidget {
               ),
               Flexible(
                 child: ImageHero(
-                  data: data,
+                  data: widget.data,
                   index: 3,
                   width: null,
                   height: 120,
@@ -498,14 +572,14 @@ class DetailFeedCard extends StatelessWidget {
       );
     }
 
-    if (data.photos!.length > 4) {
+    if (widget.data.photos!.length > 4) {
       return Column(
         children: [
           Row(
             children: [
               Flexible(
                 child: ImageHero(
-                  data: data,
+                  data: widget.data,
                   index: 0,
                   width: null,
                   height: 120,
@@ -517,7 +591,7 @@ class DetailFeedCard extends StatelessWidget {
               ),
               Flexible(
                 child: ImageHero(
-                  data: data,
+                  data: widget.data,
                   index: 1,
                   width: null,
                   height: 120,
@@ -533,7 +607,7 @@ class DetailFeedCard extends StatelessWidget {
             children: [
               Flexible(
                 child: ImageHero(
-                  data: data,
+                  data: widget.data,
                   index: 2,
                   width: null,
                   height: 120,
@@ -547,10 +621,10 @@ class DetailFeedCard extends StatelessWidget {
                   child: GestureDetector(
                 onTap: () {
                   context.pushNamed("image",
-                      extra: data, pathParameters: {"index": "3"});
+                      extra: widget.data, pathParameters: {"index": "3"});
                 },
                 child: CachedNetworkImage(
-                  imageUrl: data.photos![3],
+                  imageUrl: widget.data.photos![3],
                   imageBuilder: (context, imageProvider) {
                     return Container(
                       width: null,
@@ -570,7 +644,7 @@ class DetailFeedCard extends StatelessWidget {
                         ),
                         child: Center(
                             child: Text(
-                          "+${data.photos!.length - 3}",
+                          "+${widget.data.photos!.length - 3}",
                           style: titleProximaNovaTextStyle.copyWith(
                             color: Colors.white,
                             fontSize: 29,
@@ -600,7 +674,7 @@ class DetailFeedCard extends StatelessWidget {
     }
 
     return ImageHero(
-      data: data,
+      data: widget.data,
       index: 0,
       width: null,
       height: 200,
@@ -616,7 +690,7 @@ class DetailFeedCard extends StatelessWidget {
 
     var isFalse = [
       spanDivider(),
-      TextSpan(text: " ${data.createdAt} "),
+      TextSpan(text: " ${widget.data.createdAt} "),
       // spanDivider(),
       // TextSpan(text: " ${data.type?.name.capitalize()}"),
       // TextSpan(text: " Public"),
