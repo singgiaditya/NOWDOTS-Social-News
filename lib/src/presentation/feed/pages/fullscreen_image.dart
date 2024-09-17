@@ -1,15 +1,22 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
 import 'package:nowdots_social_news/src/core/constant/api.dart';
 import 'package:nowdots_social_news/src/core/utils/reaction_utils.dart';
 import 'package:nowdots_social_news/src/data/models/feed/feeds_response_model.dart';
+import 'package:nowdots_social_news/src/presentation/feed/bloc/vote/vote_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/row_button_container.dart';
 
-class FullscreenImage extends StatelessWidget {
+class FullscreenImage extends StatefulWidget {
   const FullscreenImage({super.key});
 
+  @override
+  State<FullscreenImage> createState() => _FullscreenImageState();
+}
+
+class _FullscreenImageState extends State<FullscreenImage> {
   @override
   Widget build(BuildContext context) {
     final Feed data = GoRouterState.of(context).extra! as Feed;
@@ -104,12 +111,21 @@ class FullscreenImage extends StatelessWidget {
               color: Colors.black54,
               child: Column(
                 children: [
-                  RowButtonContainer(
-                    color: Colors.white,
-                    backgroundColor: Colors.transparent,
-                    data: data,
-                    reactionType:
-                        getReactionTypeFromListData(data.likes, data.dislikes),
+                  BlocConsumer<VoteBloc, VoteState>(
+                    listener: (context, state) {
+                      state.maybeWhen(
+                        orElse: () => setState(() {}),
+                      );
+                    },
+                    builder: (context, state) {
+                      return RowButtonContainer(
+                        color: Colors.white,
+                        backgroundColor: Colors.transparent,
+                        data: data,
+                        reactionType: getReactionTypeFromListData(
+                            data.likes, data.dislikes),
+                      );
+                    },
                   ),
                   const SizedBox(
                     height: 20,
