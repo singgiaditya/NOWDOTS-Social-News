@@ -2,8 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
-import 'package:nowdots_social_news/src/data/models/feeds_response_model.dart';
-import 'package:nowdots_social_news/src/presentation/feed/widgets/row_button_container.dart';
+import 'package:nowdots_social_news/src/data/models/feed/feeds_response_model.dart';
+import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/row_button_container.dart';
 
 class FullscreenImage extends StatelessWidget {
   const FullscreenImage({super.key});
@@ -13,40 +13,52 @@ class FullscreenImage extends StatelessWidget {
     final Feed data = GoRouterState.of(context).extra! as Feed;
     final int index =
         int.parse(GoRouterState.of(context).pathParameters["index"]!);
+    final CarouselController controller =
+        CarouselController(initialItem: index);
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
         child: Stack(children: [
-          Hero(
-            tag: data.image![index],
-            child: CachedNetworkImage(
-              imageUrl: data.image![index],
-              placeholder: (context, url) => Center(
-                child: CircularProgressIndicator(
-                  color: Colors.white,
-                ),
-              ),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
-              imageBuilder: (context, imageProvider) {
-                return Container(
-                  width: double.infinity,
-                  height: double.infinity,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: imageProvider,
-                      fit: BoxFit.fitWidth,
+          CarouselView(
+            backgroundColor: Colors.black,
+            itemSnapping: true,
+            padding: EdgeInsets.all(0),
+            itemExtent: MediaQuery.of(context).size.width,
+            shape: Border.all(),
+            controller: controller,
+            children: List<Widget>.generate(data.photosCount!, (int index) {
+              return Hero(
+                tag: data.photos![index],
+                child: CachedNetworkImage(
+                  imageUrl: data.photos![index],
+                  placeholder: (context, url) => const Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
                     ),
                   ),
-                );
-              },
-            ),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                  imageBuilder: (context, imageProvider) {
+                    return Container(
+                      width: double.infinity,
+                      height: double.infinity,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.fitWidth,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              );
+            }),
           ),
           Positioned(
             top: 20,
             left: 0,
             right: 0,
             child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 21),
+              margin: const EdgeInsets.symmetric(horizontal: 21),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -55,10 +67,10 @@ class FullscreenImage extends StatelessWidget {
                       context.pop();
                     },
                     child: Container(
-                      padding: EdgeInsets.all(4),
-                      decoration: BoxDecoration(
+                      padding: const EdgeInsets.all(4),
+                      decoration: const BoxDecoration(
                           color: Colors.black54, shape: BoxShape.circle),
-                      child: Icon(
+                      child: const Icon(
                         Icons.close,
                         color: Colors.white,
                         size: 20,
@@ -67,10 +79,10 @@ class FullscreenImage extends StatelessWidget {
                   ),
                   GestureDetector(
                     child: Container(
-                      padding: EdgeInsets.all(4),
-                      decoration: BoxDecoration(
+                      padding: const EdgeInsets.all(4),
+                      decoration: const BoxDecoration(
                           color: Colors.black54, shape: BoxShape.circle),
-                      child: Icon(
+                      child: const Icon(
                         Icons.more_horiz,
                         color: Colors.white,
                         size: 20,
@@ -86,18 +98,16 @@ class FullscreenImage extends StatelessWidget {
             left: 0,
             right: 0,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 21),
+              padding: const EdgeInsets.symmetric(horizontal: 21),
               color: Colors.black54,
               child: Column(
                 children: [
                   RowButtonContainer(
-                      color: Colors.white,
-                      backgroundColor: Colors.transparent,
-                      likeCount: data.likeCount!,
-                      commentCount: data.commentCount!,
-                      forwardCount: data.forwardCount!,
-                      upVoteCount: data.upVoteCount ?? "0"),
-                  SizedBox(
+                    color: Colors.white,
+                    backgroundColor: Colors.transparent,
+                    data: data,
+                  ),
+                  const SizedBox(
                     height: 20,
                   ),
                   SizedBox(
@@ -106,23 +116,23 @@ class FullscreenImage extends StatelessWidget {
                       style: regularSegoeUITextStyle.copyWith(
                           fontSize: 14, color: Colors.white),
                       decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(left: 10),
+                          contentPadding: const EdgeInsets.only(left: 10),
                           focusColor: Colors.white,
                           enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
+                              borderSide: const BorderSide(color: Colors.white),
                               borderRadius: BorderRadius.circular(80)),
                           focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
+                              borderSide: const BorderSide(color: Colors.white),
                               borderRadius: BorderRadius.circular(80)),
                           border: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
+                              borderSide: const BorderSide(color: Colors.white),
                               borderRadius: BorderRadius.circular(80)),
                           hintText: "Post your reply",
                           hintStyle: regularSegoeUITextStyle.copyWith(
                               fontSize: 14, color: Colors.white)),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                 ],

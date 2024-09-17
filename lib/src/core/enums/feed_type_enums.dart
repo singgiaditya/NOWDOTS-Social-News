@@ -1,0 +1,8 @@
+enum FeedType {
+  NOWDOTS,
+  NOWHER,
+  NOWFOODIE,
+  NOWPLAY,
+  NOWSPORT,
+  NOWHYPE,
+}

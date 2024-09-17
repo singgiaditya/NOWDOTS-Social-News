@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
+import 'package:nowdots_social_news/src/core/enums/reaction_enums.dart';
 import 'package:nowdots_social_news/src/core/widgets/avatar_cache_image.dart';
+import 'package:nowdots_social_news/src/data/models/feed/feeds_response_model.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/hashtag_text.dart';
-import 'package:nowdots_social_news/src/presentation/feed/widgets/row_button_container.dart';
+import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/comment_button.dart';
+import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/like_dislike_button.dart';
+import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/upvote_downvote_button.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/score_widget.dart';
 
 class CommentCard extends StatelessWidget {
@@ -86,7 +90,7 @@ class CommentCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 HashtagText(
@@ -103,7 +107,12 @@ class CommentCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    likeDislikeButton("123", primaryColor, boxColor),
+                    LikeDislikeButton(
+                      color: primaryColor,
+                      backgroundColor: boxColor,
+                      data: Feed(),
+                      reactionType: ReactionType.NONE,
+                    ),
                     GestureDetector(
                         onTap: () {
                           commentOnTap();
@@ -154,7 +163,7 @@ class CommentChildCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.only(left: 19),
+                margin: const EdgeInsets.only(left: 19),
                 height: 20,
                 width: 2,
                 color: childLine! ? boxColor : Colors.transparent,
@@ -169,7 +178,7 @@ class CommentChildCard extends StatelessWidget {
                         width: 30,
                         height: 2,
                       ),
-                      AvatarCacheImage(
+                      const AvatarCacheImage(
                         image: "https://picsum.photos/200/300",
                         radius: 20,
                       ),
@@ -177,7 +186,7 @@ class CommentChildCard extends StatelessWidget {
                   ),
                   Flexible(
                     child: Container(
-                      margin: EdgeInsets.only(left: 30),
+                      margin: const EdgeInsets.only(left: 30),
                       color: downline! ? boxColor : Colors.transparent,
                       width: 2,
                     ),
@@ -231,7 +240,7 @@ class CommentChildCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                     HashtagText(
@@ -248,7 +257,12 @@ class CommentChildCard extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        likeDislikeButton("123", primaryColor, boxColor),
+                        LikeDislikeButton(
+                          color: primaryColor,
+                          backgroundColor: boxColor,
+                          data: Feed(),
+                          reactionType: ReactionType.NONE,
+                        ),
                         GestureDetector(
                             onTap: () {
                               commentOnTap();
@@ -268,7 +282,7 @@ class CommentChildCard extends StatelessWidget {
 }
 
 class CommentCardExpandedWidget extends StatefulWidget {
-  CommentCardExpandedWidget({super.key});
+  const CommentCardExpandedWidget({super.key});
 
   @override
   _CommentCardExpandedWidgetState createState() =>
@@ -297,7 +311,7 @@ class _CommentCardExpandedWidgetState extends State<CommentCardExpandedWidget> {
           visible: _expanded,
           child: ListView.builder(
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: 3,
             itemBuilder: (BuildContext context, int index) {
               if (index == 0) {

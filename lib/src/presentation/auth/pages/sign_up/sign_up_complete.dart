@@ -1,8 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
+import 'package:nowdots_social_news/src/core/bloc/get_user/get_user_bloc.dart';
 import 'package:nowdots_social_news/src/core/constant/images.dart';
 import 'package:nowdots_social_news/src/presentation/auth/widgets/header_banner.dart';
 
@@ -25,12 +27,12 @@ class _SignUpCompleteState extends State<SignUpComplete> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          HeaderBanner(imgUrl: signupImage),
-          SizedBox(
+          const HeaderBanner(imgUrl: signupImage),
+          const SizedBox(
             height: 40,
           ),
           Container(
-            padding: EdgeInsetsDirectional.symmetric(horizontal: 37),
+            padding: const EdgeInsetsDirectional.symmetric(horizontal: 37),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -42,7 +44,7 @@ class _SignUpCompleteState extends State<SignUpComplete> {
                 Text("NOWDOTS",
                     style: titleSegoeUITextStyle.copyWith(
                         fontSize: 35, height: 0.8)),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 RichText(
@@ -61,13 +63,15 @@ class _SignUpCompleteState extends State<SignUpComplete> {
                             text: "Read Here")
                       ]),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Align(
                   alignment: Alignment.centerRight,
                   child: ElevatedButton(
                       onPressed: () {
+                        context.read<GetUserBloc>()
+                          ..add(GetUserEvent.getLocalUser());
                         context.goNamed("home");
                       },
                       child: Text(

@@ -5,12 +5,11 @@ class HashtagText extends StatelessWidget {
   final TextStyle regularTextStyle;
   final TextStyle decoratedTextStyle;
 
-  HashtagText(
-      {Key? key,
+  const HashtagText(
+      {super.key,
       required this.text,
       required this.regularTextStyle,
-      required this.decoratedTextStyle})
-      : super(key: key);
+      required this.decoratedTextStyle});
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +17,10 @@ class HashtagText extends StatelessWidget {
     final spans = text.split(" ").map(
       (match) {
         if (regex.hasMatch(match)) {
-          return TextSpan(text: match + " ", style: decoratedTextStyle);
+          return TextSpan(text: "$match ", style: decoratedTextStyle);
         } else {
           return TextSpan(
-            text: match + " ",
+            text: "$match ",
           );
         }
       },

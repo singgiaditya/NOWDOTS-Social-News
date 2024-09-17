@@ -54,7 +54,7 @@ class LoadingFeedCard extends StatelessWidget {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12), color: boxColor),
         ),
-        SizedBox(
+        const SizedBox(
           height: 8,
         ),
         Container(
@@ -63,7 +63,7 @@ class LoadingFeedCard extends StatelessWidget {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12), color: boxColor),
         ),
-        SizedBox(
+        const SizedBox(
           height: 8,
         ),
         Container(

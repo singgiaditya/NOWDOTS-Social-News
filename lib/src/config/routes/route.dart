@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/presentation/auth/pages/boarding/boarding_view.dart';
@@ -17,8 +16,11 @@ import 'package:nowdots_social_news/src/presentation/auth/pages/sign_up/sign_up_
 import 'package:nowdots_social_news/src/presentation/feed/pages/detail_feed_view.dart';
 import 'package:nowdots_social_news/src/presentation/feed/pages/feed_view.dart';
 import 'package:nowdots_social_news/src/presentation/feed/pages/fullscreen_image.dart';
-import 'package:nowdots_social_news/src/presentation/feed/pages/multple_image.dart';
+import 'package:nowdots_social_news/src/presentation/feed/pages/post_feed.dart';
+import 'package:nowdots_social_news/src/presentation/feed/pages/report_continue.dart';
+import 'package:nowdots_social_news/src/presentation/feed/pages/report_reason.dart';
 import 'package:nowdots_social_news/src/presentation/init_page.dart';
+import 'package:nowdots_social_news/src/presentation/profile/pages/profile_view.dart';
 import 'package:nowdots_social_news/src/presentation/splash_screen/splash_screen.dart';
 
 class AppRoute {
@@ -69,20 +71,85 @@ class AppRoute {
             branches: [
               StatefulShellBranch(navigatorKey: _shellNavigatorHome, routes: [
                 GoRoute(
-                  parentNavigatorKey: _shellNavigatorHome,
-                  path: "/home",
-                  name: "home",
-                  builder: (context, state) => FeedView(
-                    parentKey: _scaffoldKey,
-                  ),
-                ),
+                    parentNavigatorKey: _shellNavigatorHome,
+                    path: "/home",
+                    name: "home",
+                    pageBuilder: (context, state) => NoTransitionPage(
+                            child: FeedView(
+                          parentKey: _scaffoldKey,
+                        )),
+                    routes: [
+                      GoRoute(
+                        parentNavigatorKey: _shellNavigatorHome,
+                        path: "my-profile",
+                        name: "my-profile",
+                        pageBuilder: (context, state) {
+                          return CustomTransitionPage(
+                            key: state.pageKey,
+                            child: ProfileView(),
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              const begin = Offset(1.0, 0.0);
+                              const end = Offset.zero;
+                              const curve = Curves.fastOutSlowIn;
+
+                              final tween = Tween(begin: begin, end: end);
+                              final curvedAnimation = CurvedAnimation(
+                                parent: animation,
+                                curve: curve,
+                              );
+
+                              return SlideTransition(
+                                position: tween.animate(curvedAnimation),
+                                child: child,
+                              );
+                            },
+                          );
+                        },
+                      ),
+                      GoRoute(
+                        parentNavigatorKey: _rootNavigatorKey,
+                        path: "report",
+                        name: "report",
+                        pageBuilder: (context, state) {
+                          return CustomTransitionPage(
+                            key: state.pageKey,
+                            child: ReportReason(),
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              const begin = Offset(0.0, 1.0);
+                              const end = Offset.zero;
+                              const curve = Curves.ease;
+
+                              final tween = Tween(begin: begin, end: end);
+                              final curvedAnimation = CurvedAnimation(
+                                parent: animation,
+                                curve: curve,
+                              );
+
+                              return SlideTransition(
+                                position: tween.animate(curvedAnimation),
+                                child: child,
+                              );
+                            },
+                          );
+                        },
+                      ),
+                      GoRoute(
+                        parentNavigatorKey: _rootNavigatorKey,
+                        path: "report-continue",
+                        name: "report-continue",
+                        builder: (context, state) => const ReportContinue(),
+                      ),
+                    ]),
               ]),
               StatefulShellBranch(navigatorKey: _shellNavigatorNews, routes: [
                 GoRoute(
                   parentNavigatorKey: _shellNavigatorNews,
                   path: "/news",
                   name: "news",
-                  builder: (context, state) => const Text("News"),
+                  pageBuilder: (context, state) =>
+                      NoTransitionPage(child: Text("News")),
                 ),
               ]),
               StatefulShellBranch(
@@ -92,7 +159,8 @@ class AppRoute {
                       parentNavigatorKey: _shellNavigatorNotifications,
                       path: "/notifications",
                       name: "notifications",
-                      builder: (context, state) => const Text("Notifications"),
+                      pageBuilder: (context, state) =>
+                          NoTransitionPage(child: Text("Notifications")),
                     ),
                   ]),
               StatefulShellBranch(
@@ -102,7 +170,8 @@ class AppRoute {
                       parentNavigatorKey: _shellNavigatorSettings,
                       path: "/settings",
                       name: "settings",
-                      builder: (context, state) => const Text("Settings"),
+                      pageBuilder: (context, state) =>
+                          NoTransitionPage(child: Text("Settings")),
                     ),
                   ]),
             ]),
@@ -208,21 +277,19 @@ class AppRoute {
           name: "image",
           builder: (context, state) => const FullscreenImage(),
         ),
-
-        //fullscreen multiple-image
-        GoRoute(
-          parentNavigatorKey: _rootNavigatorKey,
-          path: "/multiple-image",
-          name: "multiple-image",
-          builder: (context, state) => const MultipleImage(),
-        ),
-
         //detail-feed
         GoRoute(
           parentNavigatorKey: _rootNavigatorKey,
           path: "/detail-feed",
           name: "detail-feed",
           builder: (context, state) => const DetailFeedView(),
-        )
+        ),
+        //post-feed
+        GoRoute(
+          parentNavigatorKey: _rootNavigatorKey,
+          path: "/post-feed",
+          name: "post-feed",
+          builder: (context, state) => const PostFeed(),
+        ),
       ]);
 }

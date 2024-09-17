@@ -10,7 +10,7 @@ TextStyle regularSegoeUITextStyle = const TextStyle(
 TextStyle titleProximaNovaTextStyle = const TextStyle(
     fontFamily: "Proxima Nova", fontWeight: FontWeight.w700, fontSize: 16);
 TextStyle subtitleProximaNovaTextStyle = const TextStyle(
-    fontFamily: "Proxima Nova", fontWeight: FontWeight.w700, fontSize: 14);
+    fontFamily: "Proxima Nova", fontWeight: FontWeight.w600, fontSize: 14);
 TextStyle regularProximaNovaTextStyle = const TextStyle(
     fontFamily: "Proxima Nova", fontWeight: FontWeight.w400, fontSize: 12);
 

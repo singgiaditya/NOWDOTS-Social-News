@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
+import 'package:nowdots_social_news/src/core/bloc/get_user/get_user_bloc.dart';
 import 'package:nowdots_social_news/src/core/utils/input_validator.dart';
 import 'package:nowdots_social_news/src/data/models/auth/login/login_request_model.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/login/login_bloc.dart';
@@ -61,7 +62,7 @@ class _SignInEmailUsernameViewState extends State<SignInEmailUsernameView> {
               BoxConstraints(minHeight: MediaQuery.of(context).size.height),
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 40,
               ),
               const LogoList(),
@@ -155,7 +156,10 @@ class _SignInEmailUsernameViewState extends State<SignInEmailUsernameView> {
               state.maybeWhen(
                 orElse: () {},
                 error: (message) => showSnackBar(context, message),
-                loaded: (data) => context.goNamed("home"),
+                loaded: (data) {
+                  context.read<GetUserBloc>().add(GetUserEvent.getLocalUser());
+                  context.goNamed("home");
+                },
               );
             },
             builder: (context, state) {
@@ -180,7 +184,7 @@ class _SignInEmailUsernameViewState extends State<SignInEmailUsernameView> {
                   final requestData = LoginRequestModel(
                       emailOrUsername: _inputEmailUsernameController.text,
                       password: _passwordController.text);
-                  context.read<LoginBloc>()..add(LoginEvent.login(requestData));
+                  context.read<LoginBloc>().add(LoginEvent.login(requestData));
                 }
               : null,
           child: Text(
@@ -195,7 +199,7 @@ class _SignInEmailUsernameViewState extends State<SignInEmailUsernameView> {
   }
 
   SizedBox _buildLoadingLoginButton() {
-    return SizedBox(
+    return const SizedBox(
       width: double.infinity,
       child: ElevatedButton(
           onPressed: null,

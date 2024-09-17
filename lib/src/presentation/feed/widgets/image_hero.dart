@@ -2,7 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
-import 'package:nowdots_social_news/src/data/models/feeds_response_model.dart';
+import 'package:nowdots_social_news/src/core/constant/api.dart';
+import 'package:nowdots_social_news/src/data/models/feed/feeds_response_model.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ImageHero extends StatelessWidget {
@@ -28,23 +29,24 @@ class ImageHero extends StatelessWidget {
         borderRadius = BorderRadius.circular(12);
         break;
       case 2:
-        borderRadius = BorderRadius.only(
+        borderRadius = const BorderRadius.only(
             topLeft: Radius.circular(12), bottomLeft: Radius.circular(12));
       case 3:
-        borderRadius = BorderRadius.only(
+        borderRadius = const BorderRadius.only(
             topRight: Radius.circular(12), bottomRight: Radius.circular(12));
         break;
       case 4:
-        borderRadius = BorderRadius.only(topRight: Radius.circular(12));
+        borderRadius = const BorderRadius.only(topRight: Radius.circular(12));
         break;
       case 5:
-        borderRadius = BorderRadius.only(bottomRight: Radius.circular(12));
+        borderRadius =
+            const BorderRadius.only(bottomRight: Radius.circular(12));
         break;
       case 6:
-        borderRadius = BorderRadius.only(topLeft: Radius.circular(12));
+        borderRadius = const BorderRadius.only(topLeft: Radius.circular(12));
         break;
       case 7:
-        borderRadius = BorderRadius.only(bottomLeft: Radius.circular(12));
+        borderRadius = const BorderRadius.only(bottomLeft: Radius.circular(12));
         break;
       default:
         break;
@@ -56,9 +58,9 @@ class ImageHero extends StatelessWidget {
             extra: data, pathParameters: {"index": index.toString()});
       },
       child: Hero(
-        tag: data.image![index],
+        tag: data.photos![index],
         child: CachedNetworkImage(
-          imageUrl: data.image![index],
+          imageUrl: baseUrl + data.photos![index]['file_path'],
           imageBuilder: (context, imageProvider) {
             return Container(
               width: width,

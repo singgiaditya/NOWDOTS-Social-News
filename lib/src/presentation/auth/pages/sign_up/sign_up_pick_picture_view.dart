@@ -40,15 +40,15 @@ class _SignUpPickPictureViewState extends State<SignUpPickPictureView> {
     return SingleChildScrollView(
       child: SafeArea(
           child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 37),
+        margin: const EdgeInsets.symmetric(horizontal: 37),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 40,
             ),
-            LogoList(),
-            SizedBox(
+            const LogoList(),
+            const SizedBox(
               height: 48,
             ),
             Text(
@@ -61,7 +61,7 @@ class _SignUpPickPictureViewState extends State<SignUpPickPictureView> {
               style: regularSegoeUITextStyle.copyWith(
                   fontSize: 13, color: subColor),
             ),
-            SizedBox(
+            const SizedBox(
               height: 29,
             ),
             Center(
@@ -70,7 +70,7 @@ class _SignUpPickPictureViewState extends State<SignUpPickPictureView> {
                   CircleAvatar(
                     backgroundImage: image != null
                         ? FileImage(File(image!.path))
-                        : AssetImage(anonymousAvatar),
+                        : const AssetImage(anonymousAvatar),
                     radius: 100,
                   ),
                   Positioned(
@@ -91,7 +91,7 @@ class _SignUpPickPictureViewState extends State<SignUpPickPictureView> {
                             color: buttonColor,
                             border: Border.all(color: Colors.white, width: 2),
                             shape: BoxShape.circle),
-                        child: Center(
+                        child: const Center(
                             child: Icon(
                           Icons.add,
                           size: 30,
@@ -103,7 +103,7 @@ class _SignUpPickPictureViewState extends State<SignUpPickPictureView> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 29,
             ),
             BlocConsumer<RegisterSetProfilePictureBloc,
@@ -128,7 +128,7 @@ class _SignUpPickPictureViewState extends State<SignUpPickPictureView> {
                 );
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 18,
             ),
             BlocBuilder<RegisterSetProfilePictureBloc,
@@ -151,7 +151,7 @@ class _SignUpPickPictureViewState extends State<SignUpPickPictureView> {
     return GestureDetector(
       onTap: () {
         context.read<RegisterSetProfilePictureBloc>()
-          ..add(RegisterSetProfilePictureEvent.skipProfilePicture(email));
+          .add(RegisterSetProfilePictureEvent.skipProfilePicture(email));
       },
       child: Container(
           height: 40,
@@ -173,23 +173,6 @@ class _SignUpPickPictureViewState extends State<SignUpPickPictureView> {
     );
   }
 
-  GestureDetector _buildLoadingSkipButton() {
-    return GestureDetector(
-      child: Container(
-          height: 40,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(80),
-            border: Border.all(color: boxColor, width: 2),
-          ),
-          child: Center(
-              child: SizedBox(
-            height: 20,
-            width: 20,
-            child: CircularProgressIndicator(),
-          ))),
-    );
-  }
 
   SizedBox _buildNextButton(String email, BuildContext context) {
     return SizedBox(
@@ -201,7 +184,7 @@ class _SignUpPickPictureViewState extends State<SignUpPickPictureView> {
                   final requestData = RegisterSetProfilePictureRequestModel(
                       email: email, image: File(image!.path));
                   context.read<RegisterSetProfilePictureBloc>()
-                    ..add(RegisterSetProfilePictureEvent.setProfilePicture(
+                    .add(RegisterSetProfilePictureEvent.setProfilePicture(
                         requestData));
                 }
               : null,
@@ -217,7 +200,7 @@ class _SignUpPickPictureViewState extends State<SignUpPickPictureView> {
   }
 
   SizedBox _buildLoadingNextButton() {
-    return SizedBox(
+    return const SizedBox(
       height: 40,
       width: double.infinity,
       child: ElevatedButton(

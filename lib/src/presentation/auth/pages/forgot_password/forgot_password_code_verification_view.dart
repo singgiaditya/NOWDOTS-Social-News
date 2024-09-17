@@ -1,9 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
+import 'package:nowdots_social_news/src/data/models/auth/forgot_password/forgot_pass/forgot_password_response_model.dart';
+import 'package:nowdots_social_news/src/data/models/auth/forgot_password/verification/forgot_password_verification_code_request_model.dart';
+import 'package:nowdots_social_news/src/presentation/auth/bloc/forgot_password/forgot_password_verification_code/forgot_password_verification_code_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/widgets/logo_list.dart';
 
 class ForgotPasswordCodeVerificationView extends StatefulWidget {
@@ -26,7 +30,14 @@ class _ForgotPasswordCodeVerificationViewState
     );
   }
 
+  void showSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
+  }
+
   SingleChildScrollView _buildBody(BuildContext context) {
+    final ForgotPasswordResponseModel data =
+        GoRouterState.of(context).extra as ForgotPasswordResponseModel;
     return SingleChildScrollView(
       child: SafeArea(
         child: Container(
@@ -35,11 +46,11 @@ class _ForgotPasswordCodeVerificationViewState
           padding: const EdgeInsets.symmetric(horizontal: 37),
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 40,
               ),
-              LogoList(),
-              SizedBox(
+              const LogoList(),
+              const SizedBox(
                 height: 93,
               ),
               Form(
@@ -52,11 +63,11 @@ class _ForgotPasswordCodeVerificationViewState
                         fontSize: 26, fontWeight: FontWeight.w600),
                   ),
                   Text(
-                    "Check your email bs*****@g****.*** to get your confirmation code. If you didn’t receive any mail, you can request to resend the email.",
+                    "Check your email s*****@g****.*** to get your confirmation code. If you didn’t receive any mail, you can request to resend the email.",
                     style: regularSegoeUITextStyle.copyWith(
                         fontSize: 13, color: subColor),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 24,
                   ),
                   OtpTextField(
@@ -80,7 +91,7 @@ class _ForgotPasswordCodeVerificationViewState
                   ),
                 ],
               )),
-              SizedBox(
+              const SizedBox(
                 height: 150,
               ),
               Row(
@@ -99,20 +110,26 @@ class _ForgotPasswordCodeVerificationViewState
                               color: buttonColor, fontSize: 11),
                         )
                       ])),
-                  ElevatedButton(
-                      onPressed: isValid
-                          ? () {
-                              context.goNamed("forgot-password-new-password");
-                            }
-                          : null,
-                      child: Text(
-                        "Next",
-                        style: subtitleProximaNovaTextStyle.copyWith(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white,
-                        ),
-                      ))
+                  BlocConsumer<ForgotPasswordVerificationCodeBloc,
+                      ForgotPasswordVerificationCodeState>(
+                    listener: (context, state) {
+                      state.maybeWhen(
+                        orElse: () {},
+                        loaded: (data) {
+                          context.goNamed("forgot-password-new-password",
+                              extra: data);
+                        },
+                      );
+                    },
+                    builder: (context, state) {
+                      return state.maybeWhen(
+                          orElse: () => _buildNextButton(context, data),
+                          loaded: (dataResponse) =>
+                              _buildNextButton(context, data),
+                          loading: () =>
+                              _buildLoadingNextButton(context, data));
+                    },
+                  )
                 ],
               ),
             ],
@@ -120,5 +137,39 @@ class _ForgotPasswordCodeVerificationViewState
         ),
       ),
     );
+  }
+
+  ElevatedButton _buildNextButton(
+      BuildContext context, ForgotPasswordResponseModel data) {
+    return ElevatedButton(
+        onPressed: isValid
+            ? () {
+                final ForgotPasswordVerificationCodeRequestModel requestData =
+                    ForgotPasswordVerificationCodeRequestModel(
+                        code: code, email: data.email);
+                context.read<ForgotPasswordVerificationCodeBloc>().add(
+                    ForgotPasswordVerificationCodeEvent.verificationCode(
+                        requestData));
+              }
+            : null,
+        child: Text(
+          "Next",
+          style: subtitleProximaNovaTextStyle.copyWith(
+            fontSize: 15,
+            fontWeight: FontWeight.w700,
+            color: Colors.white,
+          ),
+        ));
+  }
+
+  ElevatedButton _buildLoadingNextButton(
+      BuildContext context, ForgotPasswordResponseModel data) {
+    return const ElevatedButton(
+        onPressed: null,
+        child: SizedBox(
+          height: 20,
+          width: 20,
+          child: CircularProgressIndicator(),
+        ));
   }
 }

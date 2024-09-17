@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:nowdots_social_news/src/data/models/auth/profile_model.dart';
+
 class UserModel {
   final int? id;
   final String? name;
@@ -8,10 +10,11 @@ class UserModel {
   final DateTime? dob;
   final dynamic codeVerification;
   final DateTime? emailVerifiedAt;
-  final String? profilePhoto;
+  final dynamic profilePhoto;
   final int? isVerified;
   final DateTime? createdAt;
   final DateTime? updatedAt;
+  final ProfileModel? profile;
 
   UserModel({
     this.id,
@@ -25,9 +28,11 @@ class UserModel {
     this.isVerified,
     this.createdAt,
     this.updatedAt,
+    this.profile,
   });
 
-  factory UserModel.fromRawJson(String str) => UserModel.fromJson(json.decode(str));
+  factory UserModel.fromRawJson(String str) =>
+      UserModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
@@ -49,6 +54,9 @@ class UserModel {
         updatedAt: json["updated_at"] == null
             ? null
             : DateTime.parse(json["updated_at"]),
+        profile: json["profile"] == null
+            ? null
+            : ProfileModel.fromJson(json["profile"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -63,5 +71,6 @@ class UserModel {
         "is_verified": isVerified,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
+        "profile": profile?.toJson(),
       };
 }

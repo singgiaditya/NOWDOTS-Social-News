@@ -1,23 +1,25 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
-import 'package:nowdots_social_news/src/core/utils/string_extension.dart';
+import 'package:nowdots_social_news/src/core/constant/api.dart';
+import 'package:nowdots_social_news/src/core/constant/images.dart';
+import 'package:nowdots_social_news/src/core/utils/reaction_utils.dart';
 import 'package:nowdots_social_news/src/core/widgets/avatar_cache_image.dart';
-import 'package:nowdots_social_news/src/data/models/feeds_response_model.dart';
+import 'package:nowdots_social_news/src/data/models/feed/feeds_response_model.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/hashtag_text.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/image_hero.dart';
-import 'package:nowdots_social_news/src/presentation/feed/widgets/row_button_container.dart';
+import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/row_button_container.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/score_widget.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/span_divider.dart';
 import 'package:shimmer/shimmer.dart';
 
 class FeedCard extends StatelessWidget {
   final Feed data;
+  final GestureTapCallback moreOnTap;
 
-  const FeedCard({super.key, required this.data});
+  const FeedCard({super.key, required this.data, required this.moreOnTap});
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +30,17 @@ class FeedCard extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AvatarCacheImage(
-              image: data.user!.picture!,
-              radius: 25,
-            ),
+            data.isAnonymous! == 0
+                ? AvatarCacheImage(
+                    image: data.user!.profilePhoto != null
+                        ? "$baseUrl${data.user!.profilePhoto}"
+                        : null,
+                    radius: 25,
+                  )
+                : CircleAvatar(
+                    backgroundImage: AssetImage(anonymousAvatar),
+                    radius: 25,
+                  ),
             const SizedBox(
               width: 9,
             ),
@@ -40,11 +49,18 @@ class FeedCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text(
-                      data.user!.name!,
-                      style: titleProximaNovaTextStyle.copyWith(fontSize: 15),
-                    ),
-                    data.user!.isVerified!
+                    data.isAnonymous! == 0
+                        ? Text(
+                            data.user!.name!,
+                            style: titleProximaNovaTextStyle.copyWith(
+                                fontSize: 15),
+                          )
+                        : Text(
+                            "Anonymous",
+                            style: titleProximaNovaTextStyle.copyWith(
+                                fontSize: 15),
+                          ),
+                    data.user!.isVerified != 0 && data.isAnonymous == 0
                         ? Padding(
                             padding: const EdgeInsets.only(left: 4),
                             child: Icon(
@@ -57,9 +73,13 @@ class FeedCard extends StatelessWidget {
                     const SizedBox(
                       width: 4,
                     ),
-                    ScoreWidget(
-                      scoreString: data.user!.score!,
-                    ),
+                    data.isAnonymous == 0
+                        ? ScoreWidget(
+                            scoreString:
+                                data.user?.profile?.repScore.toString() ??
+                                    "TBD",
+                          )
+                        : Container()
                   ],
                 ),
                 const SizedBox(
@@ -67,17 +87,19 @@ class FeedCard extends StatelessWidget {
                 ),
                 RichText(
                   text: TextSpan(
-                      text: "${data.user!.username!} ",
+                      text: data.isAnonymous! == 0
+                          ? "@${data.user!.username!} "
+                          : "@anonymous ",
                       style: regularProximaNovaTextStyle.copyWith(
                         color: subColor,
                       ),
-                      children: isAds(data.isAds!)),
+                      children: isAds(data.isAd! != 0)),
                 ),
               ],
             ),
             const Spacer(),
             GestureDetector(
-                onTap: () {},
+                onTap: moreOnTap,
                 child: Icon(
                   Icons.more_horiz,
                   color: subColor,
@@ -88,36 +110,157 @@ class FeedCard extends StatelessWidget {
         const SizedBox(
           height: 12,
         ),
-        HashtagText(
-          text: data.content!,
-          decoratedTextStyle: regularProximaNovaTextStyle.copyWith(
-              fontSize: 14, color: buttonColor),
-          regularTextStyle: regularProximaNovaTextStyle.copyWith(
-              fontSize: 14, color: primaryColor, height: 1.25),
-        ),
-        data.image!.isNotEmpty
+        data.content != null
+            ? HashtagText(
+                text: data.content ?? "",
+                decoratedTextStyle: regularProximaNovaTextStyle.copyWith(
+                    fontSize: 14, color: buttonColor),
+                regularTextStyle: regularProximaNovaTextStyle.copyWith(
+                    fontSize: 14, color: primaryColor, height: 1.25),
+              )
+            : Container(),
+        data.photos!.isNotEmpty
             ? Padding(
                 padding: const EdgeInsets.only(top: 12),
                 child: buildImages(context),
               )
             : Container(),
+        data.shareId != null && data.content != null
+            ? SizedBox(
+                height: 12,
+              )
+            : SizedBox(),
+        data.shareId != null ? _buildQuoteShare() : Container(),
         const SizedBox(
           height: 12,
         ),
         RowButtonContainer(
-          color: primaryColor,
-          backgroundColor: boxColor,
-          commentCount: data.commentCount!,
-          forwardCount: data.forwardCount!,
-          likeCount: data.likeCount!,
-          upVoteCount: data.upVoteCount ?? "0",
-        ),
+            color: primaryColor,
+            backgroundColor: boxColor,
+            data: data,
+            reactionType:
+                getReactionTypeFromListData(data.likes, data.dislikes)),
       ]),
     );
   }
 
+  Container _buildQuoteShare() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+          border: Border.all(color: boxColor),
+          borderRadius: BorderRadius.circular(12)),
+      child: Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              data.isAnonymous! == 0
+                  ? AvatarCacheImage(
+                      image: data.share!.user!.profilePhoto != null
+                          ? "$baseUrl${data.share!.user!.profilePhoto}"
+                          : null,
+                      radius: 18,
+                    )
+                  : CircleAvatar(
+                      backgroundImage: AssetImage(anonymousAvatar),
+                      radius: 18,
+                    ),
+              const SizedBox(
+                width: 9,
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  data.isAnonymous! == 0
+                      ? Container(
+                          constraints: BoxConstraints(maxWidth: 95),
+                          child: Text(
+                            overflow: TextOverflow.ellipsis,
+                            data.share!.user!.name!,
+                            style: titleProximaNovaTextStyle.copyWith(
+                                fontSize: 15),
+                          ),
+                        )
+                      : Text(
+                          "Anonymous",
+                          style:
+                              titleProximaNovaTextStyle.copyWith(fontSize: 15),
+                        ),
+                  data.user!.isVerified != 0 && data.isAnonymous == 0
+                      ? Padding(
+                          padding: const EdgeInsets.only(left: 4),
+                          child: Icon(
+                            Icons.verified,
+                            color: buttonColor,
+                            size: 15,
+                          ),
+                        )
+                      : Container(),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  data.isAnonymous == 0
+                      ? SizedBox(
+                          height: 20,
+                          child: ScoreWidget(
+                            scoreString:
+                                data.user?.profile?.repScore.toString() ??
+                                    "TBD",
+                          ),
+                        )
+                      : Container(),
+                  Text(
+                    " | ",
+                    style: regularProximaNovaTextStyle.copyWith(
+                        color: subColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
+                  ),
+                  Flexible(
+                    child: Container(
+                      constraints: BoxConstraints(maxWidth: 60),
+                      child: Text(
+                        overflow: TextOverflow.ellipsis,
+                        "@${data.share?.user?.username}",
+                        style: regularProximaNovaTextStyle.copyWith(
+                            color: subColor, fontSize: 16),
+                      ),
+                    ),
+                  ),
+                  RichText(
+                    text: TextSpan(
+                        text: " ",
+                        style: regularProximaNovaTextStyle.copyWith(
+                            color: subColor, fontSize: 14),
+                        children: [
+                          spanDivider(),
+                          TextSpan(
+                            text: " 2mgg",
+                          )
+                        ]),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          HashtagText(
+            text: data.share?.content ?? " ",
+            decoratedTextStyle: regularProximaNovaTextStyle.copyWith(
+                fontSize: 14, color: buttonColor),
+            regularTextStyle: regularProximaNovaTextStyle.copyWith(
+                fontSize: 14, color: primaryColor, height: 1.25),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget buildImages(BuildContext context) {
-    if (data.image!.length == 2) {
+    if (data.photosCount! == 2) {
       return Row(
         children: [
           Flexible(
@@ -129,7 +272,7 @@ class FeedCard extends StatelessWidget {
               type: 2,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 5,
           ),
           Flexible(
@@ -145,7 +288,7 @@ class FeedCard extends StatelessWidget {
       );
     }
 
-    if (data.image!.length == 3) {
+    if (data.photosCount! == 3) {
       return Row(
         children: [
           Flexible(
@@ -157,7 +300,7 @@ class FeedCard extends StatelessWidget {
               type: 2,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 5,
           ),
           Flexible(
@@ -170,7 +313,7 @@ class FeedCard extends StatelessWidget {
                   height: 97.5,
                   type: 4,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 ImageHero(
@@ -187,7 +330,7 @@ class FeedCard extends StatelessWidget {
       );
     }
 
-    if (data.image!.length == 4) {
+    if (data.photosCount! == 4) {
       return Column(
         children: [
           Row(
@@ -201,7 +344,7 @@ class FeedCard extends StatelessWidget {
                   type: 6,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 5,
               ),
               Flexible(
@@ -215,7 +358,7 @@ class FeedCard extends StatelessWidget {
               )
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           Row(
@@ -229,7 +372,7 @@ class FeedCard extends StatelessWidget {
                   type: 7,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 5,
               ),
               Flexible(
@@ -247,7 +390,7 @@ class FeedCard extends StatelessWidget {
       );
     }
 
-    if (data.image!.length > 4) {
+    if (data.photosCount! > 4) {
       return Column(
         children: [
           Row(
@@ -261,7 +404,7 @@ class FeedCard extends StatelessWidget {
                   type: 6,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 5,
               ),
               Flexible(
@@ -275,7 +418,7 @@ class FeedCard extends StatelessWidget {
               )
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           Row(
@@ -289,36 +432,37 @@ class FeedCard extends StatelessWidget {
                   type: 7,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 5,
               ),
               Flexible(
                   child: GestureDetector(
                 onTap: () {
-                  context.pushNamed("multiple-image", extra: data);
+                  context.pushNamed("image",
+                      extra: data, pathParameters: {"index": "3"});
                 },
                 child: CachedNetworkImage(
-                  imageUrl: data.image![3],
+                  imageUrl: data.photos![3],
                   imageBuilder: (context, imageProvider) {
                     return Container(
                       width: null,
                       height: 120,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                               bottomRight: Radius.circular(12)),
                           image: DecorationImage(
                               image: imageProvider, fit: BoxFit.cover)),
                       child: Container(
                         width: double.infinity,
                         height: double.infinity,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: Colors.black54,
                           borderRadius: BorderRadius.only(
                               bottomRight: Radius.circular(12)),
                         ),
                         child: Center(
                             child: Text(
-                          "+${data.image!.length - 3}",
+                          "+${data.photos!.length - 3}",
                           style: titleProximaNovaTextStyle.copyWith(
                             color: Colors.white,
                             fontSize: 29,
@@ -364,9 +508,12 @@ class FeedCard extends StatelessWidget {
 
     var isFalse = [
       spanDivider(),
-      TextSpan(text: " ${data.publishedAt} "),
-      spanDivider(),
-      TextSpan(text: " ${data.type?.name.capitalize()}"),
+      //todo: add date
+      TextSpan(text: " ${data.createdAt} "),
+      // TextSpan(text: " 1j "),
+      // spanDivider(),
+      // TextSpan(text: " ${data.type?.name.capitalize()}"),
+      // TextSpan(text: " Public"),
     ];
 
     if (isAds == true) {
