@@ -12,6 +12,7 @@ import 'package:nowdots_social_news/src/core/enums/vote_enums.dart';
 import 'package:nowdots_social_news/src/core/utils/reaction_utils.dart';
 import 'package:nowdots_social_news/src/core/widgets/avatar_cache_image.dart';
 import 'package:nowdots_social_news/src/data/models/feed/feeds_response_model.dart';
+import 'package:nowdots_social_news/src/presentation/feed/bloc/reaction/reaction_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/vote/vote_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/more_menu_feed.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/hashtag_text.dart';
@@ -300,15 +301,63 @@ class _DetailFeedCardState extends State<DetailFeedCard> {
                   splashColor: Colors.transparent,
                   splashFactory: NoSplash.splashFactory),
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  if (widget.data.reactionType != ReactionType.NONE &&
+                      widget.data.reactionType != ReactionType.BAD) {
+                    context.read<ReactionBloc>().add(ReactionEvent.unReaction(
+                        widget.data.reactionType!, "${widget.data.id}"));
+                    setState(() {
+                      widget.data.reactionType = ReactionType.NONE;
+                      widget.data.likesCount = widget.data.likesCount! - 1;
+                    });
+                  } else {
+                    context.read<ReactionBloc>().add(ReactionEvent.reaction(
+                        ReactionType.GOOD, "${widget.data.id}"));
+                    setState(() {
+                      widget.data.reactionType = ReactionType.GOOD;
+                      widget.data.likesCount = widget.data.likesCount! + 1;
+                    });
+                  }
+                },
                 onLongPressStart: (details) async {
                   final offset = details.globalPosition;
-                  reactionShowMenu(context, offset);
+                  final result = await reactionShowMenu(context, offset);
+                  if (result != null && result != widget.data.reactionType) {
+                    BlocProvider.of<ReactionBloc>(context).add(
+                        ReactionEvent.reaction(result, "${widget.data.id}"));
+                    if (widget.data.reactionType == ReactionType.NONE ||
+                        widget.data.reactionType == ReactionType.BAD) {
+                      widget.data.likesCount = widget.data.likesCount! + 1;
+                    }
+                    widget.data.reactionType = result;
+                    setState(() {});
+                  }
                 },
-                child: reactionButton(primaryColor, ReactionType.NONE),
+                child: reactionButton(primaryColor,
+                    widget.data.reactionType ?? ReactionType.NONE),
               ),
             ),
-            SvgPicture.asset(thumbDownOutline),
+            GestureDetector(
+                onTap: () {
+                  if (widget.data.reactionType == ReactionType.BAD) {
+                    context.read<ReactionBloc>().add(ReactionEvent.unReaction(
+                        ReactionType.BAD, "${widget.data.id}"));
+                    widget.data.reactionType = ReactionType.NONE;
+                  } else {
+                    context.read<ReactionBloc>().add(ReactionEvent.reaction(
+                        ReactionType.BAD, "${widget.data.id}"));
+                    if (widget.data.reactionType != ReactionType.NONE &&
+                        widget.data.reactionType != ReactionType.BAD) {
+                      widget.data.likesCount = widget.data.likesCount! - 1;
+                    }
+                    widget.data.reactionType = ReactionType.BAD;
+                  }
+                  setState(() {});
+                },
+                child: SvgPicture.asset(
+                    widget.data.reactionType == ReactionType.BAD
+                        ? thumbDownFilled
+                        : thumbDownOutline)),
             SvgPicture.asset(commentOutline),
             SvgPicture.asset(share),
             SvgPicture.asset(bookmarkOutline),

@@ -28,7 +28,7 @@ class RowButtonContainer extends StatelessWidget {
             data: data,
             color: color,
             backgroundColor: backgroundColor,
-            reactionType: reactionType),
+            ),
         commentButton("${data!.commentsCount}", color),
         shareButton("${data!.sharesCount}", color),
         UpvoteDownvoteWidget(

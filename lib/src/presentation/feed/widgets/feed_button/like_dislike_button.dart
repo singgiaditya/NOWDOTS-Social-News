@@ -13,28 +13,17 @@ class LikeDislikeButton extends StatefulWidget {
   final Feed? data;
   final Color color;
   final Color backgroundColor;
-  final ReactionType reactionType;
   const LikeDislikeButton(
       {super.key,
       required this.data,
       required this.color,
-      required this.backgroundColor,
-      required this.reactionType});
+      required this.backgroundColor});
 
   @override
   _LikeDislikeButtonState createState() => _LikeDislikeButtonState();
 }
 
 class _LikeDislikeButtonState extends State<LikeDislikeButton> {
-  late ReactionType reaction;
-  late int likesCount;
-  @override
-  void initState() {
-    super.initState();
-    reaction = widget.reactionType;
-    likesCount = widget.data!.likesCount ?? 0;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -46,35 +35,30 @@ class _LikeDislikeButtonState extends State<LikeDislikeButton> {
               splashFactory: NoSplash.splashFactory),
           child: GestureDetector(
             onTap: () {
-              if (reaction != ReactionType.NONE &&
-                  reaction != ReactionType.BAD) {
-                context.read<ReactionBloc>().add(
-                    ReactionEvent.unReaction(reaction, "${widget.data!.id}"));
-                setState(() {
-                  reaction = ReactionType.NONE;
-                  likesCount--;
-                });
+              if (widget.data!.reactionType != ReactionType.NONE &&
+                  widget.data!.reactionType != ReactionType.BAD) {
+                context.read<ReactionBloc>().add(ReactionEvent.unReaction(
+                    widget.data!.reactionType!, "${widget.data!.id}"));
+                widget.data!.reactionType = ReactionType.NONE;
+                widget.data!.likesCount = widget.data!.likesCount! - 1;
               } else {
                 context.read<ReactionBloc>().add(ReactionEvent.reaction(
                     ReactionType.GOOD, "${widget.data!.id}"));
-                setState(() {
-                  reaction = ReactionType.GOOD;
-                  likesCount++;
-                });
+                widget.data!.reactionType = ReactionType.GOOD;
+                widget.data!.likesCount = widget.data!.likesCount! + 1;
               }
             },
             onLongPressStart: (details) async {
               final offset = details.globalPosition;
               final result = await reactionShowMenu(context, offset);
-              if (result != null && result != reaction) {
+              if (result != null && result != widget.data!.reactionType) {
                 BlocProvider.of<ReactionBloc>(context)
                     .add(ReactionEvent.reaction(result, "${widget.data!.id}"));
-                if (reaction == ReactionType.NONE ||
-                    reaction == ReactionType.BAD) {
-                  likesCount++;
+                if (widget.data!.reactionType == ReactionType.NONE ||
+                    widget.data!.reactionType == ReactionType.BAD) {
+                  widget.data!.likesCount = widget.data!.likesCount! + 1;
                 }
-                reaction = result;
-                setState(() {});
+                widget.data!.reactionType = result;
               }
             },
             child: Container(
@@ -86,9 +70,10 @@ class _LikeDislikeButtonState extends State<LikeDislikeButton> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  reactionButton(widget.color, reaction),
+                  reactionButton(widget.color,
+                      widget.data!.reactionType ?? ReactionType.NONE),
                   Text(
-                    "${likesCount}",
+                    "${widget.data!.likesCount}",
                     style: regularProximaNovaTextStyle.copyWith(
                         fontSize: 16, color: widget.color),
                   )
@@ -102,20 +87,19 @@ class _LikeDislikeButtonState extends State<LikeDislikeButton> {
         ),
         GestureDetector(
           onTap: () {
-            if (reaction == ReactionType.BAD) {
+            if (widget.data!.reactionType == ReactionType.BAD) {
               context.read<ReactionBloc>().add(ReactionEvent.unReaction(
                   ReactionType.BAD, "${widget.data!.id}"));
-              reaction = ReactionType.NONE;
+              widget.data!.reactionType = ReactionType.NONE;
             } else {
               context.read<ReactionBloc>().add(ReactionEvent.reaction(
                   ReactionType.BAD, "${widget.data!.id}"));
-              if (reaction != ReactionType.NONE &&
-                  reaction != ReactionType.BAD) {
-                likesCount--;
+              if (widget.data!.reactionType != ReactionType.NONE &&
+                  widget.data!.reactionType != ReactionType.BAD) {
+                widget.data!.likesCount = widget.data!.likesCount! - 1;
               }
-              reaction = ReactionType.BAD;
+              widget.data!.reactionType = ReactionType.BAD;
             }
-            setState(() {});
           },
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
@@ -123,7 +107,7 @@ class _LikeDislikeButtonState extends State<LikeDislikeButton> {
                 color: widget.backgroundColor,
                 borderRadius: const BorderRadiusDirectional.horizontal(
                     end: Radius.circular(80))),
-            child: reaction == ReactionType.BAD
+            child: widget.data!.reactionType == ReactionType.BAD
                 ? SvgPicture.asset(
                     thumbDownFilled,
                   )

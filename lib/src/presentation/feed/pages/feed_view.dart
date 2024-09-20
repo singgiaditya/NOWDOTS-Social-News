@@ -11,6 +11,7 @@ import 'package:nowdots_social_news/src/core/widgets/avatar_cache_image.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/get_all_followiing_feeds/get_all_following_feeds_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/drawer/drawer_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/get_all_feeds/get_all_feeds_bloc.dart';
+import 'package:nowdots_social_news/src/presentation/feed/bloc/reaction/reaction_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/vote/vote_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/more_menu_feed.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_card.dart';
@@ -103,26 +104,48 @@ class _FeedViewState extends State<FeedView> {
                   ];
                 },
                 body: TabBarView(children: [
-                  BlocConsumer<VoteBloc, VoteState>(
-                    listener: (context, state) {
-                      state.maybeWhen(
-                        orElse: () {
-                          setState(() {});
+                  MultiBlocListener(
+                    listeners: [
+                      BlocListener<VoteBloc, VoteState>(
+                        listener: (context, state) {
+                          state.maybeWhen(
+                            orElse: () {
+                              setState(() {});
+                            },
+                          );
                         },
-                        loaded: () {
-                          // ScaffoldMessenger.of(context)
-                          //     .showSnackBar(SnackBar(content: Text("Success")));
-                          // setState(() {});
+                      ),
+                      BlocListener<ReactionBloc, ReactionState>(
+                        listener: (context, state) {
+                          state.maybeWhen(orElse: () {
+                            setState(() {});
+                          });
                         },
-                        error: (message) => ScaffoldMessenger.of(context)
-                            .showSnackBar(SnackBar(content: Text(message))),
-                      );
-                    },
-                    builder: (context, _) {
-                      return _buildBody(state, false);
-                    },
+                      ),
+                    ],
+                    child: _buildBody(state, false),
                   ),
-                  _buildBody(state, true)
+                  MultiBlocListener(
+                    listeners: [
+                      BlocListener<VoteBloc, VoteState>(
+                        listener: (context, state) {
+                          state.maybeWhen(
+                            orElse: () {
+                              setState(() {});
+                            },
+                          );
+                        },
+                      ),
+                      BlocListener<ReactionBloc, ReactionState>(
+                        listener: (context, state) {
+                          state.maybeWhen(orElse: () {
+                            setState(() {});
+                          });
+                        },
+                      ),
+                    ],
+                    child: _buildBody(state, true),
+                  ),
                 ])),
           ),
         );

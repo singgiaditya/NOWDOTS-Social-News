@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
-import 'package:nowdots_social_news/src/core/enums/reaction_enums.dart';
 import 'package:nowdots_social_news/src/core/enums/vote_enums.dart';
 import 'package:nowdots_social_news/src/core/widgets/avatar_cache_image.dart';
 import 'package:nowdots_social_news/src/data/models/feed/feeds_response_model.dart';
@@ -112,7 +111,6 @@ class CommentCard extends StatelessWidget {
                       color: primaryColor,
                       backgroundColor: boxColor,
                       data: Feed(),
-                      reactionType: ReactionType.NONE,
                     ),
                     GestureDetector(
                         onTap: () {
@@ -263,7 +261,6 @@ class CommentChildCard extends StatelessWidget {
                           color: primaryColor,
                           backgroundColor: boxColor,
                           data: Feed(),
-                          reactionType: ReactionType.NONE,
                         ),
                         GestureDetector(
                             onTap: () {
