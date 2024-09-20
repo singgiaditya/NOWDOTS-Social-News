@@ -8,6 +8,7 @@ import 'package:nowdots_social_news/src/core/utils/reaction_utils.dart';
 import 'package:nowdots_social_news/src/data/models/feed/feeds_response_model.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/vote/vote_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/row_button_container.dart';
+import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/share_menu_feed.dart';
 
 class FullscreenImage extends StatefulWidget {
   const FullscreenImage({super.key});
@@ -122,6 +123,7 @@ class _FullscreenImageState extends State<FullscreenImage> {
                         color: Colors.white,
                         backgroundColor: Colors.transparent,
                         data: data,
+                        shareOnTap: () => showShareMenuFeed,
                         reactionType: getReactionTypeFromListData(
                             data.likes, data.dislikes),
                       );

@@ -8,6 +8,7 @@ import 'package:nowdots_social_news/src/core/bloc/get_user/get_user_bloc.dart';
 import 'package:nowdots_social_news/src/core/constant/api.dart';
 import 'package:nowdots_social_news/src/core/widgets/avatar_cache_image.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/get_all_feeds/get_all_feeds_bloc.dart';
+import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/share_menu_feed.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_card.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/loading_feed_card.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/score_widget.dart';
@@ -115,6 +116,7 @@ class _ProfileViewState extends State<ProfileView> {
                     },
                     child: FeedCard(
                       moreOnTap: () => showMoreMenuProfileFeed(context),
+                      shareOnTap: () => showShareMenuFeed,
                       data: data.data![index],
                     ),
                   );

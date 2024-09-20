@@ -11,13 +11,15 @@ class RowButtonContainer extends StatelessWidget {
   final Color backgroundColor;
   final ReactionType reactionType;
   final Feed? data;
+  final GestureTapCallback shareOnTap;
 
   const RowButtonContainer(
       {super.key,
       required this.data,
       required this.color,
       required this.backgroundColor,
-      this.reactionType = ReactionType.NONE});
+      this.reactionType = ReactionType.NONE,
+      required this.shareOnTap});
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +27,12 @@ class RowButtonContainer extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         LikeDislikeButton(
-            data: data,
-            color: color,
-            backgroundColor: backgroundColor,
-            ),
+          data: data,
+          color: color,
+          backgroundColor: backgroundColor,
+        ),
         commentButton("${data!.commentsCount}", color),
-        shareButton("${data!.sharesCount}", color),
+        shareButton("${data!.sharesCount}", color, shareOnTap),
         UpvoteDownvoteWidget(
           data: data,
           color: color,

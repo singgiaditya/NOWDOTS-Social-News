@@ -18,8 +18,13 @@ import 'package:shimmer/shimmer.dart';
 class FeedCard extends StatelessWidget {
   final Feed data;
   final GestureTapCallback moreOnTap;
+  final GestureTapCallback shareOnTap;
 
-  const FeedCard({super.key, required this.data, required this.moreOnTap});
+  const FeedCard(
+      {super.key,
+      required this.data,
+      required this.moreOnTap,
+      required this.shareOnTap});
 
   @override
   Widget build(BuildContext context) {
@@ -138,6 +143,7 @@ class FeedCard extends StatelessWidget {
             color: primaryColor,
             backgroundColor: boxColor,
             data: data,
+            shareOnTap: shareOnTap,
             reactionType:
                 getReactionTypeFromListData(data.likes, data.dislikes)),
       ]),

@@ -14,6 +14,7 @@ import 'package:nowdots_social_news/src/presentation/feed/bloc/get_all_feeds/get
 import 'package:nowdots_social_news/src/presentation/feed/bloc/reaction/reaction_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/vote/vote_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/more_menu_feed.dart';
+import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/share_menu_feed.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_card.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/loading_feed_card.dart';
 import 'package:shimmer/shimmer.dart';
@@ -246,6 +247,8 @@ class _FeedViewState extends State<FeedView> {
                       moreOnTap: () => showMoreMenuFeed(
                           widget.parentKey.currentContext!,
                           data.data![index - 1].user!.username!),
+                      shareOnTap: () =>
+                          showShareMenuFeed(widget.parentKey.currentContext!),
                       data: data.data![index - 1],
                     ),
                   );
@@ -381,6 +384,8 @@ class _FeedViewState extends State<FeedView> {
                       moreOnTap: () => showMoreMenuFeed(
                           widget.parentKey.currentContext!,
                           data.data![index - 1].user!.username!),
+                      shareOnTap: () =>
+                          showShareMenuFeed(widget.parentKey.currentContext!),
                       data: data.data![index - 1],
                     ),
                   );
