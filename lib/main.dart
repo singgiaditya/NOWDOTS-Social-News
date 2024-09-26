@@ -16,9 +16,12 @@ import 'package:nowdots_social_news/src/presentation/auth/bloc/register/register
 import 'package:nowdots_social_news/src/presentation/auth/bloc/register/register_set_password/register_set_password_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/register/register_set_profile_picture/register_set_profile_picture_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/register/register_set_username/register_set_username_bloc.dart';
+import 'package:nowdots_social_news/src/presentation/feed/bloc/comment_feed/comment_feed_bloc.dart';
+import 'package:nowdots_social_news/src/presentation/feed/bloc/comment_replies/comment_replies_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/get_all_followiing_feeds/get_all_following_feeds_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/drawer/drawer_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/get_all_feeds/get_all_feeds_bloc.dart';
+import 'package:nowdots_social_news/src/presentation/feed/bloc/get_detail_feed/get_detail_feed_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/reaction/reaction_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/vote/vote_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/splash_screen/bloc/splash_screen_bloc.dart';
@@ -86,6 +89,12 @@ class MyApp extends StatelessWidget {
           create: (context) => sl(),
         ),
         BlocProvider<LogoutBloc>(
+          create: (context) => sl(),
+        ),
+        BlocProvider<GetDetailFeedBloc>(
+          create: (context) => sl(),
+        ),
+        BlocProvider<CommentFeedBloc>(
           create: (context) => sl(),
         ),
         BlocProvider<GetUserBloc>(

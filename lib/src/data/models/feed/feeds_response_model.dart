@@ -152,6 +152,7 @@ class Feed {
     this.photos,
   });
 
+
   factory Feed.fromRawJson(String str) => Feed.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());

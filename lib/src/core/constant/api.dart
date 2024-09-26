@@ -15,7 +15,7 @@ const registerSetUsernameApi = "$baseUrlApi/set-username";
 
 //forgot password
 const forgotPasswordApi = "$baseUrlApi/forgot-password";
-const forgotVerificationCodeApi = "$baseUrlApi/verif-forgot-password";
+const forgotVerificationCodeApi = "$baseUrlApi/veri99asword";
 const forgotPasswordSetNewPasswordApi = "$baseUrlApi/set-new-password";
 
 //feeds
@@ -36,6 +36,18 @@ const nowfoodieFollowingFeedApi = "$baseUrlApi/feeds/nowfoodie/followed";
 
 const nowherAllFeedApi = "$baseUrlApi/feeds/nowher";
 const nowherFollowingFeedApi = "$baseUrlApi/feeds/nowher/followed";
+
+String detailFeedApi(String feedId) {
+  return "$baseUrlApi/feeds/$feedId";
+}
+
+String commentDetailFeedApi(String feedId) {
+  return "$baseUrlApi/feeds/$feedId/comments";
+}
+
+String repliesCommentDetailFeedApi(String feedId, String commentId) {
+  return "$baseUrlApi/feeds/$feedId/comments/$commentId/replies";
+}
 
 String reactionFeedApi(String feedId) {
   return "$baseUrlApi/feeds/$feedId/like";

@@ -15,6 +15,7 @@ import 'package:nowdots_social_news/src/data/models/feed/feeds_response_model.da
 import 'package:nowdots_social_news/src/presentation/feed/bloc/reaction/reaction_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/vote/vote_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/more_menu_feed.dart';
+import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/share_menu_feed.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/hashtag_text.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/image_hero.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/feed_button/reaction_button.dart';
@@ -359,7 +360,9 @@ class _DetailFeedCardState extends State<DetailFeedCard> {
                         ? thumbDownFilled
                         : thumbDownOutline)),
             SvgPicture.asset(commentOutline),
-            SvgPicture.asset(share),
+            GestureDetector(
+                onTap: () => showShareMenuFeed(context),
+                child: SvgPicture.asset(share)),
             SvgPicture.asset(bookmarkOutline),
           ],
         ),

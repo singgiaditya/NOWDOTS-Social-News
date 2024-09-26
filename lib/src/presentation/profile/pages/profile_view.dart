@@ -116,7 +116,7 @@ class _ProfileViewState extends State<ProfileView> {
                     },
                     child: FeedCard(
                       moreOnTap: () => showMoreMenuProfileFeed(context),
-                      shareOnTap: () => showShareMenuFeed,
+                      shareOnTap: () => showShareMenuFeed(context),
                       data: data.data![index],
                     ),
                   );
