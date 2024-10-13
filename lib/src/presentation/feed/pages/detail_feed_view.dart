@@ -1,24 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nowdots_social_news/src/config/themes/app_colors.dart';
 import 'package:nowdots_social_news/src/config/themes/app_textstyles.dart';
+import 'package:nowdots_social_news/src/data/models/comment/comments_response_model.dart';
 import 'package:nowdots_social_news/src/data/models/feed/feeds_response_model.dart';
+import 'package:nowdots_social_news/src/presentation/feed/bloc/comment_feed/comment_feed_bloc.dart';
+import 'package:nowdots_social_news/src/presentation/feed/bloc/get_detail_feed/get_detail_feed_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/comment_card.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/detail_feed_card.dart';
 import 'package:nowdots_social_news/src/presentation/feed/widgets/hashtag_text.dart';
+import 'package:shimmer/shimmer.dart';
 
 class DetailFeedView extends StatelessWidget {
   const DetailFeedView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final Feed data = GoRouterState.of(context).extra! as Feed;
+    Feed data = GoRouterState.of(context).extra! as Feed;
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              context.pop();
+            },
+            icon: const Icon(Icons.arrow_back),
+          ),
           title: const Text("Post"),
           actions: [
             IconButton(
@@ -34,20 +45,99 @@ class DetailFeedView extends StatelessWidget {
               child: ListView(
                 shrinkWrap: true,
                 children: [
-                  DetailFeedCard(data: data),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 21, vertical: 21),
-                    child: ListView.separated(
-                      itemCount: 5,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      separatorBuilder: (context, index) => const SizedBox(
-                        height: 21,
-                      ),
-                      itemBuilder: (context, index) =>
-                          CommentCardExpandedWidget(),
-                    ),
+                  BlocBuilder<GetDetailFeedBloc, GetDetailFeedState>(
+                    bloc: context.read<GetDetailFeedBloc>()
+                      ..add(GetDetailFeedEvent.getDetailFeed("${data.id}")),
+                    builder: (context, state) {
+                      return state.maybeWhen(
+                        orElse: () {
+                          return Shimmer(
+                              gradient: shimmerGradient,
+                              child: DetailFeedCard(data: data));
+                        },
+                        loaded: (feed) {
+                          return DetailFeedCard(data: data);
+                        },
+                        loading: () {
+                          return Shimmer(
+                            gradient: shimmerGradient,
+                            child: DetailFeedCard(data: data),
+                          );
+                        },
+                        error: (message) {
+                          return Text(message);
+                        },
+                      );
+                    },
+                  ),
+                  BlocBuilder<CommentFeedBloc, CommentFeedState>(
+                    bloc: context.read<CommentFeedBloc>()
+                      ..add(CommentFeedEvent.getAllComments("${data.id!}")),
+                    builder: (context, state) {
+                      return state.maybeWhen(
+                        orElse: () {
+                          return Shimmer(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 21, vertical: 21),
+                                child: ListView.separated(
+                                  itemCount: data.comments!.length,
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  separatorBuilder: (context, index) =>
+                                      const SizedBox(
+                                    height: 21,
+                                  ),
+                                  itemBuilder: (context, index) =>
+                                      CommentCardExpandedWidget(
+                                    data: null,
+                                    feedId: "${data.id}",
+                                  ),
+                                ),
+                              ),
+                              gradient: shimmerGradient);
+                        },
+                        error: (message) => Text(message),
+                        loading: () => Shimmer(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 21, vertical: 21),
+                              child: ListView.separated(
+                                itemCount: data.comments!.length,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(
+                                  height: 21,
+                                ),
+                                itemBuilder: (context, index) =>
+                                    CommentCardExpandedWidget(
+                                  data: null,
+                                  feedId: "${data.id}",
+                                ),
+                              ),
+                            ),
+                            gradient: shimmerGradient),
+                        loaded: (comment) => Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 21, vertical: 21),
+                          child: ListView.separated(
+                            itemCount: comment.data!.length,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(
+                              height: 21,
+                            ),
+                            itemBuilder: (context, index) =>
+                                CommentCardExpandedWidget(
+                              data: comment.data![index],
+                              feedId: "${data.id}",
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                   )
                 ],
               ),
@@ -165,11 +255,14 @@ class _ReplyTextFieldState extends State<ReplyTextField> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         GestureDetector(
-                            onTap: () {}, child: const Icon(Icons.image_outlined)),
+                            onTap: () {},
+                            child: const Icon(Icons.image_outlined)),
                         GestureDetector(
-                            onTap: () {}, child: const Icon(Icons.gif_box_outlined)),
+                            onTap: () {},
+                            child: const Icon(Icons.gif_box_outlined)),
                         GestureDetector(
-                            onTap: () {}, child: const Icon(Icons.poll_outlined)),
+                            onTap: () {},
+                            child: const Icon(Icons.poll_outlined)),
                         GestureDetector(
                             onTap: () {},
                             child: const Icon(Icons.emoji_emotions_outlined)),

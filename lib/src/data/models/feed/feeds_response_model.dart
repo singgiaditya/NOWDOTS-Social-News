@@ -1,5 +1,9 @@
 import 'dart:convert';
 
+import 'package:nowdots_social_news/src/core/enums/reaction_enums.dart';
+import 'package:nowdots_social_news/src/core/enums/vote_enums.dart';
+import 'package:nowdots_social_news/src/core/utils/reaction_utils.dart';
+import 'package:nowdots_social_news/src/core/utils/vote_utils.dart';
 import 'package:nowdots_social_news/src/data/models/auth/user_model.dart';
 import 'package:nowdots_social_news/src/data/models/reaction_model.dart';
 
@@ -92,14 +96,14 @@ class Feed {
   final dynamic shareId;
   final String? createdAt;
   final DateTime? updatedAt;
-  final int? likesCount;
+  int? likesCount;
   final int? dislikesCount;
   final int? commentsCount;
   final int? sharesCount;
   final int? bookmarksCount;
   final int? viewsCount;
   final int? photosCount;
-  final int? upVoteCount;
+  int? upVoteCount;
   final int? downVoteCount;
   final PurpleShare? share;
   final List<ReactionModel>? likes;
@@ -109,6 +113,8 @@ class Feed {
   final List<dynamic>? bookmarks;
   final List<dynamic>? upVote;
   final List<dynamic>? downVote;
+  VoteType? voteType;
+  ReactionType? reactionType;
   final UserModel? user;
   final List<dynamic>? photos;
 
@@ -132,6 +138,8 @@ class Feed {
     this.photosCount,
     this.upVoteCount,
     this.downVoteCount,
+    this.voteType,
+    this.reactionType,
     this.share,
     this.likes,
     this.dislikes,
@@ -143,6 +151,7 @@ class Feed {
     this.user,
     this.photos,
   });
+
 
   factory Feed.fromRawJson(String str) => Feed.fromJson(json.decode(str));
 
@@ -194,6 +203,21 @@ class Feed {
         downVote: json["down_vote"] == null
             ? []
             : List<dynamic>.from(json["down_vote"]!.map((x) => x)),
+        voteType: getVoteTypeFromListData(
+            json["up_vote"] != null
+                ? List<dynamic>.from(json["up_vote"]!.map((x) => x))
+                : [],
+            json["down_vote"] != null
+                ? List<dynamic>.from(json["down_vote"]!.map((x) => x))
+                : []),
+        reactionType: getReactionTypeFromListData(
+            json["likes"] != null
+                ? List<ReactionModel>.from(
+                    json["likes"]!.map((x) => ReactionModel.fromJson(x)))
+                : [],
+            json["dislikes"] != null
+                ? List<dynamic>.from(json["dislikes"]!.map((x) => x))
+                : []),
         user: json["user"] == null ? null : UserModel.fromJson(json["user"]),
         photos: json["photos"] == null
             ? []

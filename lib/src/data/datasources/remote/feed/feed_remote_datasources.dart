@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'package:nowdots_social_news/src/core/constant/api.dart';
@@ -27,6 +29,26 @@ class FeedRemoteDatasources {
       }
       if (response.statusCode == 403) {
         return Left("This feature is only available for female users");
+      }
+      return Left("Something went wrong");
+    } catch (e) {
+      return Left("Something went wrong");
+    }
+  }
+
+  Future<Either<String, Feed>> getDetailFeed(String feedId) async {
+    try {
+      var token = await prefs.getString(tokenPrefs);
+      var headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer $token"
+      };
+      var uri = Uri.parse(detailFeedApi(feedId));
+      var response = await http.get(uri, headers: headers);
+      if (response.statusCode == 200) {
+        Feed data = Feed.fromJson(jsonDecode(response.body)["data"]);
+        return Right(data);
       }
       return Left("Something went wrong");
     } catch (e) {

@@ -6,8 +6,10 @@ import 'package:nowdots_social_news/src/data/datasources/local/user/user_local_d
 import 'package:nowdots_social_news/src/data/datasources/remote/auth/forgot_password_remote_datasources.dart';
 import 'package:nowdots_social_news/src/data/datasources/remote/auth/login_remote_datasources.dart';
 import 'package:nowdots_social_news/src/data/datasources/remote/auth/register_remote_datasources.dart';
+import 'package:nowdots_social_news/src/data/datasources/remote/feed/comment_feed_remote_datasources.dart';
 import 'package:nowdots_social_news/src/data/datasources/remote/feed/feed_remote_datasources.dart';
 import 'package:nowdots_social_news/src/data/datasources/remote/feed/reaction_remote_datasources.dart';
+import 'package:nowdots_social_news/src/data/datasources/remote/feed/vote_remote_datasources.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/forgot_password/forgot_pass/forgot_pass_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/forgot_password/forgot_password_set_new_password/forgot_password_set_new_password_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/forgot_password/forgot_password_verification_code/forgot_password_verification_code_bloc.dart';
@@ -18,10 +20,14 @@ import 'package:nowdots_social_news/src/presentation/auth/bloc/register/register
 import 'package:nowdots_social_news/src/presentation/auth/bloc/register/register_set_password/register_set_password_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/register/register_set_profile_picture/register_set_profile_picture_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/auth/bloc/register/register_set_username/register_set_username_bloc.dart';
+import 'package:nowdots_social_news/src/presentation/feed/bloc/comment_feed/comment_feed_bloc.dart';
+import 'package:nowdots_social_news/src/presentation/feed/bloc/comment_replies/comment_replies_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/get_all_followiing_feeds/get_all_following_feeds_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/drawer/drawer_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/get_all_feeds/get_all_feeds_bloc.dart';
+import 'package:nowdots_social_news/src/presentation/feed/bloc/get_detail_feed/get_detail_feed_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/feed/bloc/reaction/reaction_bloc.dart';
+import 'package:nowdots_social_news/src/presentation/feed/bloc/vote/vote_bloc.dart';
 import 'package:nowdots_social_news/src/presentation/splash_screen/bloc/splash_screen_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -49,6 +55,12 @@ Future<void> initializieDependencies() async {
   sl.registerFactory<ReactionRemoteDatasources>(
     () => ReactionRemoteDatasources(sl()),
   );
+  sl.registerFactory<VoteRemoteDatasources>(
+    () => VoteRemoteDatasources(sl()),
+  );
+  sl.registerFactory<CommentFeedRemoteDatasources>(
+    () => CommentFeedRemoteDatasources(sl()),
+  );
 
   //blocs
   sl.registerFactory<DrawerBloc>(() => DrawerBloc());
@@ -72,6 +84,8 @@ Future<void> initializieDependencies() async {
   sl.registerFactory<ForgotPasswordSetNewPasswordBloc>(
       () => ForgotPasswordSetNewPasswordBloc(sl()));
   sl.registerFactory<LogoutBloc>(() => LogoutBloc(sl()));
+  sl.registerFactory<GetDetailFeedBloc>(() => GetDetailFeedBloc(sl()));
+  sl.registerFactory<CommentFeedBloc>(() => CommentFeedBloc(sl()));
   sl.registerFactory<GetUserBloc>(
     () => GetUserBloc(sl()),
   );
@@ -80,5 +94,11 @@ Future<void> initializieDependencies() async {
   );
   sl.registerFactory<ReactionBloc>(
     () => ReactionBloc(sl()),
+  );
+  sl.registerFactory<VoteBloc>(
+    () => VoteBloc(sl()),
+  );
+  sl.registerFactory<CommentRepliesBloc>(
+    () => CommentRepliesBloc(sl()),
   );
 }
